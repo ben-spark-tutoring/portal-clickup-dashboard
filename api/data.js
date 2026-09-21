@@ -1,46 +1,74 @@
 // /api/data.js
-// Vercel serverless function — pulls live data from ClickUp, computes rolled-up
-// dev hours per task (walking the full subtask tree), and returns it as JSON
-// for the dashboard frontend to render.
+// Vercel serverless function — pulls live data from ClickUp and computes
+// rolled-up dev hours per task by walking the full subtask tree.
 //
 // SETUP: in your Vercel project settings → Environment Variables, add:
 //   CLICKUP_API_TOKEN = <your ClickUp personal API token>
 // (Get this from ClickUp: Settings → Apps → API Token. Never commit it to the repo.)
 //
-// Freshness: responses are cached at the edge for CACHE_SECONDS. This is a
-// deliberate choice, not a limitation glossed over: computing this from scratch
-// requires paging through the whole list and rebuilding the subtask tree, and
-// doing that on every single page view would risk hitting ClickUp's API rate
-// limits under real traffic. 15 minutes is a reasonable freshness window for a
-// weekly-report dashboard; lower CACHE_SECONDS if you want it fresher and are
-// comfortable with the added API load.
+// WHY THIS IS SLOWER THAN IT COULD BE, ON PURPOSE:
+// Three earlier versions tried to be clever — pull the whole list in bulk
+// (subtasks=true + pagination) and sum from that in one pass. Each version was
+// provably wrong in a different way: incomplete tree capture, silent partial
+// sums, and a validation check against a field (subtasks_count) that turned out
+// not to be reliably present on bulk-list results. Every one of those bugs was
+// only caught by spot-checking against ClickUp's own UI.
+//
+// So this version does the simple, slow, boring thing instead: for every task
+// that has children, fetch it directly (one call), and recurse into each child
+// with its own direct fetch, all the way down to leaves. This is exactly the
+// method used to build the original correct numbers by hand earlier in this
+// project — nothing here is unverified. Siblings are fetched in parallel to
+// keep wall-clock time down, but the total call count is real and roughly
+// proportional to the number of tasks+subtasks in the whole list (can be
+// several hundred). See the timeout note near CACHE_SECONDS below.
 
 const LIST_ID = '901411533253'; // Developments / Portal Projects
 const VERSION_FIELD_ID = '3320c289-6741-479b-b10c-fba72d5780d0';
 const PROJECT_FIELD_ID = 'f5f09764-8847-4751-8dc8-ae7f2447d059';
 const PROGRESS_FIELD_ID = '5c9d36d8-ea95-4740-8234-a05ca8c38ac7';
 const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure'];
-const CACHE_SECONDS = 900; // 15 minutes
+
+// Cached at the edge for this long. Given the call volume below, this also
+// acts as a rate-limit safety margin — don't set this very low.
+// NOTE ON TIMEOUTS: Vercel's Hobby (free) plan hard-caps functions at 10s no
+// matter what maxDuration says; Pro allows up to 60s (300s on higher tiers).
+// This function may genuinely need more than 10s given the number of tasks
+// with subtasks in your list. If it starts timing out, that's the reason —
+// either upgrade the Vercel plan or ask me to shard this into multiple smaller
+// requests (e.g. one per business area) so each one finishes faster.
+const CACHE_SECONDS = 900;
 
 export const config = {
-  maxDuration: 30, // fallback fetches are sequential; give them room (Hobby plan caps at 10s — see note below)
+  maxDuration: 60,
 };
 
-async function fetchAllTasks(token) {
+async function clickupFetch(url, token, retried = false) {
+  const res = await fetch(url, { headers: { Authorization: token } });
+  if (res.status === 429 && !retried) {
+    await new Promise(r => setTimeout(r, 1000));
+    return clickupFetch(url, token, true);
+  }
+  if (!res.ok) {
+    throw new Error(`ClickUp API error ${res.status} for ${url}: ${await res.text()}`);
+  }
+  return res.json();
+}
+
+async function fetchTopLevelTasks(token) {
+  // One pass over the list WITHOUT subtasks — just to find the tracked epics
+  // (top-level tasks with Version set) and their own metadata. Subtask hours
+  // are fetched separately, directly, per epic — see fetchSubtreeHours.
   const all = [];
   let page = 0;
   while (true) {
     const url = `https://api.clickup.com/api/v2/list/${LIST_ID}/task` +
-      `?subtasks=true&include_closed=true&page=${page}`;
-    const res = await fetch(url, { headers: { Authorization: token } });
-    if (!res.ok) {
-      throw new Error(`ClickUp API error ${res.status}: ${await res.text()}`);
-    }
-    const data = await res.json();
+      `?include_closed=true&page=${page}`;
+    const data = await clickupFetch(url, token);
     all.push(...data.tasks);
     if (data.last_page || !data.tasks.length) break;
     page++;
-    if (page > 20) break; // safety guard against runaway pagination
+    if (page > 20) break; // safety guard
   }
   return all;
 }
@@ -50,23 +78,30 @@ function getCustomFieldValue(task, fieldId) {
   return f ? f.value : null;
 }
 
-// Direct, reliable (but slower) fetch of one task's own subtask list — used only
-// to repair specific nodes where the bulk pull's flattened data proves incomplete.
-async function fetchDirectChildren(taskId, token) {
-  const url = `https://api.clickup.com/api/v2/task/${taskId}?include_subtasks=true`;
-  const res = await fetch(url, { headers: { Authorization: token } });
-  if (!res.ok) return null;
-  const task = await res.json();
-  return task.subtasks || [];
-}
-
 function versionLabel(task) {
   const v = getCustomFieldValue(task, VERSION_FIELD_ID);
   if (v === null || v === undefined) return null;
-  // Dropdown fields return the option's orderindex; resolve it against the field's options.
   const f = (task.custom_fields || []).find(cf => cf.id === VERSION_FIELD_ID);
   const opt = f && f.type_config && f.type_config.options && f.type_config.options[v];
   return opt ? opt.name : null;
+}
+
+// Direct, recursive, proven-correct — fetch a task, and if it has subtasks,
+// fetch each of THEM directly too, all the way to leaves. No trusting of any
+// bulk/summary field along the way.
+async function fetchSubtreeHours(taskId, token, depth = 0) {
+  if (depth > 8) return null; // guard against runaway/circular recursion
+  const url = `https://api.clickup.com/api/v2/task/${taskId}?include_subtasks=true`;
+  const task = await clickupFetch(url, token);
+  const kids = task.subtasks || [];
+  if (!kids.length) {
+    return task.time_estimate ? task.time_estimate / 1000 / 3600 : null;
+  }
+  const kidHoursList = await Promise.all(
+    kids.map(kid => fetchSubtreeHours(kid.id, token, depth + 1))
+  );
+  const known = kidHoursList.filter(h => h !== null);
+  return known.length ? known.reduce((a, b) => a + b, 0) : null;
 }
 
 export default async function handler(req, res) {
@@ -77,93 +112,39 @@ export default async function handler(req, res) {
   }
 
   try {
-    const tasks = await fetchAllTasks(token);
+    const allTasks = await fetchTopLevelTasks(token);
 
-    // Build parent -> children map so we can walk each epic's full subtree.
-    const byId = new Map(tasks.map(t => [t.id, t]));
-    const childrenOf = new Map();
-    for (const t of tasks) {
-      if (t.parent) {
-        if (!childrenOf.has(t.parent)) childrenOf.set(t.parent, []);
-        childrenOf.get(t.parent).push(t.id);
-      }
-    }
+    const epics = allTasks.filter(t => {
+      if (t.parent) return false; // only true top-level tasks
+      const v = versionLabel(t);
+      return v === 'v1' || v === 'v2';
+    });
 
-    let repairCount = 0;
-    function sumSubtreeHours(taskId, depth = 0) {
-      if (depth > 8) return Promise.resolve(null); // guard against runaway/circular recursion
-      const t = byId.get(taskId);
-      const declaredCount = t && typeof t.subtasks_count === 'number' ? t.subtasks_count : null;
-      const foundKids = childrenOf.get(taskId) || [];
-
-      const trustworthy = declaredCount === null || declaredCount === foundKids.length;
-
-      if (trustworthy) {
-        if (!foundKids.length) {
-          const hours = t && t.time_estimate ? t.time_estimate / 1000 / 3600 : null;
-          return Promise.resolve(hours);
-        }
-        return Promise.all(foundKids.map(kidId => sumSubtreeHours(kidId, depth + 1)))
-          .then(kidHoursList => {
-            const known = kidHoursList.filter(h => h !== null);
-            return known.length ? known.reduce((a, b) => a + b, 0) : null;
-          });
-      }
-
-      // Bulk pull under-counted this node's children — repair just this node
-      // with a direct fetch, then recurse into whatever it actually returns.
-      repairCount++;
-      return fetchDirectChildren(taskId, token).then(realKids => {
-        if (!realKids) return null;
-        if (!realKids.length) {
-          const hours = t && t.time_estimate ? t.time_estimate / 1000 / 3600 : null;
-          return hours;
-        }
-        return Promise.all(realKids.map(kid => {
-          byId.set(kid.id, kid); // make repaired node available for its own children lookups
-          if (!childrenOf.has(kid.id) && typeof kid.subtasks_count !== 'number') {
-            childrenOf.set(kid.id, []); // no bulk data for it — will resolve via its own time_estimate
-          }
-          return sumSubtreeHours(kid.id, depth + 1);
-        })).then(kidHoursList => {
-          const known = kidHoursList.filter(h => h !== null);
-          return known.length ? known.reduce((a, b) => a + b, 0) : null;
-        });
-      });
-    }
-
-    // Only top-level tasks (no parent) with Version set are the tracked "epics".
-    const results = [];
-    for (const t of tasks) {
-      if (t.parent) continue; // skip subtasks — they're rolled up into their epic
+    const results = await Promise.all(epics.map(async t => {
       const version = versionLabel(t);
-      if (version !== 'v1' && version !== 'v2') continue; // untagged legacy backlog
-
-      const hasSubtasks = (childrenOf.get(t.id) || []).length > 0;
-      const hours = await sumSubtreeHours(t.id);
-
+      const hours = await fetchSubtreeHours(t.id, token);
       const project = getCustomFieldValue(t, PROJECT_FIELD_ID) || 'Unassigned';
       const progressRaw = getCustomFieldValue(t, PROGRESS_FIELD_ID);
       const progress_pct = progressRaw && typeof progressRaw === 'object' && 'percent_complete' in progressRaw
         ? progressRaw.percent_complete
         : (typeof progressRaw === 'number' ? progressRaw : null);
 
-      results.push({
+      return {
         id: t.id,
         name: t.name,
         status: (t.status && t.status.status || '').toLowerCase(),
         version,
         project,
         time_estimate_hours: hours,
-        has_subtasks: hasSubtasks,
+        has_subtasks: hours !== null || (t.subtasks_count || 0) > 0,
         progress_pct,
-      });
-    }
+      };
+    }));
 
     res.setHeader('Cache-Control', `s-maxage=${CACHE_SECONDS}, stale-while-revalidate`);
     res.status(200).json({
       generated_at: new Date().toISOString(),
-      nodes_repaired: repairCount,
+      epics_processed: epics.length,
       tasks: results,
     });
   } catch (err) {
