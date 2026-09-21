@@ -29,27 +29,37 @@ const VERSION_FIELD_ID = '3320c289-6741-479b-b10c-fba72d5780d0';
 const PROJECT_FIELD_ID = 'f5f09764-8847-4751-8dc8-ae7f2447d059';
 const PROGRESS_FIELD_ID = '5c9d36d8-ea95-4740-8234-a05ca8c38ac7';
 const OUTPUT_PATH = path.join(__dirname, '..', 'data.json');
-const MAX_CONCURRENT = 6; // gentle pacing — no reason to rush now
+const MAX_CONCURRENT = 3; // lower concurrency ceiling
+const MIN_INTERVAL_MS = 650; // minimum gap between request *starts* — ~90/min, comfortably under ClickUp's limit
 
-// --- tiny concurrency limiter, no dependencies ---
-function createLimiter(max) {
+// --- rate-paced limiter: caps concurrency AND spaces out request starts ---
+function createLimiter(maxConcurrent, minIntervalMs) {
   let active = 0;
+  let lastStart = 0;
   const queue = [];
-  const next = () => {
-    if (active >= max || !queue.length) return;
-    active++;
-    const { fn, resolve, reject } = queue.shift();
-    fn().then(resolve, reject).finally(() => { active--; next(); });
+  const tryNext = () => {
+    if (!queue.length || active >= maxConcurrent) return;
+    const wait = Math.max(0, minIntervalMs - (Date.now() - lastStart));
+    setTimeout(() => {
+      if (active >= maxConcurrent || !queue.length) return;
+      const { fn, resolve, reject } = queue.shift();
+      active++;
+      lastStart = Date.now();
+      fn().then(resolve, reject).finally(() => { active--; tryNext(); });
+      tryNext(); // let another slot start filling if concurrency allows
+    }, wait);
   };
-  return fn => new Promise((resolve, reject) => { queue.push({ fn, resolve, reject }); next(); });
+  return fn => new Promise((resolve, reject) => { queue.push({ fn, resolve, reject }); tryNext(); });
 }
-const limit = createLimiter(MAX_CONCURRENT);
+const limit = createLimiter(MAX_CONCURRENT, MIN_INTERVAL_MS);
 
-async function clickupFetch(url, retried = false) {
+async function clickupFetch(url, attempt = 0) {
   const res = await fetch(url, { headers: { Authorization: TOKEN } });
-  if (res.status === 429 && !retried) {
-    await new Promise(r => setTimeout(r, 3000));
-    return clickupFetch(url, true);
+  if (res.status === 429 && attempt < 6) {
+    const backoff = Math.min(30000, 1000 * 2 ** attempt); // 1s, 2s, 4s, 8s, 16s, 30s
+    console.log(`Rate limited, waiting ${backoff}ms before retry ${attempt + 1}/6…`);
+    await new Promise(r => setTimeout(r, backoff));
+    return clickupFetch(url, attempt + 1);
   }
   if (!res.ok) {
     throw new Error(`ClickUp API error ${res.status} for ${url}: ${await res.text()}`);
@@ -62,7 +72,7 @@ async function fetchTopLevelTasks() {
   let page = 0;
   while (true) {
     const url = `https://api.clickup.com/api/v2/list/${LIST_ID}/task?include_closed=true&page=${page}`;
-    const data = await clickupFetch(url);
+    const data = await limit(() => clickupFetch(url));
     all.push(...data.tasks);
     if (data.last_page || !data.tasks.length) break;
     page++;
