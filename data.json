@@ -1,0 +1,765 @@
+{
+  "generated_at": "2026-09-21T13:48:31.916Z",
+  "tasks": [
+    {
+      "id": "wdy2xh10re",
+      "name": "Bad Debt Toggle",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 18,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xh0qu4",
+      "name": "Feedback Button",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Portal Feedback",
+      "time_estimate_hours": 1,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xh0qr3",
+      "name": "Pairings Text Display Issue",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Pairing Opp",
+      "time_estimate_hours": 1,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xh0qqw",
+      "name": "New Student Intake / Review Queue",
+      "status": "ui ux fixes",
+      "version": "v2",
+      "project": "Student Enhancement",
+      "time_estimate_hours": 3,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xh0qqv",
+      "name": "Homework Marking Flow",
+      "status": "ui ux fixes",
+      "version": "v2",
+      "project": "Student Enhancement",
+      "time_estimate_hours": 150,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xh0qq8",
+      "name": "Tutor Intro",
+      "status": "testing",
+      "version": "v1",
+      "project": "Talent Updates",
+      "time_estimate_hours": 2.5,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xh0qq7",
+      "name": "Dashboard UI UX Error",
+      "status": "testing",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": 0.5,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xh0g15",
+      "name": "Customisable Dashboard View Per User + User Feature Control (not static)",
+      "status": "to do",
+      "version": "v2",
+      "project": "Dashboard",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xh07eh",
+      "name": "Tutor Pay",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 15.333333333333332,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgzvk3",
+      "name": "Stripe Addition",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 212,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgznu8",
+      "name": "Feedback report",
+      "status": "bugs",
+      "version": "v1",
+      "project": "Talent Update",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xgzkyc",
+      "name": "Paused Session Update",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 3,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgzj8v",
+      "name": "Ambassador Tracking",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 84,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgzj87",
+      "name": "Commissions",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 220,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgxkjm",
+      "name": "Add Team Member Update",
+      "status": "complete",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgx4jv",
+      "name": "Fix Tutor Pay Bank Details Issue",
+      "status": "complete",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xgx2pd",
+      "name": "Tutor Invoices in Portal",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 11.333333333333332,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgw65h",
+      "name": "Login Logic",
+      "status": "testing",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": 3,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xgvyze",
+      "name": "Message Template DB",
+      "status": "to do",
+      "version": "v2",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgvyzb",
+      "name": "Billing Dates",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 7,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgvyza",
+      "name": "GCSE / A-Level Logistics",
+      "status": "to do",
+      "version": "v2",
+      "project": "GCSE",
+      "time_estimate_hours": 7,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgv99r",
+      "name": "Improving Visuals on Lesson Plans",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Student Enhancement",
+      "time_estimate_hours": 15,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgv8tv",
+      "name": "Scope out On-call Rota & Define Major/Critical Criteria",
+      "status": "to do",
+      "version": "v1",
+      "project": "Pre Launch",
+      "time_estimate_hours": 1,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgv5hw",
+      "name": "Create Prometheus + Grafana Droplets on DO",
+      "status": "infrastructure",
+      "version": "v1",
+      "project": "Pre Launch",
+      "time_estimate_hours": 15,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xgupmg",
+      "name": "Pentest Portal & Server Infastrucuture",
+      "status": "infrastructure",
+      "version": "v1",
+      "project": "Pre Launch",
+      "time_estimate_hours": 15,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "wdy2xgujqr",
+      "name": "SEN Certificate Template Change",
+      "status": "ui ux fixes",
+      "version": "v2",
+      "project": "SEN",
+      "time_estimate_hours": 16,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xguec3",
+      "name": "Ability to buy ad-hoc Sessions/Credits",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 6,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "wdy2xgucn7",
+      "name": "Show pop-up and stop support to failed parents",
+      "status": "testing",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 1,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "86ba80wc0",
+      "name": "Personalised revision plans based on upcoming exams",
+      "status": "to do",
+      "version": "v2",
+      "project": "Student Enhancement",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86ba6h1q3",
+      "name": "Portal Walkthrough Loom Addition",
+      "status": "to do",
+      "version": "v1",
+      "project": "Pre Launch",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86ba5qh5m",
+      "name": "Update Edit Student",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86ba2jrun",
+      "name": "Meeting Service Intergration",
+      "status": "in progress",
+      "version": "v1",
+      "project": "Video Conference Update",
+      "time_estimate_hours": 10,
+      "has_subtasks": true,
+      "progress_pct": 57.14285714285714
+    },
+    {
+      "id": "86ba19fpn",
+      "name": "AI Co-Pilot",
+      "status": "to do",
+      "version": "v2",
+      "project": "AI",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 50
+    },
+    {
+      "id": "86ba17fn9",
+      "name": "MRR Goal",
+      "status": "in progress",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 37.5
+    },
+    {
+      "id": "86ba0tgr9",
+      "name": "Tutor Qualification Proof Build",
+      "status": "to do",
+      "version": "v2",
+      "project": "Tutor Qualification",
+      "time_estimate_hours": 7,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9ztytp",
+      "name": "Add Tags",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9yvt91",
+      "name": "28 Day Pro-Ration Adjustment",
+      "status": "to do",
+      "version": "v2",
+      "project": "Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9yprm2",
+      "name": "Tutor Name not showing in the Tutor Change request",
+      "status": "testing",
+      "version": "v1",
+      "project": "Talent Updates",
+      "time_estimate_hours": 1.5,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9wj1q7",
+      "name": "Organise Soft Launch",
+      "status": "to do",
+      "version": "v1",
+      "project": "Pre Launch",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9vv8m8",
+      "name": "Whereby Upgrade",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9vv8kb",
+      "name": "Tutor Inconsistencies",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv8h7",
+      "name": "Retained",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
+      "progress_pct": 60
+    },
+    {
+      "id": "86b9vv60b",
+      "name": "Exit",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 0.3333333333333333,
+      "has_subtasks": true,
+      "progress_pct": 50
+    },
+    {
+      "id": "86b9vv3rz",
+      "name": "Response Tracker",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3re",
+      "name": "Tutor Breaks",
+      "status": "testing",
+      "version": "v1",
+      "project": "Talent Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3r3",
+      "name": "Covers",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3qy",
+      "name": "Transfers",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3qm",
+      "name": "Monthly Feedback",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 25,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3pw",
+      "name": "Credit Control",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops & Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 66.66666666666666
+    },
+    {
+      "id": "86b9vv3pu",
+      "name": "Banked Session",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3p7",
+      "name": "Ambassador Outreach and  Tracking",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3nt",
+      "name": "Summer  Breaks",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3nf",
+      "name": "Allocations",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3n4",
+      "name": "Testimonial Outreach",
+      "status": "to do",
+      "version": "v2",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9vv3m5",
+      "name": "Accelerator Update",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3jt",
+      "name": "Complimentary Session",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9vv3hn",
+      "name": "Upsells",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 80
+    },
+    {
+      "id": "86b9vv3hj",
+      "name": "Downsells",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
+      "progress_pct": 80
+    },
+    {
+      "id": "86b9vv3he",
+      "name": "Churn",
+      "status": "testing",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 2.3333333333333335,
+      "has_subtasks": true,
+      "progress_pct": 50
+    },
+    {
+      "id": "86b9u2wf1",
+      "name": "Referral System",
+      "status": "to do",
+      "version": "v2",
+      "project": "Sales",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9mdjcd",
+      "name": "Change Subject Requests",
+      "status": "to do",
+      "version": "v1",
+      "project": "Talent Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9mdg2r",
+      "name": "GDPR Data Subject Export",
+      "status": "to do",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9mdbg8",
+      "name": "Market Capitalisation Measures",
+      "status": "to do",
+      "version": "v2",
+      "project": "Sales",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9mdavn",
+      "name": "Tutor Build on Resources",
+      "status": "testing",
+      "version": "v1",
+      "project": "Talent Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9md74z",
+      "name": "Accounting Page",
+      "status": "to do",
+      "version": "v2",
+      "project": "Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md5ck",
+      "name": "Team Member Pay",
+      "status": "to do",
+      "version": "v2",
+      "project": "Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md4xb",
+      "name": "CRON job for run update_tutor_groups",
+      "status": "testing",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md3wb",
+      "name": "Team Leave Request",
+      "status": "to do",
+      "version": "v2",
+      "project": "Internal",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md24w",
+      "name": "Email Updates Django",
+      "status": "to do",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md1wc",
+      "name": "Y11 & Y13 Cap Tracking & Notification",
+      "status": "to do",
+      "version": "v2",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md1p5",
+      "name": "Ops Finance Visibility",
+      "status": "to do",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
+      "progress_pct": 0
+    },
+    {
+      "id": "86b9md126",
+      "name": "Automated messages to send",
+      "status": "complete",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 2.5,
+      "has_subtasks": true,
+      "progress_pct": 100
+    },
+    {
+      "id": "86b9mbyg4",
+      "name": "Tutor Rankings",
+      "status": "testing",
+      "version": "v1",
+      "project": "Talent Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 60
+    },
+    {
+      "id": "86b9mbwr1",
+      "name": "COS Tracking Measures",
+      "status": "testing",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": 4,
+      "has_subtasks": true,
+      "progress_pct": 83.33333333333334
+    },
+    {
+      "id": "86b9mbv30",
+      "name": "Calendar Build",
+      "status": "testing",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
+      "progress_pct": 66.66666666666666
+    },
+    {
+      "id": "86b9mbjbm",
+      "name": "Create AdMetrics Database",
+      "status": "to do",
+      "version": "v2",
+      "project": "Sales",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0
+    }
+  ]
+}
