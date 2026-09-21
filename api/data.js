@@ -50,32 +50,14 @@ function getCustomFieldValue(task, fieldId) {
   return f ? f.value : null;
 }
 
-// Fallback: ClickUp's bulk list endpoint (subtasks=true + pagination) does not
-// reliably return every level of deeply nested subtasks in one pull — some
-// families come through complete, others get cut off partway down the tree.
-// When the bulk pull leaves a task with no computable hours despite having
-// children, re-fetch that task's subtree directly via the single-task endpoint,
-// which is slower but has proven reliable (it's how the original correct
-// numbers were gathered). This only runs for the handful of tasks the bulk
-// pull got wrong, not for all 76 epics, so it stays well within rate limits.
-async function fetchSubtreeDirect(taskId, token, depth = 0) {
-  if (depth > 6) return null; // guard against runaway/circular recursion
+// Direct, reliable (but slower) fetch of one task's own subtask list — used only
+// to repair specific nodes where the bulk pull's flattened data proves incomplete.
+async function fetchDirectChildren(taskId, token) {
   const url = `https://api.clickup.com/api/v2/task/${taskId}?include_subtasks=true`;
   const res = await fetch(url, { headers: { Authorization: token } });
-  if (!res.ok) return null; // don't let one bad fetch kill the whole response
+  if (!res.ok) return null;
   const task = await res.json();
-  const kids = task.subtasks || [];
-  if (!kids.length) {
-    return task.time_estimate ? task.time_estimate / 1000 / 3600 : null;
-  }
-  let total = 0, any = false;
-  for (const kid of kids) {
-    const kidHours = (kid.subtasks && kid.subtasks.length)
-      ? await fetchSubtreeDirect(kid.id, token, depth + 1)
-      : (kid.time_estimate ? kid.time_estimate / 1000 / 3600 : null);
-    if (kidHours !== null) { total += kidHours; any = true; }
-  }
-  return any ? total : null;
+  return task.subtasks || [];
 }
 
 function versionLabel(task) {
@@ -107,37 +89,58 @@ export default async function handler(req, res) {
       }
     }
 
-    function sumSubtreeHours(taskId) {
-      const kids = childrenOf.get(taskId) || [];
-      if (!kids.length) {
-        const t = byId.get(taskId);
-        return t && t.time_estimate ? t.time_estimate / 1000 / 3600 : null; // ms -> hours
+    let repairCount = 0;
+    function sumSubtreeHours(taskId, depth = 0) {
+      if (depth > 8) return Promise.resolve(null); // guard against runaway/circular recursion
+      const t = byId.get(taskId);
+      const declaredCount = t && typeof t.subtasks_count === 'number' ? t.subtasks_count : null;
+      const foundKids = childrenOf.get(taskId) || [];
+
+      const trustworthy = declaredCount === null || declaredCount === foundKids.length;
+
+      if (trustworthy) {
+        if (!foundKids.length) {
+          const hours = t && t.time_estimate ? t.time_estimate / 1000 / 3600 : null;
+          return Promise.resolve(hours);
+        }
+        return Promise.all(foundKids.map(kidId => sumSubtreeHours(kidId, depth + 1)))
+          .then(kidHoursList => {
+            const known = kidHoursList.filter(h => h !== null);
+            return known.length ? known.reduce((a, b) => a + b, 0) : null;
+          });
       }
-      let total = 0;
-      let anyFound = false;
-      for (const kidId of kids) {
-        const kidHours = sumSubtreeHours(kidId);
-        if (kidHours !== null) { total += kidHours; anyFound = true; }
-      }
-      return anyFound ? total : null;
+
+      // Bulk pull under-counted this node's children — repair just this node
+      // with a direct fetch, then recurse into whatever it actually returns.
+      repairCount++;
+      return fetchDirectChildren(taskId, token).then(realKids => {
+        if (!realKids) return null;
+        if (!realKids.length) {
+          const hours = t && t.time_estimate ? t.time_estimate / 1000 / 3600 : null;
+          return hours;
+        }
+        return Promise.all(realKids.map(kid => {
+          byId.set(kid.id, kid); // make repaired node available for its own children lookups
+          if (!childrenOf.has(kid.id) && typeof kid.subtasks_count !== 'number') {
+            childrenOf.set(kid.id, []); // no bulk data for it — will resolve via its own time_estimate
+          }
+          return sumSubtreeHours(kid.id, depth + 1);
+        })).then(kidHoursList => {
+          const known = kidHoursList.filter(h => h !== null);
+          return known.length ? known.reduce((a, b) => a + b, 0) : null;
+        });
+      });
     }
 
     // Only top-level tasks (no parent) with Version set are the tracked "epics".
     const results = [];
-    let fallbackCount = 0;
     for (const t of tasks) {
       if (t.parent) continue; // skip subtasks — they're rolled up into their epic
       const version = versionLabel(t);
       if (version !== 'v1' && version !== 'v2') continue; // untagged legacy backlog
 
       const hasSubtasks = (childrenOf.get(t.id) || []).length > 0;
-      let hours = sumSubtreeHours(t.id);
-
-      // Bulk pull came back empty for a task that has children — re-fetch directly.
-      if (hours === null && hasSubtasks) {
-        hours = await fetchSubtreeDirect(t.id, token);
-        fallbackCount++;
-      }
+      const hours = await sumSubtreeHours(t.id);
 
       const project = getCustomFieldValue(t, PROJECT_FIELD_ID) || 'Unassigned';
       const progressRaw = getCustomFieldValue(t, PROGRESS_FIELD_ID);
@@ -160,7 +163,7 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', `s-maxage=${CACHE_SECONDS}, stale-while-revalidate`);
     res.status(200).json({
       generated_at: new Date().toISOString(),
-      fallback_fetches_used: fallbackCount,
+      nodes_repaired: repairCount,
       tasks: results,
     });
   } catch (err) {
