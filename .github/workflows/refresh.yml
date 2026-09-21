@@ -1,0 +1,35 @@
+name: Refresh Portal Dashboard Data
+
+on:
+  schedule:
+    # Every 15 minutes. GitHub's scheduler can lag a few minutes under load —
+    # that's a GitHub characteristic, not a bug in this workflow. Change the
+    # "*/15" to "*/30" for a lighter, still-reasonable schedule if preferred.
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {} # lets you trigger a manual run from the Actions tab, useful for testing
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch ClickUp data and rebuild data.json
+        env:
+          CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+        run: node scripts/refresh-data.js
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "portal-dashboard-bot"
+          git config user.email "actions@github.com"
+          git add data.json
+          git diff --cached --quiet || git commit -m "Refresh portal data [automated]"
+          git push
