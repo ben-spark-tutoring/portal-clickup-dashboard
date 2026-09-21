@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T14:45:42.188Z",
+  "generated_at": "2026-09-21T16:44:46.132Z",
   "tasks": [
     {
       "id": "wdy2xh10re",
@@ -9,7 +9,10 @@
       "project": "Finance",
       "time_estimate_hours": 18,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789734607220,
+      "assignees": []
     },
     {
       "id": "wdy2xh0qu4",
@@ -19,7 +22,12 @@
       "project": "Portal Feedback",
       "time_estimate_hours": 1,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789733427414,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xh0qr3",
@@ -29,7 +37,12 @@
       "project": "Pairing Opp",
       "time_estimate_hours": 1,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789733318626,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xh0qqw",
@@ -39,7 +52,12 @@
       "project": "Student Enhancement",
       "time_estimate_hours": 3,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789734696233,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xh0qqv",
@@ -49,7 +67,12 @@
       "project": "Student Enhancement",
       "time_estimate_hours": 150,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789734686113,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xh0qq8",
@@ -59,7 +82,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 2.5,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789735197775,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xh0qq7",
@@ -69,7 +97,12 @@
       "project": "Core",
       "time_estimate_hours": 0.5,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789734770031,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xh0g15",
@@ -79,7 +112,10 @@
       "project": "Dashboard",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789041732590,
+      "assignees": []
     },
     {
       "id": "wdy2xh07eh",
@@ -89,7 +125,10 @@
       "project": "Finance",
       "time_estimate_hours": 15.333333333333332,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789387859759,
+      "assignees": []
     },
     {
       "id": "wdy2xgzvk3",
@@ -99,7 +138,10 @@
       "project": "Finance",
       "time_estimate_hours": 212,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789040987825,
+      "assignees": []
     },
     {
       "id": "wdy2xgznu8",
@@ -109,7 +151,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 1,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789998638337,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "wdy2xgzkyc",
@@ -119,7 +166,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 3,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789733511838,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xgzj8v",
@@ -129,7 +181,10 @@
       "project": "Finance",
       "time_estimate_hours": 84,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789040987825,
+      "assignees": []
     },
     {
       "id": "wdy2xgzj87",
@@ -139,7 +194,10 @@
       "project": "Finance",
       "time_estimate_hours": 220,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789040987825,
+      "assignees": []
     },
     {
       "id": "wdy2xgxkjm",
@@ -149,7 +207,10 @@
       "project": "Ops Updates",
       "time_estimate_hours": 4,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789560543577,
+      "assignees": []
     },
     {
       "id": "wdy2xgx4jv",
@@ -159,7 +220,10 @@
       "project": "Finance",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789647411709,
+      "assignees": []
     },
     {
       "id": "wdy2xgx2pd",
@@ -169,7 +233,10 @@
       "project": "Finance",
       "time_estimate_hours": 11.333333333333332,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789978831852,
+      "assignees": []
     },
     {
       "id": "wdy2xgw65h",
@@ -179,7 +246,10 @@
       "project": "Core",
       "time_estimate_hours": 3,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789734739727,
+      "assignees": []
     },
     {
       "id": "wdy2xgvyze",
@@ -189,7 +259,10 @@
       "project": "Ops Updates",
       "time_estimate_hours": 20,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789734431746,
+      "assignees": []
     },
     {
       "id": "wdy2xgvyzb",
@@ -199,7 +272,10 @@
       "project": "Finance",
       "time_estimate_hours": 7,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789040987825,
+      "assignees": []
     },
     {
       "id": "wdy2xgvyza",
@@ -209,7 +285,10 @@
       "project": "GCSE",
       "time_estimate_hours": 7,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789041732590,
+      "assignees": []
     },
     {
       "id": "wdy2xgv99r",
@@ -219,7 +298,13 @@
       "project": "Student Enhancement",
       "time_estimate_hours": 15,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789733442094,
+      "assignees": [
+        "Davut Bayık",
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xgv8tv",
@@ -229,7 +314,10 @@
       "project": "Pre Launch",
       "time_estimate_hours": 1,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789750736849,
+      "assignees": []
     },
     {
       "id": "wdy2xgv5hw",
@@ -239,7 +327,13 @@
       "project": "Pre Launch",
       "time_estimate_hours": 15,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789734504107,
+      "assignees": [
+        "Okkert",
+        "Ben Doherty"
+      ]
     },
     {
       "id": "wdy2xgupmg",
@@ -249,7 +343,12 @@
       "project": "Pre Launch",
       "time_estimate_hours": 15,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789735309184,
+      "assignees": [
+        "Ben Doherty"
+      ]
     },
     {
       "id": "wdy2xgujqr",
@@ -259,7 +358,12 @@
       "project": "SEN",
       "time_estimate_hours": 16,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1785459600000,
+      "date_updated": 1789041732590,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "wdy2xguec3",
@@ -269,7 +373,10 @@
       "project": "Finance",
       "time_estimate_hours": 6,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789734583413,
+      "assignees": []
     },
     {
       "id": "wdy2xgucn7",
@@ -279,7 +386,12 @@
       "project": "Finance",
       "time_estimate_hours": 1,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1785373200000,
+      "date_updated": 1789734734307,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86ba80wc0",
@@ -289,7 +401,12 @@
       "project": "Student Enhancement",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1790733600000,
+      "date_updated": 1789734280774,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86ba6h1q3",
@@ -299,7 +416,12 @@
       "project": "Pre Launch",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1788141600000,
+      "date_updated": 1789734243116,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86ba5qh5m",
@@ -309,7 +431,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 22,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789041591603,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86ba2jrun",
@@ -319,7 +446,12 @@
       "project": "Video Conference Update",
       "time_estimate_hours": 55,
       "has_subtasks": true,
-      "progress_pct": 57.14285714285714
+      "progress_pct": 57.14285714285714,
+      "due_date": 1784516400000,
+      "date_updated": 1789735253056,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86ba19fpn",
@@ -329,7 +461,12 @@
       "project": "AI",
       "time_estimate_hours": 50,
       "has_subtasks": true,
-      "progress_pct": 50
+      "progress_pct": 50,
+      "due_date": 1783386000000,
+      "date_updated": 1789041732590,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86ba17fn9",
@@ -339,7 +476,12 @@
       "project": "Finance",
       "time_estimate_hours": 9,
       "has_subtasks": true,
-      "progress_pct": 37.5
+      "progress_pct": 37.5,
+      "due_date": 1790042400000,
+      "date_updated": 1789982105159,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86ba0tgr9",
@@ -349,7 +491,12 @@
       "project": "Tutor Qualification",
       "time_estimate_hours": 7,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1788141600000,
+      "date_updated": 1789041732590,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9ztytp",
@@ -359,7 +506,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1779069600000,
+      "date_updated": 1789982071479,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9yvt91",
@@ -369,7 +521,12 @@
       "project": "Finance",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1787882400000,
+      "date_updated": 1789734230331,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9yprm2",
@@ -379,7 +536,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 1.5,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": null,
+      "date_updated": 1789735201198,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9wj1q7",
@@ -389,7 +551,10 @@
       "project": "Pre Launch",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1783911600000,
+      "date_updated": 1789733742067,
+      "assignees": []
     },
     {
       "id": "86b9vv8m8",
@@ -399,7 +564,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 7,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789041591603,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv8kb",
@@ -409,7 +579,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 36,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1782698400000,
+      "date_updated": 1789560699898,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv8h7",
@@ -419,7 +594,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 10,
       "has_subtasks": true,
-      "progress_pct": 60
+      "progress_pct": 60,
+      "due_date": 1782439200000,
+      "date_updated": 1789124240034,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv60b",
@@ -429,7 +609,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 7.833333333333333,
       "has_subtasks": true,
-      "progress_pct": 50
+      "progress_pct": 50,
+      "due_date": 1778810400000,
+      "date_updated": 1789981963665,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3rz",
@@ -439,7 +624,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 35,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1783044000000,
+      "date_updated": 1789474524428,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3re",
@@ -449,7 +639,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 5,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1779933600000,
+      "date_updated": 1789735173669,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3r3",
@@ -459,7 +654,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 6,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1780452000000,
+      "date_updated": 1789041591603,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3qy",
@@ -469,7 +669,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 9,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1779847200000,
+      "date_updated": 1789983358861,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3qm",
@@ -479,7 +684,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 25,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1782784800000,
+      "date_updated": 1789641381112,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3pw",
@@ -489,7 +699,12 @@
       "project": "Ops & Finance",
       "time_estimate_hours": 9,
       "has_subtasks": true,
-      "progress_pct": 66.66666666666666
+      "progress_pct": 66.66666666666666,
+      "due_date": 1782784800000,
+      "date_updated": 1789735193410,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3pu",
@@ -499,7 +714,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1780452000000,
+      "date_updated": 1789387361834,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3p7",
@@ -509,7 +729,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 9,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1782266400000,
+      "date_updated": 1789387291945,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3nt",
@@ -519,7 +744,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 6,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1782180000000,
+      "date_updated": 1789379085307,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3nf",
@@ -529,7 +759,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1779847200000,
+      "date_updated": 1789122037556,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3n4",
@@ -539,7 +774,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 17,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1789647811633,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3m5",
@@ -549,7 +789,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 4,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1781834400000,
+      "date_updated": 1789376536106,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3jt",
@@ -559,7 +804,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1780452000000,
+      "date_updated": 1789982374321,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3hn",
@@ -569,7 +819,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 5,
       "has_subtasks": true,
-      "progress_pct": 80
+      "progress_pct": 80,
+      "due_date": 1781233200000,
+      "date_updated": 1789982340072,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3hj",
@@ -579,7 +834,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 80
+      "progress_pct": 80,
+      "due_date": 1779328800000,
+      "date_updated": 1789983345600,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9vv3he",
@@ -589,7 +849,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 9.833333333333332,
       "has_subtasks": true,
-      "progress_pct": 50
+      "progress_pct": 50,
+      "due_date": 1778724000000,
+      "date_updated": 1789121873635,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9u2wf1",
@@ -599,7 +864,12 @@
       "project": "Sales",
       "time_estimate_hours": 16,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1784854800000,
+      "date_updated": 1789733989224,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9mdjcd",
@@ -609,7 +879,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 10,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1784250000000,
+      "date_updated": 1789733755105,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9mdg2r",
@@ -619,7 +894,12 @@
       "project": "Core",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1783645200000,
+      "date_updated": 1789733701849,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9mdbg8",
@@ -629,7 +909,12 @@
       "project": "Sales",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1785466800000,
+      "date_updated": 1789734051736,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9mdavn",
@@ -639,7 +924,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1782781200000,
+      "date_updated": 1789735185173,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9md74z",
@@ -649,7 +939,12 @@
       "project": "Finance",
       "time_estimate_hours": 16,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1786932000000,
+      "date_updated": 1789734106875,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9md5ck",
@@ -659,7 +954,12 @@
       "project": "Finance",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1783648800000,
+      "date_updated": 1789733709620,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9md4xb",
@@ -669,7 +969,12 @@
       "project": "Core",
       "time_estimate_hours": 2,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1782439200000,
+      "date_updated": 1789734712377,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9md3wb",
@@ -679,7 +984,12 @@
       "project": "Internal",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1785459600000,
+      "date_updated": 1789734017788,
+      "assignees": [
+        "Davut Bayık"
+      ]
     },
     {
       "id": "86b9md24w",
@@ -689,7 +999,12 @@
       "project": "Core",
       "time_estimate_hours": 0.5,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1785463200000,
+      "date_updated": 1789734024663,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9md1wc",
@@ -699,7 +1014,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1787540400000,
+      "date_updated": 1789734148123,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9md1p5",
@@ -709,7 +1029,12 @@
       "project": "Finance",
       "time_estimate_hours": 2,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1783908000000,
+      "date_updated": 1789387446662,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9md126",
@@ -719,7 +1044,12 @@
       "project": "Ops Updates",
       "time_estimate_hours": 2.5,
       "has_subtasks": true,
-      "progress_pct": 100
+      "progress_pct": 100,
+      "due_date": 1783389600000,
+      "date_updated": 1789982291872,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9mbyg4",
@@ -729,7 +1059,12 @@
       "project": "Talent Updates",
       "time_estimate_hours": 60,
       "has_subtasks": true,
-      "progress_pct": 60
+      "progress_pct": 60,
+      "due_date": 1778209200000,
+      "date_updated": 1789735163386,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9mbwr1",
@@ -739,7 +1074,12 @@
       "project": "Core",
       "time_estimate_hours": 5,
       "has_subtasks": true,
-      "progress_pct": 83.33333333333334
+      "progress_pct": 83.33333333333334,
+      "due_date": 1778855400000,
+      "date_updated": 1789732996271,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9mbv30",
@@ -749,7 +1089,12 @@
       "project": "Core",
       "time_estimate_hours": 39,
       "has_subtasks": true,
-      "progress_pct": 66.66666666666666
+      "progress_pct": 66.66666666666666,
+      "due_date": 1777629600000,
+      "date_updated": 1789733900352,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "86b9mbjbm",
@@ -759,7 +1104,12 @@
       "project": "Sales",
       "time_estimate_hours": 10,
       "has_subtasks": true,
-      "progress_pct": 0
+      "progress_pct": 0,
+      "due_date": 1786064400000,
+      "date_updated": 1789734261247,
+      "assignees": [
+        "Davut Bayık"
+      ]
     }
   ]
 }
