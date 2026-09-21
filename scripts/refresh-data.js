@@ -100,12 +100,21 @@ async function fetchSubtreeHours(taskId, depth = 0) {
     clickupFetch(`https://api.clickup.com/api/v2/task/${taskId}?include_subtasks=true`)
   );
   const kids = task.subtasks || [];
+  const ownHours = task.time_estimate ? task.time_estimate / 1000 / 3600 : null;
+
   if (!kids.length) {
-    return task.time_estimate ? task.time_estimate / 1000 / 3600 : null;
+    return ownHours;
   }
+
+  // A parent can carry its own directly-set estimate IN ADDITION TO having
+  // subtasks with their own estimates — ClickUp's rollup adds them together,
+  // it doesn't treat "has children" as "ignore my own number." Sum both.
   const kidHoursList = await Promise.all(kids.map(kid => fetchSubtreeHours(kid.id, depth + 1)));
-  const known = kidHoursList.filter(h => h !== null);
-  return known.length ? known.reduce((a, b) => a + b, 0) : null;
+  const knownKidHours = kidHoursList.filter(h => h !== null);
+  const childSum = knownKidHours.length ? knownKidHours.reduce((a, b) => a + b, 0) : null;
+
+  if (ownHours === null && childSum === null) return null;
+  return (ownHours || 0) + (childSum || 0);
 }
 
 async function main() {
