@@ -260,9 +260,13 @@ async function loadDashboard() {
   let payload;
   try {
     const res = await fetch('/api/data');
-    if (!res.ok) throw new Error('API returned ' + res.status);
-    payload = await res.json();
+    try {
+      payload = await res.json(); // read body regardless of status — it carries the real error message
+    } catch {
+      throw new Error('API returned ' + res.status + ' with a non-JSON response');
+    }
     if (payload.error) throw new Error(payload.error);
+    if (!res.ok) throw new Error('API returned ' + res.status);
   } catch (err) {
     document.getElementById('loading-overlay').innerHTML =
       '<div class="load-error"><strong>Couldn\'t load live data.</strong><br>' + err.message +
