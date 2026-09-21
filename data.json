@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T13:48:31.916Z",
+  "generated_at": "2026-09-21T13:57:55.282Z",
   "tasks": [
     {
       "id": "wdy2xh10re",
@@ -106,9 +106,9 @@
       "name": "Feedback report",
       "status": "bugs",
       "version": "v1",
-      "project": "Talent Update",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "project": "Talent Updates",
+      "time_estimate_hours": 1,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -147,8 +147,8 @@
       "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 4,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -187,8 +187,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 20,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -307,8 +307,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 22,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -317,7 +317,7 @@
       "status": "in progress",
       "version": "v1",
       "project": "Video Conference Update",
-      "time_estimate_hours": 10,
+      "time_estimate_hours": 55,
       "has_subtasks": true,
       "progress_pct": 57.14285714285714
     },
@@ -327,8 +327,8 @@
       "status": "to do",
       "version": "v2",
       "project": "AI",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 50,
+      "has_subtasks": true,
       "progress_pct": 50
     },
     {
@@ -337,8 +337,8 @@
       "status": "in progress",
       "version": "v1",
       "project": "Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 9,
+      "has_subtasks": true,
       "progress_pct": 37.5
     },
     {
@@ -397,8 +397,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 7,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -407,8 +407,8 @@
       "status": "ui ux fixes",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 36,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -417,7 +417,7 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 2,
+      "time_estimate_hours": 10,
       "has_subtasks": true,
       "progress_pct": 60
     },
@@ -427,7 +427,7 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 0.3333333333333333,
+      "time_estimate_hours": 7.833333333333333,
       "has_subtasks": true,
       "progress_pct": 50
     },
@@ -437,8 +437,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 35,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -447,8 +447,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Talent Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 5,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -457,8 +457,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 6,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -467,8 +467,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 9,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -487,8 +487,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops & Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 9,
+      "has_subtasks": true,
       "progress_pct": 66.66666666666666
     },
     {
@@ -497,8 +497,8 @@
       "status": "ui ux fixes",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -507,8 +507,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 9,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -517,8 +517,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 6,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -527,8 +527,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -537,8 +537,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 17,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -547,8 +547,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 4,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -557,8 +557,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -567,8 +567,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 5,
+      "has_subtasks": true,
       "progress_pct": 80
     },
     {
@@ -587,7 +587,7 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 2.3333333333333335,
+      "time_estimate_hours": 9.833333333333332,
       "has_subtasks": true,
       "progress_pct": 50
     },
@@ -597,8 +597,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Sales",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 16,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -607,8 +607,8 @@
       "status": "to do",
       "version": "v1",
       "project": "Talent Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 10,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -617,8 +617,8 @@
       "status": "to do",
       "version": "v1",
       "project": "Core",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -637,8 +637,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Talent Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
       "progress_pct": 100
     },
     {
@@ -647,8 +647,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 16,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -677,8 +677,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Internal",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -687,8 +687,8 @@
       "status": "to do",
       "version": "v1",
       "project": "Core",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 0.5,
+      "has_subtasks": true,
       "progress_pct": 0
     },
     {
@@ -727,8 +727,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Talent Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 60,
+      "has_subtasks": true,
       "progress_pct": 60
     },
     {
@@ -737,7 +737,7 @@
       "status": "testing",
       "version": "v1",
       "project": "Core",
-      "time_estimate_hours": 4,
+      "time_estimate_hours": 5,
       "has_subtasks": true,
       "progress_pct": 83.33333333333334
     },
@@ -747,7 +747,7 @@
       "status": "testing",
       "version": "v1",
       "project": "Core",
-      "time_estimate_hours": 2,
+      "time_estimate_hours": 39,
       "has_subtasks": true,
       "progress_pct": 66.66666666666666
     },
@@ -757,8 +757,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Sales",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 10,
+      "has_subtasks": true,
       "progress_pct": 0
     }
   ]
