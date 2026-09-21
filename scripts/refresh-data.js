@@ -29,6 +29,8 @@ const VERSION_FIELD_ID = '3320c289-6741-479b-b10c-fba72d5780d0';
 const PROJECT_FIELD_ID = 'f5f09764-8847-4751-8dc8-ae7f2447d059';
 const PROGRESS_FIELD_ID = '5c9d36d8-ea95-4740-8234-a05ca8c38ac7';
 const OUTPUT_PATH = path.join(__dirname, '..', 'data.json');
+const HISTORY_PATH = path.join(__dirname, '..', 'history.json');
+const HISTORY_MAX_ENTRIES = 4000; // ~41 days at a 15-min cadence — plenty for a trend view
 const MAX_CONCURRENT = 3; // lower concurrency ceiling
 const MIN_INTERVAL_MS = 650; // minimum gap between request *starts* — ~90/min, comfortably under ClickUp's limit
 
@@ -146,6 +148,9 @@ async function main() {
       time_estimate_hours: hours,
       has_subtasks: hours !== null || (t.subtasks_count || 0) > 0,
       progress_pct,
+      due_date: t.due_date ? Number(t.due_date) : null, // ms epoch, matches JS Date
+      date_updated: t.date_updated ? Number(t.date_updated) : null,
+      assignees: (t.assignees || []).map(a => a.username || a.email || `user_${a.id}`),
     };
   }));
 
@@ -157,6 +162,33 @@ async function main() {
   fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
   console.log(`Wrote ${results.length} tasks to ${OUTPUT_PATH}`);
+
+  // --- append a compact snapshot to history.json for the trend chart ---
+  const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure'];
+  const sum = (list) => list.reduce((a, b) => a + (b.time_estimate_hours || 0), 0);
+  const snapshot = {
+    t: output.generated_at,
+    v1_dev_hours: sum(results.filter(r => r.version === 'v1' && DEV_STATUSES.includes(r.status))),
+    v2_dev_hours: sum(results.filter(r => r.version === 'v2' && DEV_STATUSES.includes(r.status))),
+    v1_testing_hours: sum(results.filter(r => r.version === 'v1' && r.status === 'testing')),
+    v2_testing_hours: sum(results.filter(r => r.version === 'v2' && r.status === 'testing')),
+  };
+
+  let history = [];
+  if (fs.existsSync(HISTORY_PATH)) {
+    try {
+      history = JSON.parse(fs.readFileSync(HISTORY_PATH, 'utf8'));
+      if (!Array.isArray(history)) history = [];
+    } catch {
+      history = []; // corrupt/unreadable — start fresh rather than fail the whole run
+    }
+  }
+  history.push(snapshot);
+  if (history.length > HISTORY_MAX_ENTRIES) {
+    history = history.slice(history.length - HISTORY_MAX_ENTRIES);
+  }
+  fs.writeFileSync(HISTORY_PATH, JSON.stringify(history));
+  console.log(`Appended snapshot to ${HISTORY_PATH} (${history.length} entries total)`);
 }
 
 main().catch(err => {
