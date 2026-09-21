@@ -203,6 +203,12 @@
 
   <div class="grid-cards" id="summary-cards"></div>
 
+  <div class="panel full" style="margin-bottom:18px;">
+    <h2>Hours Remaining Over Time</h2>
+    <canvas id="trendChart"></canvas>
+    <div class="calc-caveat" style="margin-top:10px;" id="trend-caveat"></div>
+  </div>
+
   <div class="panels">
     <div class="panel">
       <h2>Tasks by Status</h2>
@@ -225,6 +231,51 @@
     <h2>% Progress by Milestone (Business Area)</h2>
     <div class="tall-chart"><canvas id="progressChart"></canvas></div>
     <div class="calc-caveat" style="margin-top:10px;">* = this area has at least one task with no time estimate set, so its hours-remaining totals elsewhere on this page are understated. % complete is the average of each task's own subtask-completion progress (ClickUp's automatic progress rollup), not weighted by hours — hours-weighting was tested first but silently ignored tasks with no time estimate (e.g. it showed Pre Launch at 100% when 3 of its 5 tasks, all missing an estimate, hadn't started).</div>
+  </div>
+
+  <div class="panels">
+    <div class="panel full">
+      <h2>Testing Bottleneck</h2>
+      <div class="calc-caveat" style="margin-bottom:10px;">Tasks sitting in Testing, oldest last-updated first. This is done-but-unverified work — hours here aren't counted in "remaining" totals elsewhere, but a task sitting untouched for weeks is worth a look.</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Task</th><th>Version</th><th>Project</th><th class="num">Hours</th><th class="num">Last Updated</th></tr></thead>
+          <tbody id="testing-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel full">
+      <h2>Overdue Tasks</h2>
+      <div class="calc-caveat" style="margin-bottom:10px;" id="overdue-caveat"></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Task</th><th>Status</th><th>Version</th><th>Project</th><th class="num">Due Date</th><th class="num">Days Overdue</th></tr></thead>
+          <tbody id="overdue-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel full">
+      <h2>Missing Time Estimate</h2>
+      <div class="calc-caveat" style="margin-bottom:10px;" id="missing-list-caveat"></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Task</th><th>Status</th><th>Version</th><th>Project</th></tr></thead>
+          <tbody id="missing-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel full" style="margin-bottom:18px;">
+    <h2>Dev Hours Remaining by Assignee</h2>
+    <div class="tall-chart"><canvas id="assigneeChart"></canvas></div>
+    <div class="calc-caveat" style="margin-top:10px;">Excludes Testing and Complete, same basis as the business-area chart. Tasks with multiple assignees count toward each of them (not split).</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -281,6 +332,15 @@ async function loadDashboard() {
       'Live data as of ' + new Date(payload.generated_at).toLocaleString('en-GB');
   }
 
+  // History is a nice-to-have for the trend chart — don't let its absence break the page.
+  let HISTORY = [];
+  try {
+    const histRes = await fetch('/history.json?t=' + Date.now());
+    if (histRes.ok) HISTORY = await histRes.json();
+  } catch {
+    HISTORY = [];
+  }
+
 
 const now = new Date();
 document.getElementById('updated-line').textContent = 'Generated ' + now.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
@@ -294,6 +354,101 @@ const completeCount = DATA.filter(t => t.status === 'complete').length;
 const incomplete = DATA.filter(t => TRACKED_STATUSES.includes(t.status));
 const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status));
 const testingWork = DATA.filter(t => t.status === 'testing');
+
+// --- Trend chart: hours remaining over time, from history.json ---
+if (HISTORY.length >= 2) {
+  const labels = HISTORY.map(h => new Date(h.t).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }));
+  new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'V1 dev hours remaining', data: HISTORY.map(h => h.v1_dev_hours), borderColor: '#2563eb', backgroundColor: 'transparent', tension: 0.2 },
+        { label: 'V2 dev hours remaining', data: HISTORY.map(h => h.v2_dev_hours), borderColor: '#f97316', backgroundColor: 'transparent', tension: 0.2 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' } },
+      scales: { x: { ticks: { maxTicksLimit: 8 } }, y: { beginAtZero: true } }
+    }
+  });
+  document.getElementById('trend-caveat').textContent =
+    HISTORY.length + ' snapshots since ' + new Date(HISTORY[0].t).toLocaleDateString('en-GB') + ', recorded automatically every refresh.';
+} else {
+  document.getElementById('trendChart').style.display = 'none';
+  document.getElementById('trend-caveat').textContent =
+    'Not enough history yet to show a trend — this builds up automatically as the scheduled refresh runs over the coming days.';
+}
+
+// --- Testing bottleneck: testing-status tasks, oldest last-updated first ---
+const testingSorted = [...testingWork].sort((a, b) => (a.date_updated || 0) - (b.date_updated || 0));
+document.getElementById('testing-table').innerHTML = testingSorted.map(t => {
+  const days = t.date_updated ? Math.floor((Date.now() - t.date_updated) / 86400000) : null;
+  return `<tr>
+    <td>${t.name}</td>
+    <td><span class="tag tag-${t.version}">${t.version.toUpperCase()}</span></td>
+    <td>${t.project}</td>
+    <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
+    <td class="num">${days !== null ? days + 'd ago' : '—'}</td>
+  </tr>`;
+}).join('') || '<tr><td colspan="5" style="color:var(--text-muted);">Nothing in Testing right now.</td></tr>';
+
+// --- Overdue tasks: due date passed, not complete ---
+const overdue = incomplete
+  .filter(t => t.due_date && t.due_date < Date.now())
+  .sort((a, b) => a.due_date - b.due_date);
+document.getElementById('overdue-caveat').textContent =
+  overdue.length + ' of ' + incomplete.length + ' tracked tasks are past their due date.';
+document.getElementById('overdue-table').innerHTML = overdue.map(t => {
+  const daysOver = Math.floor((Date.now() - t.due_date) / 86400000);
+  return `<tr>
+    <td>${t.name}</td>
+    <td>${t.status}</td>
+    <td><span class="tag tag-${t.version}">${t.version.toUpperCase()}</span></td>
+    <td>${t.project}</td>
+    <td class="num">${new Date(t.due_date).toLocaleDateString('en-GB')}</td>
+    <td class="num">${daysOver}d</td>
+  </tr>`;
+}).join('') || '<tr><td colspan="6" style="color:var(--text-muted);">No overdue tasks — or no due dates are set on this list.</td></tr>';
+
+// --- Missing time estimate: dev + testing tasks with no hours set ---
+const missingEstList = incomplete.filter(t => t.time_estimate_hours === null);
+document.getElementById('missing-list-caveat').textContent =
+  missingEstList.length + ' tracked tasks have no time estimate at all — every hours total on this page understates reality by whatever these turn out to be.';
+document.getElementById('missing-table').innerHTML = missingEstList.map(t => `
+  <tr>
+    <td>${t.name}</td>
+    <td>${t.status}${t.status === 'testing' ? ' (excluded from remaining-hours anyway)' : ''}</td>
+    <td><span class="tag tag-${t.version}">${t.version.toUpperCase()}</span></td>
+    <td>${t.project}</td>
+  </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Every tracked task has an estimate. 🎉</td></tr>';
+
+// --- Workload by assignee: dev hours remaining, excl. testing/complete ---
+const allAssignees = [...new Set(devWork.flatMap(t => t.assignees && t.assignees.length ? t.assignees : ['Unassigned']))];
+const assigneeHoursV1 = allAssignees.map(a => sum(devWork.filter(t => t.version === 'v1' && (t.assignees && t.assignees.length ? t.assignees : ['Unassigned']).includes(a)), 'time_estimate_hours'));
+const assigneeHoursV2 = allAssignees.map(a => sum(devWork.filter(t => t.version === 'v2' && (t.assignees && t.assignees.length ? t.assignees : ['Unassigned']).includes(a)), 'time_estimate_hours'));
+const assigneeOrder = allAssignees.map((a,i) => ({a, total: assigneeHoursV1[i]+assigneeHoursV2[i]})).sort((x,y)=>y.total-x.total).map(x=>x.a);
+const reorderAssignee = arr => assigneeOrder.map(a => arr[allAssignees.indexOf(a)]);
+document.getElementById('assigneeChart').parentElement.style.height = Math.max(240, assigneeOrder.length * 34) + 'px';
+new Chart(document.getElementById('assigneeChart'), {
+  type: 'bar',
+  data: {
+    labels: assigneeOrder,
+    datasets: [
+      { label: 'V1 hrs remaining', data: reorderAssignee(assigneeHoursV1), backgroundColor: '#2563eb' },
+      { label: 'V2 hrs remaining', data: reorderAssignee(assigneeHoursV2), backgroundColor: '#f97316' },
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { x: { stacked: true, beginAtZero: true }, y: { stacked: true, ticks: { autoSkip: false } } }
+  }
+});
+
 
 const missingEstDev = devWork.filter(t => t.time_estimate_hours === null).length;
 document.getElementById('missing-note').textContent =
