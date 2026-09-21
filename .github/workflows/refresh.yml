@@ -33,6 +33,6 @@ jobs:
         run: |
           git config user.name "portal-dashboard-bot"
           git config user.email "actions@github.com"
-          git add data.json
+          git add data.json history.json
           git diff --cached --quiet || git commit -m "Refresh portal data [automated]"
           git push
