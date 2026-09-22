@@ -31,8 +31,8 @@ const PROGRESS_FIELD_ID = '5c9d36d8-ea95-4740-8234-a05ca8c38ac7';
 const OUTPUT_PATH = path.join(__dirname, '..', 'data.json');
 const HISTORY_PATH = path.join(__dirname, '..', 'history.json');
 const HISTORY_MAX_ENTRIES = 4000; // ~41 days at a 15-min cadence — plenty for a trend view
-const MAX_CONCURRENT = 3; // lower concurrency ceiling
-const MIN_INTERVAL_MS = 650; // minimum gap between request *starts* — ~90/min, comfortably under ClickUp's limit
+const MAX_CONCURRENT = 1; // fully sequential — no reason to risk concurrency now this runs unattended
+const MIN_INTERVAL_MS = 1200; // ~50/min, a real safety margin under ClickUp's limit, not just barely under it
 
 // --- rate-paced limiter: caps concurrency AND spaces out request starts ---
 function createLimiter(maxConcurrent, minIntervalMs) {
@@ -57,9 +57,13 @@ const limit = createLimiter(MAX_CONCURRENT, MIN_INTERVAL_MS);
 
 async function clickupFetch(url, attempt = 0) {
   const res = await fetch(url, { headers: { Authorization: TOKEN } });
-  if (res.status === 429 && attempt < 6) {
+  const isRateLimit = res.status === 429;
+  const isServerError = res.status >= 500 && res.status < 600;
+
+  if ((isRateLimit || isServerError) && attempt < 6) {
     const backoff = Math.min(30000, 1000 * 2 ** attempt); // 1s, 2s, 4s, 8s, 16s, 30s
-    console.log(`Rate limited, waiting ${backoff}ms before retry ${attempt + 1}/6…`);
+    const reason = isRateLimit ? 'Rate limited' : `ClickUp server error (${res.status})`;
+    console.log(`${reason}, waiting ${backoff}ms before retry ${attempt + 1}/6…`);
     await new Promise(r => setTimeout(r, backoff));
     return clickupFetch(url, attempt + 1);
   }
@@ -132,7 +136,13 @@ async function main() {
 
   const results = await Promise.all(epics.map(async t => {
     const version = versionLabel(t);
-    const hours = await fetchSubtreeHours(t.id);
+    let hours;
+    try {
+      hours = await fetchSubtreeHours(t.id);
+    } catch (err) {
+      console.warn(`Giving up on hours for "${t.name}" (${t.id}) after retries: ${err.message}`);
+      hours = null; // one bad task shouldn't take down the whole run
+    }
     const project = getCustomFieldValue(t, PROJECT_FIELD_ID) || 'Unassigned';
     const progressRaw = getCustomFieldValue(t, PROGRESS_FIELD_ID);
     const progress_pct = progressRaw && typeof progressRaw === 'object' && 'percent_complete' in progressRaw
