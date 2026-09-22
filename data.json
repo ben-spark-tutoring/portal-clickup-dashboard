@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T11:11:00.017Z",
+  "generated_at": "2026-09-22T11:25:38.528Z",
   "tasks": [
     {
       "id": "wdy2xh16fd",
@@ -249,8 +249,9 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789733318626,
+      "date_updated": 1790074906923,
       "assignees": [
+        "Bea Shakjiri",
         "Okkert"
       ]
     },
@@ -510,10 +511,11 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789733442094,
+      "date_updated": 1790074902379,
       "assignees": [
         "Davut Bayık",
-        "Okkert"
+        "Okkert",
+        "Bea Shakjiri"
       ]
     },
     {
@@ -718,8 +720,9 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779069600000,
-      "date_updated": 1789982071479,
+      "date_updated": 1790074939504,
       "assignees": [
+        "Bea Shakjiri",
         "Okkert"
       ]
     },
@@ -791,7 +794,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782698400000,
-      "date_updated": 1789560699898,
+      "date_updated": 1790074931614,
       "assignees": [
         "Okkert"
       ]
