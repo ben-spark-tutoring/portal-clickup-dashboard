@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T07:51:14.489Z",
+  "generated_at": "2026-09-22T08:23:52.249Z",
   "tasks": [
     {
       "id": "wdy2xh10re",
@@ -476,9 +476,9 @@
       "project": "Finance",
       "time_estimate_hours": 9,
       "has_subtasks": true,
-      "progress_pct": 37.5,
+      "progress_pct": 100,
       "due_date": 1790042400000,
-      "date_updated": 1789982105159,
+      "date_updated": 1790064227785,
       "assignees": [
         "Okkert"
       ]
