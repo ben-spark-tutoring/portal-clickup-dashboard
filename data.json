@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T09:10:50.099Z",
+  "generated_at": "2026-09-22T09:25:43.315Z",
   "tasks": [
     {
       "id": "wdy2xh16fd",
@@ -22,7 +22,7 @@
       "project": "Pre Launch",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 11.11111111111111,
       "due_date": 1796097600000,
       "date_updated": 1790067264724,
       "assignees": []
@@ -30,14 +30,14 @@
     {
       "id": "wdy2xh16fb",
       "name": "Database Backup",
-      "status": "to do",
+      "status": "infrastructure",
       "version": "v1",
       "project": "Pre Launch",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 14,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1796097600000,
-      "date_updated": 1790067260383,
+      "date_updated": 1790067886007,
       "assignees": []
     },
     {
@@ -141,8 +141,10 @@
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": 1796097600000,
-      "date_updated": 1790067223876,
-      "assignees": []
+      "date_updated": 1790067954351,
+      "assignees": [
+        "Danré"
+      ]
     },
     {
       "id": "wdy2xh16f1",
@@ -1160,11 +1162,11 @@
       "status": "to do",
       "version": "v2",
       "project": "Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 40,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1783648800000,
-      "date_updated": 1789733709620,
+      "date_updated": 1790068010744,
       "assignees": [
         "Okkert"
       ]
