@@ -1,15 +1,14 @@
 name: Refresh Portal Dashboard Data
 
 on:
-  schedule:
-    # Every 15 minutes, offset to :07/:22/:37/:52 instead of the round numbers
-    # (:00/:15/:30/:45). GitHub's scheduler is "best effort" and can be delayed,
-    # especially right after a workflow is created — and delays are worse at
-    # exact round-number minutes since huge numbers of other repos worldwide
-    # schedule there too. Offsetting doesn't guarantee punctuality, but it
-    # avoids the worst of that pile-up.
-    - cron: '7,22,37,52 * * * *'
-  workflow_dispatch: {} # lets you trigger a manual run from the Actions tab, useful for testing
+  # Scheduling is now handled externally by cron-job.org calling this via the
+  # GitHub API (workflow_dispatch) every 15 minutes — GitHub's own native
+  # `schedule:` trigger proved too unreliable (over an hour with zero fires
+  # in testing) and, worse, running it alongside cron-job.org risked two
+  # overlapping runs hitting ClickUp's API at once, which is the likely
+  # cause of the random failures. Do not re-add a `schedule:` block here
+  # unless cron-job.org is also removed — don't run both at once.
+  workflow_dispatch: {} # also lets you trigger a manual run from the Actions tab
 
 permissions:
   contents: write
