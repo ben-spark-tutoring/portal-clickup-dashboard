@@ -111,6 +111,17 @@
   }
 
   .filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filters-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .filters-row .filters { margin-bottom: 0; }
+  .project-select {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
   .filter-btn {
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -294,7 +305,10 @@
 
   <div class="panel full" style="margin-bottom:18px;">
     <h2>Task Detail</h2>
-    <div class="filters" id="filters"></div>
+    <div class="filters-row">
+      <div class="filters" id="filters"></div>
+      <select class="project-select" id="project-filter"></select>
+    </div>
     <div class="table-scroll">
       <table>
         <thead>
@@ -593,10 +607,12 @@ new Chart(document.getElementById('progressChart'), {
 
 // Table + filters
 let activeFilter = 'all';
+let activeProject = 'all';
 function renderTable() {
   const rows = DATA
     .filter(t => REPORT_STATUSES.includes(t.status))
     .filter(t => activeFilter === 'all' || t.version === activeFilter)
+    .filter(t => activeProject === 'all' || t.project === activeProject)
     .sort((a,b) => (b.time_estimate_hours||0) - (a.time_estimate_hours||0));
   document.getElementById('task-table').innerHTML = rows.map(t => `
     <tr>
@@ -605,7 +621,7 @@ function renderTable() {
       <td><span class="tag tag-${t.version}">${t.version.toUpperCase()}</span></td>
       <td>${t.project}</td>
       <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
-    </tr>`).join('');
+    </tr>`).join('') || '<tr><td colspan="5" style="color:var(--text-muted);">No tasks match this filter.</td></tr>';
 }
 const filterDefs = [
   { key: 'all', label: 'All (' + DATA.length + ')' },
@@ -622,6 +638,20 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     renderTable();
   });
 });
+
+// Project dropdown — reuses the same combined-tag splitting as the charts,
+// so "Ops & Finance" style entries appear under both real projects here too.
+const reportProjects = [...new Set(
+  DATA.filter(t => REPORT_STATUSES.includes(t.status)).flatMap(t => projectTags(t.project))
+)].sort((a, b) => a.localeCompare(b));
+const projectSelect = document.getElementById('project-filter');
+projectSelect.innerHTML = '<option value="all">All Projects</option>' +
+  reportProjects.map(p => `<option value="${p}">${p}</option>`).join('');
+projectSelect.addEventListener('change', () => {
+  activeProject = projectSelect.value;
+  renderTable();
+});
+
 renderTable();
 
 // --- Projected V1 completion date calculator ---
