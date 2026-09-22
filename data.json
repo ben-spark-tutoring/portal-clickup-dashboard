@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T12:40:50.863Z",
+  "generated_at": "2026-09-22T12:55:35.925Z",
   "tasks": [
     {
       "id": "wdy2xh16fd",
@@ -459,8 +459,10 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1789734739727,
-      "assignees": []
+      "date_updated": 1790080448966,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xgvyze",
@@ -645,7 +647,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789041591603,
+      "date_updated": 1790080454673,
       "assignees": [
         "Okkert"
       ]
@@ -779,7 +781,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789041591603,
+      "date_updated": 1790080450804,
       "assignees": [
         "Okkert"
       ]
@@ -809,7 +811,7 @@
       "has_subtasks": true,
       "progress_pct": 60,
       "due_date": 1782439200000,
-      "date_updated": 1789124240034,
+      "date_updated": 1790080429596,
       "assignees": [
         "Okkert"
       ]
@@ -824,7 +826,7 @@
       "has_subtasks": true,
       "progress_pct": 50,
       "due_date": 1778810400000,
-      "date_updated": 1789981963665,
+      "date_updated": 1790080441113,
       "assignees": [
         "Okkert"
       ]
@@ -854,7 +856,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779933600000,
-      "date_updated": 1789735173669,
+      "date_updated": 1790080438050,
       "assignees": [
         "Okkert"
       ]
@@ -869,7 +871,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1780452000000,
-      "date_updated": 1789041591603,
+      "date_updated": 1790080467482,
       "assignees": [
         "Okkert"
       ]
@@ -884,7 +886,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779847200000,
-      "date_updated": 1790066745355,
+      "date_updated": 1790080465054,
       "assignees": [
         "Okkert"
       ]
@@ -944,7 +946,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782266400000,
-      "date_updated": 1789387291945,
+      "date_updated": 1790080416759,
       "assignees": [
         "Okkert"
       ]
@@ -959,7 +961,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782180000000,
-      "date_updated": 1789379085307,
+      "date_updated": 1790080420822,
       "assignees": [
         "Okkert"
       ]
@@ -974,7 +976,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779847200000,
-      "date_updated": 1789122037556,
+      "date_updated": 1790080439618,
       "assignees": [
         "Okkert"
       ]
@@ -1004,7 +1006,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1781834400000,
-      "date_updated": 1789376536106,
+      "date_updated": 1790080427587,
       "assignees": [
         "Okkert"
       ]
@@ -1019,7 +1021,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1780452000000,
-      "date_updated": 1790066669241,
+      "date_updated": 1790080469714,
       "assignees": [
         "Okkert"
       ]
@@ -1034,7 +1036,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1781233200000,
-      "date_updated": 1790066629908,
+      "date_updated": 1790080472413,
       "assignees": [
         "Okkert"
       ]
@@ -1049,7 +1051,7 @@
       "has_subtasks": true,
       "progress_pct": 80,
       "due_date": 1779328800000,
-      "date_updated": 1790066709780,
+      "date_updated": 1790080478071,
       "assignees": [
         "Okkert"
       ]
@@ -1064,7 +1066,7 @@
       "has_subtasks": true,
       "progress_pct": 50,
       "due_date": 1778724000000,
-      "date_updated": 1789121873635,
+      "date_updated": 1790080443581,
       "assignees": [
         "Okkert"
       ]
@@ -1184,7 +1186,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1782439200000,
-      "date_updated": 1789734712377,
+      "date_updated": 1790080480152,
       "assignees": [
         "Okkert"
       ]
@@ -1274,7 +1276,7 @@
       "has_subtasks": true,
       "progress_pct": 60,
       "due_date": 1778209200000,
-      "date_updated": 1789735163386,
+      "date_updated": 1790080406527,
       "assignees": [
         "Okkert"
       ]
@@ -1289,7 +1291,7 @@
       "has_subtasks": true,
       "progress_pct": 83.33333333333334,
       "due_date": 1778855400000,
-      "date_updated": 1789732996271,
+      "date_updated": 1790080458999,
       "assignees": [
         "Okkert"
       ]
@@ -1304,7 +1306,7 @@
       "has_subtasks": true,
       "progress_pct": 66.66666666666666,
       "due_date": 1777629600000,
-      "date_updated": 1789733900352,
+      "date_updated": 1790080410031,
       "assignees": [
         "Okkert"
       ]
