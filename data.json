@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-09-23T13:25:39.626Z",
+  "generated_at": "2026-09-23T13:40:53.980Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
       "name": "Message Issue",
       "status": "bugs",
       "version": "v1",
-      "project": "Unassigned",
+      "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1790169052789,
+      "date_updated": 1790169341757,
       "assignees": [
         "Okkert"
       ]
