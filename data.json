@@ -1,6 +1,21 @@
 {
-  "generated_at": "2026-09-23T08:25:39.491Z",
+  "generated_at": "2026-09-23T08:40:51.574Z",
   "tasks": [
+    {
+      "id": "wdy2xh17wp",
+      "name": "Error code on Talent Create",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": 0.3333333333333333,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1790151792893,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh16fd",
       "name": "Internal Process Changes (Migration Follow-up)",
