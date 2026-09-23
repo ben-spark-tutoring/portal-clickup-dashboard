@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T10:25:37.173Z",
+  "generated_at": "2026-09-23T10:55:37.703Z",
   "tasks": [
     {
       "id": "wdy2xh17wp",
@@ -837,9 +837,9 @@
       "project": "Ops Updates",
       "time_estimate_hours": 7.833333333333333,
       "has_subtasks": true,
-      "progress_pct": 50,
+      "progress_pct": 100,
       "due_date": 1778810400000,
-      "date_updated": 1790080441113,
+      "date_updated": 1790159959706,
       "assignees": [
         "Okkert"
       ]
@@ -1027,14 +1027,14 @@
     {
       "id": "86b9vv3jt",
       "name": "Complimentary Session",
-      "status": "testing",
+      "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1780452000000,
-      "date_updated": 1790080469714,
+      "date_updated": 1790159608048,
       "assignees": [
         "Okkert"
       ]
@@ -1077,9 +1077,9 @@
       "project": "Ops Updates",
       "time_estimate_hours": 9.833333333333332,
       "has_subtasks": true,
-      "progress_pct": 50,
+      "progress_pct": 80,
       "due_date": 1778724000000,
-      "date_updated": 1790080443581,
+      "date_updated": 1790159671762,
       "assignees": [
         "Okkert"
       ]
