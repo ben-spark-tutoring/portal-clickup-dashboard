@@ -193,6 +193,25 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .load-error { text-align: center; color: var(--warn); font-weight: 400; max-width: 480px; }
+
+  .changelog-feed { max-height: 480px; overflow-y: auto; }
+  .changelog-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .changelog-item:last-child { border-bottom: none; }
+  .changelog-icon {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: #fff;
+  }
+  .changelog-icon.added { background: var(--accent); }
+  .changelog-icon.removed { background: var(--warn); }
+  .changelog-icon.hours_changed { background: var(--brand); }
+  .changelog-icon.status_changed { background: var(--v1); }
+  .changelog-text { flex: 1; }
+  .changelog-time { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -218,6 +237,13 @@
     <h2>Hours Remaining Over Time</h2>
     <canvas id="trendChart"></canvas>
     <div class="calc-caveat" style="margin-top:10px;" id="trend-caveat"></div>
+  </div>
+
+  <div class="panel full" style="margin-bottom:18px;">
+    <h2>Recent Changes</h2>
+    <div class="filters" id="changelog-filters"></div>
+    <div class="calc-caveat" style="margin-bottom:10px;" id="changelog-caveat"></div>
+    <div class="changelog-feed" id="changelog-feed"></div>
   </div>
 
   <div class="panels">
@@ -355,6 +381,14 @@ async function loadDashboard() {
     HISTORY = [];
   }
 
+  let CHANGELOG = [];
+  try {
+    const changeRes = await fetch('/changelog.json?t=' + Date.now());
+    if (changeRes.ok) CHANGELOG = await changeRes.json();
+  } catch {
+    CHANGELOG = [];
+  }
+
 
 const now = new Date();
 document.getElementById('updated-line').textContent = 'Generated ' + now.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
@@ -394,6 +428,51 @@ if (HISTORY.length >= 2) {
   document.getElementById('trend-caveat').textContent =
     'Not enough history yet to show a trend — this builds up automatically as the scheduled refresh runs over the coming days.';
 }
+
+// --- Recent Changes: per-task diff recorded by the refresh script each run ---
+let changelogFilter = 'all';
+function formatHours(h) { return h === null || h === undefined ? '—' : h.toFixed(1) + 'h'; }
+function renderChangelog() {
+  const sorted = [...CHANGELOG].sort((a, b) => new Date(b.t) - new Date(a.t));
+  const filtered = changelogFilter === 'all' ? sorted : sorted.filter(e => e.type === changelogFilter);
+  const shown = filtered.slice(0, 100);
+
+  const icons = { added: '+', removed: '−', hours_changed: '±', status_changed: '→' };
+  document.getElementById('changelog-feed').innerHTML = shown.map(e => {
+    const when = new Date(e.t).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    let text;
+    if (e.type === 'added') text = `<strong>${e.task}</strong> was added (${e.version.toUpperCase()}, ${e.project}, ${formatHours(e.hours)})`;
+    else if (e.type === 'removed') text = `<strong>${e.task}</strong> was removed (${e.version.toUpperCase()}, ${e.project})`;
+    else if (e.type === 'hours_changed') text = `<strong>${e.task}</strong> hours changed: ${formatHours(e.from)} → ${formatHours(e.to)} (${e.delta > 0 ? '+' : ''}${e.delta}h)`;
+    else text = `<strong>${e.task}</strong> status changed: ${e.from} → ${e.to}`;
+    return `<div class="changelog-item">
+      <div class="changelog-icon ${e.type}">${icons[e.type] || '•'}</div>
+      <div class="changelog-text">${text}</div>
+      <div class="changelog-time">${when}</div>
+    </div>`;
+  }).join('') || '<div class="changelog-item"><div class="changelog-text" style="color:var(--text-muted);">No changes recorded yet — this builds up automatically as the scheduled refresh detects differences.</div></div>';
+}
+const changelogFilterDefs = [
+  { key: 'all', label: 'All' },
+  { key: 'added', label: 'Added' },
+  { key: 'hours_changed', label: 'Hours changed' },
+  { key: 'status_changed', label: 'Status changed' },
+  { key: 'removed', label: 'Removed' },
+];
+document.getElementById('changelog-filters').innerHTML = changelogFilterDefs.map(f =>
+  `<button class="filter-btn${f.key==='all'?' active':''}" data-key="${f.key}">${f.label}</button>`).join('');
+document.querySelectorAll('#changelog-filters .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    changelogFilter = btn.dataset.key;
+    document.querySelectorAll('#changelog-filters .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderChangelog();
+  });
+});
+document.getElementById('changelog-caveat').textContent =
+  CHANGELOG.length ? `${CHANGELOG.length} change event(s) recorded since this feature was added — showing up to 100 most recent.`
+                    : 'No changes recorded yet.';
+renderChangelog();
 
 // --- Testing bottleneck: testing-status tasks, oldest last-updated first ---
 const testingSorted = [...testingWork].sort((a, b) => (a.date_updated || 0) - (b.date_updated || 0));
@@ -630,10 +709,10 @@ const filterDefs = [
 ];
 document.getElementById('filters').innerHTML = filterDefs.map(f =>
   `<button class="filter-btn${f.key==='all'?' active':''}" data-key="${f.key}">${f.label}</button>`).join('');
-document.querySelectorAll('.filter-btn').forEach(btn => {
+document.querySelectorAll('#filters .filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     activeFilter = btn.dataset.key;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#filters .filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderTable();
   });
