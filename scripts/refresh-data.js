@@ -31,6 +31,8 @@ const PROGRESS_FIELD_ID = '5c9d36d8-ea95-4740-8234-a05ca8c38ac7';
 const OUTPUT_PATH = path.join(__dirname, '..', 'data.json');
 const HISTORY_PATH = path.join(__dirname, '..', 'history.json');
 const HISTORY_MAX_ENTRIES = 4000; // ~41 days at a 15-min cadence — plenty for a trend view
+const CHANGELOG_PATH = path.join(__dirname, '..', 'changelog.json');
+const CHANGELOG_MAX_ENTRIES = 500; // individual change events, not runs — a busy day can use these up faster than history.json's entries
 const MAX_CONCURRENT = 1; // fully sequential — no reason to risk concurrency now this runs unattended
 const MIN_INTERVAL_MS = 1200; // ~50/min, a real safety margin under ClickUp's limit, not just barely under it
 
@@ -164,8 +166,75 @@ async function main() {
     };
   }));
 
+  const generated_at = new Date().toISOString();
+
+  // --- diff against the previous run BEFORE overwriting data.json, so we can
+  // record what actually changed. Skipped entirely on the very first run
+  // (no previous file = no real baseline, not "everything was just added").
+  if (fs.existsSync(OUTPUT_PATH)) {
+    try {
+      const prevOutput = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
+      const prevResults = prevOutput.tasks || [];
+      const prevById = new Map(prevResults.map(t => [t.id, t]));
+      const newById = new Map(results.map(t => [t.id, t]));
+      const events = [];
+
+      for (const t of results) {
+        const prev = prevById.get(t.id);
+        if (!prev) {
+          events.push({ t: generated_at, type: 'added', task: t.name, version: t.version, project: t.project, hours: t.time_estimate_hours });
+          continue;
+        }
+        const prevHours = prev.time_estimate_hours;
+        const newHours = t.time_estimate_hours;
+        const hoursDiffer = prevHours !== newHours && !(prevHours === null && newHours === null);
+        if (hoursDiffer) {
+          const delta = (newHours || 0) - (prevHours || 0);
+          if (Math.abs(delta) > 0.05 || (prevHours === null) !== (newHours === null)) {
+            events.push({ t: generated_at, type: 'hours_changed', task: t.name, version: t.version, project: t.project, from: prevHours, to: newHours, delta: Math.round(delta * 100) / 100 });
+          }
+        }
+        if (prev.status !== t.status) {
+          events.push({ t: generated_at, type: 'status_changed', task: t.name, version: t.version, project: t.project, from: prev.status, to: t.status });
+        }
+      }
+      for (const p of prevResults) {
+        if (!newById.has(p.id)) {
+          events.push({ t: generated_at, type: 'removed', task: p.name, version: p.version, project: p.project });
+        }
+      }
+
+      if (events.length) {
+        let changelog = [];
+        if (fs.existsSync(CHANGELOG_PATH)) {
+          try {
+            changelog = JSON.parse(fs.readFileSync(CHANGELOG_PATH, 'utf8'));
+            if (!Array.isArray(changelog)) changelog = [];
+          } catch {
+            changelog = [];
+          }
+        }
+        changelog.push(...events);
+        if (changelog.length > CHANGELOG_MAX_ENTRIES) {
+          changelog = changelog.slice(changelog.length - CHANGELOG_MAX_ENTRIES);
+        }
+        fs.writeFileSync(CHANGELOG_PATH, JSON.stringify(changelog));
+        console.log(`Recorded ${events.length} change event(s) to ${CHANGELOG_PATH}`);
+      } else {
+        console.log('No changes detected since last run.');
+      }
+    } catch (err) {
+      console.warn('Could not compute changelog diff (continuing anyway):', err.message);
+    }
+  } else {
+    console.log('No previous data.json found — skipping changelog on this first run.');
+  }
+  if (!fs.existsSync(CHANGELOG_PATH)) {
+    fs.writeFileSync(CHANGELOG_PATH, '[]'); // ensure it always exists so `git add` never fails on a missing file
+  }
+
   const output = {
-    generated_at: new Date().toISOString(),
+    generated_at,
     tasks: results,
   };
 
