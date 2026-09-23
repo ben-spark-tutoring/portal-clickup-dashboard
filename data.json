@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T12:25:37.815Z",
+  "generated_at": "2026-09-23T12:40:56.492Z",
   "tasks": [
     {
       "id": "wdy2xh17wp",
@@ -1312,14 +1312,14 @@
     {
       "id": "86b9mbv30",
       "name": "Calendar Build",
-      "status": "bugs",
+      "status": "testing",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 39,
       "has_subtasks": true,
       "progress_pct": 66.66666666666666,
       "due_date": 1777629600000,
-      "date_updated": 1790153173553,
+      "date_updated": 1790166429866,
       "assignees": [
         "Okkert"
       ]
