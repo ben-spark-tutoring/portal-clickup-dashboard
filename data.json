@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T06:55:35.752Z",
+  "generated_at": "2026-09-23T07:10:59.206Z",
   "tasks": [
     {
       "id": "wdy2xh16fd",
@@ -273,14 +273,14 @@
     {
       "id": "wdy2xh0qqv",
       "name": "Homework Marking Flow",
-      "status": "ui ux fixes",
+      "status": "to do",
       "version": "v2",
       "project": "Student Enhancement",
       "time_estimate_hours": 150,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789734686113,
+      "date_updated": 1790146626692,
       "assignees": [
         "Okkert"
       ]
@@ -567,14 +567,14 @@
     {
       "id": "wdy2xgujqr",
       "name": "SEN Certificate Template Change",
-      "status": "ui ux fixes",
+      "status": "to do",
       "version": "v2",
       "project": "SEN",
       "time_estimate_hours": 16,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1785459600000,
-      "date_updated": 1789041732590,
+      "due_date": null,
+      "date_updated": 1790146631152,
       "assignees": [
         "Davut Bayık"
       ]
