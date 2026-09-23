@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T11:40:50.894Z",
+  "generated_at": "2026-09-23T11:56:31.396Z",
   "tasks": [
     {
       "id": "wdy2xh17wp",
@@ -839,7 +839,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1778810400000,
-      "date_updated": 1790159959706,
+      "date_updated": 1790163804318,
       "assignees": [
         "Okkert"
       ]
@@ -884,7 +884,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1780452000000,
-      "date_updated": 1790155229188,
+      "date_updated": 1790163900312,
       "assignees": [
         "Okkert"
       ]
@@ -1049,7 +1049,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1781233200000,
-      "date_updated": 1790155365891,
+      "date_updated": 1790163866433,
       "assignees": [
         "Okkert"
       ]
