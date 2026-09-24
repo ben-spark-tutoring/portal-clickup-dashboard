@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T10:25:38.059Z",
+  "generated_at": "2026-09-24T10:40:51.881Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -19,14 +19,14 @@
     {
       "id": "wdy2xh17wp",
       "name": "Error code on Talent Create",
-      "status": "ui ux fixes",
+      "status": "testing",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 0.3333333333333333,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1790151792893,
+      "date_updated": 1790245198529,
       "assignees": [
         "Okkert"
       ]
@@ -725,7 +725,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1790042400000,
-      "date_updated": 1790233619917,
+      "date_updated": 1790245218016,
       "assignees": [
         "Okkert"
       ]
