@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T07:11:02.869Z",
+  "generated_at": "2026-09-24T07:25:37.761Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -718,14 +718,14 @@
     {
       "id": "86ba17fn9",
       "name": "MRR Goal",
-      "status": "testing",
+      "status": "ui ux fixes",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 9,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1790042400000,
-      "date_updated": 1790070288430,
+      "date_updated": 1790233619917,
       "assignees": [
         "Okkert"
       ]
