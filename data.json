@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T07:55:41.840Z",
+  "generated_at": "2026-09-25T08:10:59.676Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -11,7 +11,7 @@
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1790320117167,
+      "date_updated": 1790322867397,
       "assignees": [
         "Okkert"
       ]
@@ -539,14 +539,14 @@
     {
       "id": "wdy2xgv99r",
       "name": "Improving Visuals on Lesson Plans",
-      "status": "ui ux fixes",
+      "status": "in progress",
       "version": "v1",
       "project": "Student Enhancement",
       "time_estimate_hours": 15,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1790318402936,
+      "date_updated": 1790322594099,
       "assignees": [
         "Davut Bayık",
         "Okkert",
