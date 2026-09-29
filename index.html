@@ -234,6 +234,17 @@
   <div class="grid-cards" id="summary-cards"></div>
 
   <div class="panel full" style="margin-bottom:18px;">
+    <h2>Tasks Remaining for V1 Launch</h2>
+    <div class="calc-caveat" style="margin-bottom:10px;" id="v1-remaining-caveat"></div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Task</th><th>Status</th><th>Project</th><th class="num">Hours</th></tr></thead>
+        <tbody id="v1-remaining-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel full" style="margin-bottom:18px;">
     <h2>Hours Remaining Over Time</h2>
     <canvas id="trendChart"></canvas>
     <div class="calc-caveat" style="margin-top:10px;" id="trend-caveat"></div>
@@ -402,6 +413,25 @@ const completeCount = DATA.filter(t => t.status === 'complete').length;
 const incomplete = DATA.filter(t => TRACKED_STATUSES.includes(t.status));
 const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status));
 const testingWork = DATA.filter(t => t.status === 'testing');
+
+// --- Tasks Remaining for V1 Launch: everything V1 that isn't complete yet,
+// biggest hours first. Deliberately includes Testing here (unlike the "Dev
+// Hours Remaining" card above) — a task isn't launch-ready until it clears
+// testing, even though its hours don't count toward "dev work left to build".
+const v1Remaining = incomplete
+  .filter(t => t.version === 'v1')
+  .sort((a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1));
+const v1RemainingMissing = v1Remaining.filter(t => t.time_estimate_hours === null).length;
+document.getElementById('v1-remaining-caveat').textContent =
+  v1Remaining.length + ' V1 tasks are not yet complete (includes Testing-stage work, unlike the Dev Hours Remaining card above, which excludes it). ' +
+  v1RemainingMissing + ' of these have no time estimate set — they\'re listed but sort to the bottom.';
+document.getElementById('v1-remaining-table').innerHTML = v1Remaining.map(t => `
+  <tr>
+    <td>${t.name}</td>
+    <td>${t.status}${t.status === 'testing' ? ' <span style="color:var(--text-muted);">(in testing)</span>' : ''}</td>
+    <td>${t.project}</td>
+    <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
+  </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Nothing left for V1 — fully complete.</td></tr>';
 
 // --- Trend chart: hours remaining over time, from history.json ---
 if (HISTORY.length >= 2) {
