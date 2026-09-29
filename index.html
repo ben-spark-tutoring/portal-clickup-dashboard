@@ -212,6 +212,15 @@
   .changelog-icon.status_changed { background: var(--v1); }
   .changelog-text { flex: 1; }
   .changelog-time { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+
+  .status-group { margin-bottom: 22px; }
+  .status-group:last-child { margin-bottom: 0; }
+  .status-group-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 8px 0; border-bottom: 2px solid var(--border); margin-bottom: 4px;
+  }
+  .status-group-header .name { font-weight: 700; font-size: 0.95rem; text-transform: capitalize; }
+  .status-group-header .meta { color: var(--text-muted); font-size: 0.82rem; }
 </style>
 </head>
 <body>
@@ -235,8 +244,10 @@
 
   <div class="panel full" style="margin-bottom:18px;">
     <h2>Tasks Remaining for V1 Launch</h2>
+    <div class="filters" id="v1-remaining-view-toggle" style="margin-bottom:10px;"></div>
     <div class="calc-caveat" style="margin-bottom:10px;" id="v1-remaining-caveat"></div>
-    <div class="table-scroll">
+    <div id="v1-remaining-grouped"></div>
+    <div class="table-scroll" id="v1-remaining-flat-wrap" style="display:none;">
       <table>
         <thead><tr><th>Task</th><th>Status</th><th>Project</th><th class="num">Hours</th></tr></thead>
         <tbody id="v1-remaining-table"></tbody>
@@ -425,6 +436,37 @@ const v1RemainingMissing = v1Remaining.filter(t => t.time_estimate_hours === nul
 document.getElementById('v1-remaining-caveat').textContent =
   v1Remaining.length + ' V1 tasks are not yet complete (includes Testing-stage work, unlike the Dev Hours Remaining card above, which excludes it). ' +
   v1RemainingMissing + ' of these have no time estimate set — they\'re listed but sort to the bottom.';
+
+// Grouped view: one section per status, biggest total-hours group first,
+// tasks sorted by hours within each group — built for walking through in a
+// discussion (e.g. "here's everything still To Do", then Testing, etc.)
+const statusGroups = {};
+for (const t of v1Remaining) {
+  if (!statusGroups[t.status]) statusGroups[t.status] = [];
+  statusGroups[t.status].push(t);
+}
+const groupOrder = Object.keys(statusGroups).sort((a, b) => sum(statusGroups[b], 'time_estimate_hours') - sum(statusGroups[a], 'time_estimate_hours'));
+
+function renderGroupedRow(t) {
+  return `<tr>
+    <td>${t.name}</td>
+    <td>${t.project}</td>
+    <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
+  </tr>`;
+}
+document.getElementById('v1-remaining-grouped').innerHTML = groupOrder.map(status => {
+  const tasks = statusGroups[status];
+  const total = sum(tasks, 'time_estimate_hours');
+  return `<div class="status-group">
+    <div class="status-group-header">
+      <span class="name">${status}${status === 'testing' ? ' (in testing)' : ''}</span>
+      <span class="meta">${tasks.length} task${tasks.length === 1 ? '' : 's'} · ${total.toFixed(1)}h</span>
+    </div>
+    <table><tbody>${tasks.map(renderGroupedRow).join('')}</tbody></table>
+  </div>`;
+}).join('') || '<div style="color:var(--text-muted);">Nothing left for V1 — fully complete.</div>';
+
+// Flat view (original single sorted table, no grouping)
 document.getElementById('v1-remaining-table').innerHTML = v1Remaining.map(t => `
   <tr>
     <td>${t.name}</td>
@@ -432,6 +474,23 @@ document.getElementById('v1-remaining-table').innerHTML = v1Remaining.map(t => `
     <td>${t.project}</td>
     <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
   </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Nothing left for V1 — fully complete.</td></tr>';
+
+// View toggle
+const v1ViewDefs = [
+  { key: 'grouped', label: 'Grouped by Status' },
+  { key: 'flat', label: 'Flat List' },
+];
+document.getElementById('v1-remaining-view-toggle').innerHTML = v1ViewDefs.map(v =>
+  `<button class="filter-btn${v.key==='grouped'?' active':''}" data-key="${v.key}">${v.label}</button>`).join('');
+document.querySelectorAll('#v1-remaining-view-toggle .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#v1-remaining-view-toggle .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const grouped = btn.dataset.key === 'grouped';
+    document.getElementById('v1-remaining-grouped').style.display = grouped ? '' : 'none';
+    document.getElementById('v1-remaining-flat-wrap').style.display = grouped ? 'none' : '';
+  });
+});
 
 // --- Trend chart: hours remaining over time, from history.json ---
 if (HISTORY.length >= 2) {
