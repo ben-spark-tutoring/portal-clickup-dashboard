@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T07:25:37.987Z",
+  "generated_at": "2026-09-30T07:40:49.900Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -272,14 +272,14 @@
     {
       "id": "wdy2xh0qr3",
       "name": "Pairings Text Display Issue",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Pairing Opp",
       "time_estimate_hours": 1,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1790147819152,
+      "date_updated": 1790753201217,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -419,13 +419,13 @@
       "id": "wdy2xgzj8v",
       "name": "Ambassador Tracking",
       "status": "to do",
-      "version": "v1",
+      "version": "v2",
       "project": "Finance",
       "time_estimate_hours": 136,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789040987825,
+      "date_updated": 1790752566059,
       "assignees": []
     },
     {
@@ -513,15 +513,17 @@
     {
       "id": "wdy2xgvyzb",
       "name": "Billing Dates",
-      "status": "to do",
+      "status": "testing",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 7,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1789040987825,
-      "assignees": []
+      "date_updated": 1790752599619,
+      "assignees": [
+        "Okkert"
+      ]
     },
     {
       "id": "wdy2xgvyza",
@@ -746,14 +748,14 @@
     {
       "id": "86b9ztytp",
       "name": "Add Tags",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779069600000,
-      "date_updated": 1790147820211,
+      "date_updated": 1790753139556,
       "assignees": [
         "Bea Shakjiri"
       ]
