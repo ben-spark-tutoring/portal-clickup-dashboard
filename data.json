@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T09:10:57.790Z",
+  "generated_at": "2026-10-01T09:25:22.393Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -366,7 +366,7 @@
       "status": "to do",
       "version": "v1",
       "project": "Finance",
-      "time_estimate_hours": 15.333333333333332,
+      "time_estimate_hours": 15.333333333333334,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
@@ -470,19 +470,6 @@
       "progress_pct": 100,
       "due_date": null,
       "date_updated": 1789647411709,
-      "assignees": []
-    },
-    {
-      "id": "wdy2xgx2pd",
-      "name": "Tutor Invoices in Portal",
-      "status": "to do",
-      "version": "v1",
-      "project": "Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
-      "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1789978831852,
       "assignees": []
     },
     {
