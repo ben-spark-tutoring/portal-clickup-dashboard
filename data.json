@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T14:10:50.827Z",
+  "generated_at": "2026-10-01T14:25:26.750Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -275,14 +275,14 @@
     {
       "id": "wdy2xh0qr3",
       "name": "Pairings Text Display Issue",
-      "status": "testing",
+      "status": "complete",
       "version": "v1",
       "project": "Pairing Opp",
       "time_estimate_hours": 1,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1790849509222,
+      "date_updated": 1790863408506,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -740,14 +740,14 @@
     {
       "id": "86b9ztytp",
       "name": "Add Tags",
-      "status": "testing",
+      "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779069600000,
-      "date_updated": 1790863228708,
+      "date_updated": 1790863413886,
       "assignees": [
         "Bea Shakjiri"
       ]
