@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T20:10:46.259Z",
+  "generated_at": "2026-10-01T20:25:20.637Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -241,8 +241,10 @@
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": 1788231600000,
-      "date_updated": 1790067200011,
-      "assignees": []
+      "date_updated": 1790885378020,
+      "assignees": [
+        "Bea Shakjiri"
+      ]
     },
     {
       "id": "wdy2xh10re",
