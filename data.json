@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T08:25:36.282Z",
+  "generated_at": "2026-10-01T08:40:53.701Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -67,8 +67,11 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1796097600000,
-      "date_updated": 1790067886007,
-      "assignees": []
+      "date_updated": 1790843401361,
+      "assignees": [
+        "Okkert",
+        "Ben Doherty"
+      ]
     },
     {
       "id": "wdy2xh16fa",
@@ -592,9 +595,11 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1789735309184,
+      "date_updated": 1790843407016,
       "assignees": [
-        "Ben Doherty"
+        "Ben Doherty",
+        "Davut Bayık",
+        "Okkert"
       ]
     },
     {
