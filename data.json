@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T11:40:34.637Z",
+  "generated_at": "2026-10-02T11:55:23.567Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -601,9 +601,10 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1790938710085,
+      "date_updated": 1790940735993,
       "assignees": [
-        "Davut Bayık"
+        "Davut Bayık",
+        "Bea Shakjiri"
       ]
     },
     {
