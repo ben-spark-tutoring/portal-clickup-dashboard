@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T07:55:19.493Z",
+  "generated_at": "2026-10-04T08:10:43.122Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -1104,8 +1104,8 @@
       "status": "to do",
       "version": "v1",
       "project": "Talent Updates",
-      "time_estimate_hours": 10,
-      "has_subtasks": true,
+      "time_estimate_hours": null,
+      "has_subtasks": false,
       "progress_pct": 0,
       "due_date": 1784250000000,
       "date_updated": 1789733755105,
