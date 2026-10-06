@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T05:40:32.902Z",
+  "generated_at": "2026-10-06T05:55:21.204Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -579,14 +579,14 @@
     {
       "id": "wdy2xgujqr",
       "name": "SEN Certificate Template Change",
-      "status": "to do",
+      "status": "in progress",
       "version": "v2",
       "project": "SEN",
       "time_estimate_hours": 16,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1791039022418,
+      "date_updated": 1791264861380,
       "assignees": [
         "Davut Bayık",
         "Bea Shakjiri"
