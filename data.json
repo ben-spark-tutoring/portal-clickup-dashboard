@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T02:40:41.524Z",
+  "generated_at": "2026-10-07T02:55:19.600Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -368,8 +368,8 @@
       "status": "to do",
       "version": "v1",
       "project": "Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 15.333333333333334,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
       "date_updated": 1789387859759,
