@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T14:25:23.094Z",
+  "generated_at": "2026-10-08T14:40:37.720Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -767,7 +767,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1783911600000,
-      "date_updated": 1789733742067,
+      "date_updated": 1791468940645,
       "assignees": []
     },
     {
