@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T09:10:49.896Z",
+  "generated_at": "2026-10-08T09:25:22.336Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -241,7 +241,7 @@
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": 1788231600000,
-      "date_updated": 1791435682452,
+      "date_updated": 1791450926193,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -1312,14 +1312,14 @@
     {
       "id": "86b9mbv30",
       "name": "Calendar Build",
-      "status": "testing",
+      "status": "bugs",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 39,
       "has_subtasks": true,
-      "progress_pct": 66.66666666666666,
-      "due_date": 1777629600000,
-      "date_updated": 1791449094512,
+      "progress_pct": 61.53846153846154,
+      "due_date": 1791511200000,
+      "date_updated": 1791450366250,
       "assignees": [
         "Okkert"
       ]
