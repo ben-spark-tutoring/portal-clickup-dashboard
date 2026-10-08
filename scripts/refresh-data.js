@@ -247,8 +247,10 @@ async function main() {
   const sum = (list) => list.reduce((a, b) => a + (b.time_estimate_hours || 0), 0);
   const snapshot = {
     t: output.generated_at,
-    v1_dev_hours: sum(results.filter(r => r.version === 'v1' && DEV_STATUSES.includes(r.status))),
-    v2_dev_hours: sum(results.filter(r => r.version === 'v2' && DEV_STATUSES.includes(r.status))),
+    // Pre Launch is excluded from dev hours (matches the dashboard cards) and tracked on its own line.
+    v1_dev_hours: sum(results.filter(r => r.version === 'v1' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch')),
+    v2_dev_hours: sum(results.filter(r => r.version === 'v2' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch')),
+    pre_launch_hours: sum(results.filter(r => DEV_STATUSES.includes(r.status) && r.project === 'Pre Launch')),
     v1_testing_hours: sum(results.filter(r => r.version === 'v1' && r.status === 'testing')),
     v2_testing_hours: sum(results.filter(r => r.version === 'v2' && r.status === 'testing')),
   };
