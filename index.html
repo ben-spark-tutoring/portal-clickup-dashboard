@@ -281,7 +281,7 @@
 
   <div class="panels">
     <div class="panel full">
-      <h2>Dev Hours Remaining by Business Area (excl. Testing)</h2>
+      <h2>Dev Hours Remaining by Business Area (excl. Testing &amp; Pre Launch)</h2>
       <div class="tall-chart"><canvas id="projectChart"></canvas></div>
     </div>
   </div>
@@ -334,7 +334,7 @@
   <div class="panel full" style="margin-bottom:18px;">
     <h2>Dev Hours Remaining by Assignee</h2>
     <div class="tall-chart"><canvas id="assigneeChart"></canvas></div>
-    <div class="calc-caveat" style="margin-top:10px;">Excludes Testing and Complete, same basis as the business-area chart. Tasks with multiple assignees count toward each of them (not split).</div>
+    <div class="calc-caveat" style="margin-top:10px;">Excludes Testing, Complete and Pre Launch, same basis as the business-area chart. Tasks with multiple assignees count toward each of them (not split).</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -348,7 +348,7 @@
       <label>Contingency buffer (days) <input type="number" id="calc-buffer" value="14" min="0" step="1"></label>
     </div>
     <div class="calc-results" id="calc-results"></div>
-    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> already sitting in Testing and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat these dates as a floor, not a guarantee. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
+    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> already sitting in Testing, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat these dates as a floor, not a guarantee. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -422,7 +422,11 @@ const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastruc
 const TRACKED_STATUSES = [...DEV_STATUSES, 'testing'];
 const completeCount = DATA.filter(t => t.status === 'complete').length;
 const incomplete = DATA.filter(t => TRACKED_STATUSES.includes(t.status));
-const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status));
+// Pre Launch (launch-readiness: comms, migration, infra setup) is deliberately kept OUT of
+// the dev-hours figures and shown as its own separate line instead.
+const isPreLaunch = t => t.project === 'Pre Launch';
+const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && !isPreLaunch(t));
+const preLaunchWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && isPreLaunch(t));
 const testingWork = DATA.filter(t => t.status === 'testing');
 
 // --- Tasks Remaining for V1 Launch: everything V1 that isn't complete yet,
@@ -634,7 +638,7 @@ new Chart(document.getElementById('assigneeChart'), {
 
 const missingEstDev = devWork.filter(t => t.time_estimate_hours === null).length;
 document.getElementById('missing-note').textContent =
-  missingEstDev + ' of ' + devWork.length + ' open v1/v2 dev tasks (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure) have no time estimate set yet, so the hours-remaining totals below are a floor, not the true total. Tasks already in Testing are excluded from these totals since the build work is done — they are tracked separately.';
+  missingEstDev + ' of ' + devWork.length + ' open v1/v2 dev tasks (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure) have no time estimate set yet, so the hours-remaining totals below are a floor, not the true total. Tasks already in Testing, and everything under the Pre Launch project, are excluded from these totals — both are tracked separately.';
 
 function sum(arr, key) { return arr.reduce((a,b) => a + (b[key] || 0), 0); }
 
@@ -648,12 +652,15 @@ const v1HoursRemaining = sum(v1Dev, 'time_estimate_hours');
 const v2HoursRemaining = sum(v2Dev, 'time_estimate_hours');
 const v1TestingHours = sum(v1Testing, 'time_estimate_hours');
 const v2TestingHours = sum(v2Testing, 'time_estimate_hours');
+const preLaunchHours = sum(preLaunchWork, 'time_estimate_hours');
+const preLaunchMissing = preLaunchWork.filter(t => t.time_estimate_hours === null).length;
 
 const cards = [
   { label: 'Tracked Tasks (v1+v2)', value: incomplete.length, sub: completeCount + ' complete tasks excluded from this report', cls: '' },
   { label: 'V1 Dev Hours Remaining', value: v1HoursRemaining.toFixed(1) + 'h', sub: v1Dev.length + ' dev tasks · ' + v1Testing.length + ' more in testing (' + v1TestingHours.toFixed(1) + 'h, not counted)', cls: 'v1-accent' },
   { label: 'V2 Dev Hours Remaining', value: v2HoursRemaining.toFixed(1) + 'h', sub: v2Dev.length + ' dev tasks · ' + v2Testing.length + ' in testing', cls: 'v2-accent' },
   { label: 'Combined Dev Remaining', value: (v1HoursRemaining + v2HoursRemaining).toFixed(1) + 'h', sub: (v1Dev.length + v2Dev.length) + ' dev tasks total', cls: '' },
+  { label: 'Pre Launch Hours (separate)', value: preLaunchHours.toFixed(1) + 'h', sub: preLaunchWork.length + ' open tasks · not included in dev totals' + (preLaunchMissing ? ' · ' + preLaunchMissing + ' with no estimate' : ''), cls: '' },
 ];
 document.getElementById('summary-cards').innerHTML = cards.map(c => `
   <div class="card">
@@ -705,7 +712,7 @@ function projectTags(project) {
 function taskHasTag(task, tag) { return projectTags(task.project).includes(tag); }
 
 // Project hours breakdown (dev hours only — excludes testing and complete)
-const projects = [...new Set(DATA.flatMap(t => projectTags(t.project)))];
+const projects = [...new Set(DATA.flatMap(t => projectTags(t.project)))].filter(p => p !== 'Pre Launch'); // Pre Launch is reported on its own card, not in dev hours
 const projHoursV1 = projects.map(p => sum(devWork.filter(t => taskHasTag(t, p) && t.version === 'v1'), 'time_estimate_hours'));
 const projHoursV2 = projects.map(p => sum(devWork.filter(t => taskHasTag(t, p) && t.version === 'v2'), 'time_estimate_hours'));
 const projOrder = projects.map((p,i) => ({p, total: projHoursV1[i] + projHoursV2[i]})).sort((a,b) => b.total - a.total).map(x => x.p);
@@ -826,6 +833,7 @@ renderTable();
 const v1RemainingHours = v1HoursRemaining; // dev-only, excl testing, from cards logic above
 document.getElementById('calc-basis-hours').textContent = v1RemainingHours.toFixed(1) + 'h';
 document.getElementById('calc-testing-hours').textContent = v1TestingHours.toFixed(1) + 'h';
+document.getElementById('calc-prelaunch-hours').textContent = preLaunchHours.toFixed(1) + 'h';
 document.getElementById('calc-missing-count').textContent = v1Dev.filter(t => t.time_estimate_hours === null).length;
 
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
