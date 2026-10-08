@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-08T09:25:22.336Z",
+  "generated_at": "2026-10-08T09:40:35.137Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
       "name": "Message Issue",
-      "status": "testing",
+      "status": "bugs",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 100,
+      "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1790322867397,
+      "date_updated": 1791451118734,
       "assignees": [
         "Okkert"
       ]
@@ -241,7 +241,7 @@
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": 1788231600000,
-      "date_updated": 1791450926193,
+      "date_updated": 1791450948165,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -1319,7 +1319,7 @@
       "has_subtasks": true,
       "progress_pct": 61.53846153846154,
       "due_date": 1791511200000,
-      "date_updated": 1791450366250,
+      "date_updated": 1791451409711,
       "assignees": [
         "Okkert"
       ]
