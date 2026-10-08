@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T14:55:22.892Z",
+  "generated_at": "2026-10-08T15:10:54.666Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -625,14 +625,14 @@
     {
       "id": "86ba6h1q3",
       "name": "Portal Walkthrough Loom Addition",
-      "status": "to do",
+      "status": "complete",
       "version": "v1",
       "project": "Pre Launch",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": 1788141600000,
-      "date_updated": 1789734243116,
+      "date_updated": 1791471410919,
       "assignees": [
         "Okkert"
       ]
