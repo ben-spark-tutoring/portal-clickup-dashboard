@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T10:10:41.255Z",
+  "generated_at": "2026-10-09T10:25:21.605Z",
   "tasks": [
     {
       "id": "wdy2xh17x3",
@@ -10,10 +10,11 @@
       "time_estimate_hours": 4,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1791511200000,
-      "date_updated": 1791451983846,
+      "due_date": null,
+      "date_updated": 1791540763971,
       "assignees": [
-        "Okkert"
+        "Okkert",
+        "Bea Shakjiri"
       ]
     },
     {
