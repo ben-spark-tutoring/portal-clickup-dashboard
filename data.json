@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T14:25:26.291Z",
+  "generated_at": "2026-10-11T14:40:47.269Z",
   "tasks": [
     {
       "id": "wdy2xh216k",
@@ -66,8 +66,8 @@
       "status": "to do",
       "version": "v2",
       "project": "Pre Launch",
-      "time_estimate_hours": 80,
-      "has_subtasks": true,
+      "time_estimate_hours": null,
+      "has_subtasks": false,
       "progress_pct": 10,
       "due_date": 1796097600000,
       "date_updated": 1791468550907,
