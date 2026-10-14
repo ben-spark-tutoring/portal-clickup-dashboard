@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T11:40:40.844Z",
+  "generated_at": "2026-10-14T11:55:29.855Z",
   "tasks": [
     {
       "id": "wdy2xh216k",
@@ -340,14 +340,14 @@
     {
       "id": "wdy2xh0qq7",
       "name": "Dashboard UI UX Error",
-      "status": "testing",
+      "status": "complete",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 0.5,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1789734770031,
+      "date_updated": 1791977829712,
       "assignees": [
         "Okkert"
       ]
