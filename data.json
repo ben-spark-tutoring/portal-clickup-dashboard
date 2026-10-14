@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T08:55:25.573Z",
+  "generated_at": "2026-10-14T09:10:51.177Z",
   "tasks": [
     {
       "id": "wdy2xh216k",
@@ -954,14 +954,14 @@
     {
       "id": "86b9vv3p7",
       "name": "Ambassador Outreach and  Tracking",
-      "status": "testing",
+      "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 9,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782266400000,
-      "date_updated": 1790080416759,
+      "date_updated": 1791967658944,
       "assignees": [
         "Okkert"
       ]
