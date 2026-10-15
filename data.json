@@ -1,6 +1,36 @@
 {
-  "generated_at": "2026-10-15T08:40:40.970Z",
+  "generated_at": "2026-10-15T08:55:30.530Z",
   "tasks": [
+    {
+      "id": "wdy2xh27v0",
+      "name": "Pricing on Stripe",
+      "status": "bugs",
+      "version": "v1",
+      "project": "Finance",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1792053845045,
+      "assignees": [
+        "Okkert"
+      ]
+    },
+    {
+      "id": "wdy2xh27ux",
+      "name": "Sales Performance",
+      "status": "bugs",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1792053854617,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh216k",
       "name": "SEN Test Result Binding to Tutors",
