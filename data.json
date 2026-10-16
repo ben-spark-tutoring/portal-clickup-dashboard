@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T08:55:28.220Z",
+  "generated_at": "2026-10-16T09:10:54.987Z",
   "tasks": [
     {
       "id": "wdy2xh27v0",
@@ -791,14 +791,14 @@
     {
       "id": "86b9yprm2",
       "name": "Tutor Name not showing in the Tutor Change request",
-      "status": "testing",
+      "status": "complete",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 1.5,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1789735201198,
+      "date_updated": 1792140528338,
       "assignees": [
         "Okkert"
       ]
@@ -1337,7 +1337,7 @@
       "has_subtasks": true,
       "progress_pct": 83.33333333333334,
       "due_date": 1778855400000,
-      "date_updated": 1792140327854,
+      "date_updated": 1792140382326,
       "assignees": [
         "Okkert"
       ]
