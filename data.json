@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T13:55:30.622Z",
+  "generated_at": "2026-10-19T14:10:56.200Z",
   "tasks": [
     {
       "id": "wdy2xh28ym",
@@ -19,14 +19,14 @@
     {
       "id": "wdy2xh27v0",
       "name": "Pricing on Stripe",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1792411080921,
+      "date_updated": 1792418195696,
       "assignees": [
         "Okkert"
       ]
@@ -34,14 +34,14 @@
     {
       "id": "wdy2xh27ux",
       "name": "Sales Performance",
-      "status": "bugs",
+      "status": "in progress",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1792053854617,
+      "date_updated": 1792418201716,
       "assignees": [
         "Okkert"
       ]
