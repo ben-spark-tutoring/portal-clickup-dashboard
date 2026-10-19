@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T05:40:40.400Z",
+  "generated_at": "2026-10-19T05:55:27.221Z",
   "tasks": [
     {
       "id": "wdy2xh27v0",
@@ -1150,14 +1150,14 @@
     {
       "id": "86b9mdg2r",
       "name": "GDPR Data Subject Export",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1783645200000,
-      "date_updated": 1791545565140,
+      "date_updated": 1792388068844,
       "assignees": [
         "Davut Bayık",
         "Bea Shakjiri"
