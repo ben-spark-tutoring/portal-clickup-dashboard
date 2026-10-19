@@ -1,6 +1,21 @@
 {
-  "generated_at": "2026-10-19T13:25:30.225Z",
+  "generated_at": "2026-10-19T13:40:44.838Z",
   "tasks": [
+    {
+      "id": "wdy2xh28ym",
+      "name": "Pairings Flow",
+      "status": "ui ux fixes",
+      "version": "v1",
+      "project": "Unassigned",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1792416193948,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh27v0",
       "name": "Pricing on Stripe",
