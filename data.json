@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T09:10:53.613Z",
+  "generated_at": "2026-10-19T09:25:29.263Z",
   "tasks": [
     {
       "id": "wdy2xh27v0",
@@ -901,7 +901,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779933600000,
-      "date_updated": 1792400189262,
+      "date_updated": 1792400516945,
       "assignees": [
         "Okkert"
       ]
@@ -1157,7 +1157,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1783645200000,
-      "date_updated": 1792388068844,
+      "date_updated": 1792400727897,
       "assignees": [
         "Davut Bayık",
         "Bea Shakjiri"
