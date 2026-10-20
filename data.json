@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T16:25:46.743Z",
+  "generated_at": "2026-10-20T16:40:41.979Z",
   "tasks": [
     {
       "id": "wdy2xh28ym",
@@ -972,8 +972,8 @@
       "status": "testing",
       "version": "v1",
       "project": "Ops & Finance",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 9,
+      "has_subtasks": true,
       "progress_pct": 66.66666666666666,
       "due_date": 1782784800000,
       "date_updated": 1789735193410,
