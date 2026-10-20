@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T07:55:25.941Z",
+  "generated_at": "2026-10-20T08:10:51.052Z",
   "tasks": [
     {
       "id": "wdy2xh28ym",
@@ -34,14 +34,14 @@
     {
       "id": "wdy2xh27ux",
       "name": "Sales Performance",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1792418201716,
+      "date_updated": 1792483030157,
       "assignees": [
         "Okkert"
       ]
