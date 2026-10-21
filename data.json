@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T07:10:48.244Z",
+  "generated_at": "2026-10-21T07:25:30.126Z",
   "tasks": [
     {
       "id": "wdy2xh28ym",
@@ -64,14 +64,14 @@
     {
       "id": "wdy2xh17x3",
       "name": "Message Issue",
-      "status": "in progress",
+      "status": "in review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 4,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1792133132430,
+      "date_updated": 1792566185235,
       "assignees": [
         "Okkert",
         "Bea Shakjiri"
