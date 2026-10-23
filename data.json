@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T13:10:55.632Z",
+  "generated_at": "2026-10-23T13:25:33.202Z",
   "tasks": [
     {
       "id": "wdy2xh2gtu",
@@ -950,8 +950,8 @@
       "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 6,
-      "has_subtasks": true,
+      "time_estimate_hours": null,
+      "has_subtasks": false,
       "progress_pct": 100,
       "due_date": 1780452000000,
       "date_updated": 1790591648983,
