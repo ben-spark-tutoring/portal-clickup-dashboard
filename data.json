@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-26T12:25:43.138Z",
+  "generated_at": "2026-10-26T12:40:58.633Z",
   "tasks": [
     {
       "id": "wdy2xh2pfb",
       "name": "Tutor Exits",
-      "status": "to do",
+      "status": "in progress",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1793066400000,
-      "date_updated": 1793005875551,
+      "date_updated": 1793017491058,
       "assignees": [
         "Okkert"
       ]
