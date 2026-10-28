@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T07:40:57.918Z",
+  "generated_at": "2026-10-28T07:55:47.095Z",
   "tasks": [
     {
       "id": "wdy2xh2raj",
@@ -49,14 +49,14 @@
     {
       "id": "wdy2xh28ym",
       "name": "Pairings Flow",
-      "status": "ui ux fixes",
+      "status": "in progress",
       "version": "v1",
-      "project": "Unassigned",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "project": "Ops Updates",
+      "time_estimate_hours": 3,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1792416193948,
+      "date_updated": 1793172740296,
       "assignees": [
         "Okkert"
       ]
