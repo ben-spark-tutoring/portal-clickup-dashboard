@@ -1,6 +1,36 @@
 {
-  "generated_at": "2026-10-29T12:11:10.488Z",
+  "generated_at": "2026-10-29T12:25:47.439Z",
   "tasks": [
+    {
+      "id": "wdy2xh2v8t",
+      "name": "Merge Sessions and Lesson",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1793276011349,
+      "assignees": [
+        "Bea Shakjiri"
+      ]
+    },
+    {
+      "id": "wdy2xh2v8r",
+      "name": "Notification System",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1793275740703,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh2raj",
       "name": "Manual Chat Creations",
