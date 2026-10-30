@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-30T12:41:17.808Z",
+  "generated_at": "2026-10-30T12:56:03.385Z",
   "tasks": [
     {
       "id": "wdy2xh2wbw",
       "name": "Manual Password Creation",
-      "status": "to do",
+      "status": "in progress",
       "version": "v1",
       "project": "Testing",
       "time_estimate_hours": 4,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1793348996465,
+      "date_updated": 1793363454894,
       "assignees": [
         "Okkert"
       ]
@@ -49,14 +49,14 @@
     {
       "id": "wdy2xh2raj",
       "name": "Manual Chat Creations",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": 1793152800000,
-      "date_updated": 1793280546583,
+      "date_updated": 1793363448317,
       "assignees": [
         "Okkert"
       ]
