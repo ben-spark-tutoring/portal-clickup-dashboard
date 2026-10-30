@@ -1,6 +1,21 @@
 {
-  "generated_at": "2026-10-30T08:26:03.918Z",
+  "generated_at": "2026-10-30T08:41:18.551Z",
   "tasks": [
+    {
+      "id": "wdy2xh2wbw",
+      "name": "Manual Password Creation",
+      "status": "to do",
+      "version": "v1",
+      "project": "Testing",
+      "time_estimate_hours": 4,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1793348996465,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh2v8t",
       "name": "Merge Sessions and Lesson",
