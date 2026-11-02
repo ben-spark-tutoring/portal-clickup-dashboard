@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-02T08:26:18.497Z",
+  "generated_at": "2026-11-02T08:41:34.428Z",
   "tasks": [
     {
       "id": "wdy2xh2wbw",
       "name": "Manual Password Creation",
-      "status": "in progress",
+      "status": "testing",
       "version": "v1",
       "project": "Testing",
       "time_estimate_hours": 4,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1793363454894,
+      "date_updated": 1793607439319,
       "assignees": [
         "Okkert"
       ]
