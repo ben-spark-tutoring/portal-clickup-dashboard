@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T07:26:03.657Z",
+  "generated_at": "2026-11-02T07:41:18.864Z",
   "tasks": [
     {
       "id": "wdy2xh2wbw",
@@ -79,14 +79,14 @@
     {
       "id": "wdy2xh2gtu",
       "name": "Connect Protal to GHL",
-      "status": "to do",
+      "status": "in progress",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 3,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1792669895250,
+      "date_updated": 1793604282499,
       "assignees": [
         "Bea Shakjiri"
       ]
