@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-11-03T15:11:36.236Z",
+  "generated_at": "2026-11-03T15:26:12.450Z",
   "tasks": [
+    {
+      "id": "wdy2xh30n0",
+      "name": "Edit Homework Uploads",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1793718845070,
+      "assignees": [
+        "Bea Shakjiri",
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh2wbw",
       "name": "Manual Password Creation",
