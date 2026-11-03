@@ -340,15 +340,12 @@
   <div class="panel full" style="margin-bottom:18px;">
     <h2>Projected V1 Dev Completion</h2>
     <div class="calc-grid">
-      <label>Existing developers <input type="number" id="calc-devs" value="2" min="0" step="1"></label>
+      <label>Developers <input type="number" id="calc-devs" value="3" min="0" step="1"></label>
       <label>Hours/week each <input type="number" id="calc-devhrs" value="30" min="0" step="1"></label>
-      <label>New dev start date <input type="date" id="calc-start" value="2026-09-21"></label>
-      <label>New dev full capacity (h/wk) <input type="number" id="calc-newfull" value="30" min="0" step="1"></label>
-      <label>Date new dev reaches full capacity <input type="date" id="calc-rampend" value="2026-10-31"></label>
       <label>Contingency buffer (days) <input type="number" id="calc-buffer" value="14" min="0" step="1"></label>
     </div>
     <div class="calc-results" id="calc-results"></div>
-    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> already sitting in Testing, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat these dates as a floor, not a guarantee. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
+    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> already sitting in Testing, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -839,62 +836,35 @@ document.getElementById('calc-missing-count').textContent = v1Dev.filter(t => t.
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
 function fmtDate(d) { return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
 
-function simulateCompletion(remainingHoursTotal, existingWeeklyHours, newDevStart, newDevFull, rampEnd, mode) {
-  let remainingH = remainingHoursTotal;
-  let d = new Date(); d.setHours(0,0,0,0);
-  const start = new Date(newDevStart); start.setHours(0,0,0,0);
-  const ramp = new Date(rampEnd); ramp.setHours(0,0,0,0);
-  const rampDays = Math.max(1, (ramp - start) / 86400000);
-  let guard = 0;
-  while (remainingH > 0 && guard < 3650) {
-    let newDevHoursWeek = 0;
-    if (d >= start) {
-      if (mode === 'optimistic') {
-        newDevHoursWeek = newDevFull;
-      } else if (mode === 'conservative') {
-        newDevHoursWeek = d >= ramp ? newDevFull : 0;
-      } else { // expected: linear ramp
-        const daysIn = Math.max(0, (d - start) / 86400000);
-        newDevHoursWeek = daysIn >= rampDays ? newDevFull : newDevFull * (daysIn / rampDays);
-      }
-    }
-    const weeklyTotal = existingWeeklyHours + newDevHoursWeek;
-    remainingH -= weeklyTotal / 7;
-    d = addDays(d, 1);
-    guard++;
-  }
-  const weeks = (guard / 7).toFixed(1);
-  return { date: d, weeks };
-}
-
 function runCalculator() {
   const devs = parseFloat(document.getElementById('calc-devs').value) || 0;
   const devHrs = parseFloat(document.getElementById('calc-devhrs').value) || 0;
-  const startVal = document.getElementById('calc-start').value;
-  const newFull = parseFloat(document.getElementById('calc-newfull').value) || 0;
-  const rampEndVal = document.getElementById('calc-rampend').value;
   const bufferDays = parseInt(document.getElementById('calc-buffer').value, 10) || 0;
-  const existingWeekly = devs * devHrs;
+  const weeklyHours = devs * devHrs;
+  const out = document.getElementById('calc-results');
 
-  const scenarios = [
-    { key: 'optimistic', label: 'Optimistic', note: 'New dev full capacity from day one' },
-    { key: 'expected', label: 'Expected', note: 'Linear ramp to full capacity' },
-    { key: 'conservative', label: 'Conservative', note: 'No contribution until full ramp date' },
-  ];
+  if (weeklyHours <= 0) {
+    out.innerHTML = `<div class="calc-result-card expected">
+      <div class="scenario">Projected V1 dev completion</div>
+      <div class="date">—</div>
+      <div class="weeks">Enter at least one developer and some weekly hours.</div>
+    </div>`;
+    return;
+  }
 
-  document.getElementById('calc-results').innerHTML = scenarios.map(s => {
-    const r = simulateCompletion(v1RemainingHours, existingWeekly, startVal, newFull, rampEndVal, s.key);
-    const bufferedDate = addDays(r.date, bufferDays);
-    return `
-      <div class="calc-result-card${s.key==='expected' ? ' expected' : ''}">
-        <div class="scenario">${s.label}</div>
-        <div class="date">${fmtDate(bufferedDate)}</div>
-        <div class="weeks">${r.weeks} weeks of work + ${bufferDays}d buffer · ${s.note}</div>
-      </div>`;
-  }).join('');
+  // Constant capacity: everyone works the same hours every week from today.
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const daysOfWork = Math.ceil(v1RemainingHours / (weeklyHours / 7));
+  const workEnd = addDays(today, daysOfWork);
+  const finalDate = addDays(workEnd, bufferDays);
+  out.innerHTML = `<div class="calc-result-card expected">
+    <div class="scenario">Projected V1 dev completion</div>
+    <div class="date">${fmtDate(finalDate)}</div>
+    <div class="weeks">${(daysOfWork / 7).toFixed(1)} weeks of work at ${weeklyHours}h/week (${devs} × ${devHrs}h) ends ${fmtDate(workEnd)}, plus ${bufferDays}d buffer</div>
+  </div>`;
 }
 
-['calc-devs','calc-devhrs','calc-start','calc-newfull','calc-rampend','calc-buffer'].forEach(id => {
+['calc-devs', 'calc-devhrs', 'calc-buffer'].forEach(id => {
   document.getElementById(id).addEventListener('change', runCalculator);
 });
 runCalculator();
