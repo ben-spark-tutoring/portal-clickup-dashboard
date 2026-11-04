@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-04T06:26:09.490Z",
+  "generated_at": "2026-11-04T06:41:20.515Z",
   "tasks": [
     {
       "id": "wdy2xh30n0",
       "name": "Edit Homework Uploads",
-      "status": "to do",
+      "status": "in progress",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1793718845070,
+      "date_updated": 1793773465020,
       "assignees": [
         "Bea Shakjiri",
         "Okkert"
