@@ -30,7 +30,48 @@ const PROJECT_FIELD_ID = 'f5f09764-8847-4751-8dc8-ae7f2447d059';
 const PROGRESS_FIELD_ID = '5c9d36d8-ea95-4740-8234-a05ca8c38ac7';
 const OUTPUT_PATH = path.join(__dirname, '..', 'data.json');
 const HISTORY_PATH = path.join(__dirname, '..', 'history.json');
-const HISTORY_MAX_ENTRIES = 4000; // ~41 days at a 15-min cadence — plenty for a trend view
+const HISTORY_MAX_ENTRIES = 4000; // safety net only; compactHistory() keeps the file far below this
+const HISTORY_FULL_DETAIL_DAYS = 14; // keep every 15-minute point for this long, then one point per day
+
+// Keeps full detail for the last two weeks and one point per day before that, so the trend can
+// cover months instead of being cut off after ~42 days. The kept point for each old day is the
+// median by V1 dev hours, so a one-cycle glitch can't be the one that survives.
+function compactHistory(history, nowMs) {
+  const cutoff = nowMs - HISTORY_FULL_DETAIL_DAYS * 86400000;
+  const recent = [];
+  const byDay = new Map();
+  for (const h of history) {
+    if (new Date(h.t).getTime() >= cutoff) { recent.push(h); continue; }
+    const day = h.t.slice(0, 10);
+    if (!byDay.has(day)) byDay.set(day, []);
+    byDay.get(day).push(h);
+  }
+  const thinned = [];
+  for (const day of [...byDay.keys()].sort()) {
+    const list = byDay.get(day).sort((a, b) => (a.v1_dev_hours || 0) - (b.v1_dev_hours || 0));
+    thinned.push(list[Math.floor(list.length / 2)]);
+  }
+  return [...thinned, ...recent];
+}
+// One-time repair of the 3-5 Nov readings. On 3 Nov five tasks moved from Pre Launch to Post
+// Launch, and until Post Launch was excluded from dev hours those readings counted their hours as
+// build work (V1 +61h, V2 +1,070h), which drew a false spike in the trend chart. Readings written
+// by the current code carry post_launch_hours, so this only touches the old ones, it only fires if
+// the Pre Launch drop matches those two figures exactly, and once repaired it never matches again.
+const POST_LAUNCH_V1_HOURS = 61;
+const POST_LAUNCH_V2_HOURS = 1070;
+function repairPostLaunchReadings(history) {
+  const total = POST_LAUNCH_V1_HOURS + POST_LAUNCH_V2_HOURS;
+  const first = history.findIndex((h, k) => k > 0
+    && h.post_launch_hours === undefined
+    && history[k - 1].pre_launch_hours !== undefined && h.pre_launch_hours !== undefined
+    && Math.abs((history[k - 1].pre_launch_hours - h.pre_launch_hours) - total) < 1);
+  if (first < 0) return history;
+  console.log(`Repairing history readings from ${history[first].t} onward (Post Launch hours were counted as dev hours).`);
+  return history.map((h, k) => (k >= first && h.post_launch_hours === undefined)
+    ? { ...h, v1_dev_hours: h.v1_dev_hours - POST_LAUNCH_V1_HOURS, v2_dev_hours: h.v2_dev_hours - POST_LAUNCH_V2_HOURS, post_launch_hours: total }
+    : h);
+}
 const CHANGELOG_PATH = path.join(__dirname, '..', 'changelog.json');
 const CHANGELOG_MAX_ENTRIES = 500; // individual change events, not runs — a busy day can use these up faster than history.json's entries
 const MAX_CONCURRENT = 1; // fully sequential — no reason to risk concurrency now this runs unattended
@@ -136,14 +177,27 @@ async function main() {
   });
   console.log(`Found ${epics.length} version-tagged epics. Walking subtask trees…`);
 
+  // Last good values from the previous run. If ClickUp fails for one task after all retries, we
+  // keep its last known hours instead of reporting "unknown" — otherwise a one-cycle glitch shows
+  // up as a fake drop in the history chart and a pair of fake changes in the changelog.
+  const lastKnownHours = new Map();
+  try {
+    if (fs.existsSync(OUTPUT_PATH)) {
+      for (const pt of (JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8')).tasks || [])) {
+        lastKnownHours.set(pt.id, pt.time_estimate_hours);
+      }
+    }
+  } catch { /* no usable previous file, so nothing to carry forward */ }
+
   const results = await Promise.all(epics.map(async t => {
     const version = versionLabel(t);
     let hours;
     try {
       hours = await fetchSubtreeHours(t.id);
     } catch (err) {
-      console.warn(`Giving up on hours for "${t.name}" (${t.id}) after retries: ${err.message}`);
-      hours = null; // one bad task shouldn't take down the whole run
+      const carried = lastKnownHours.has(t.id) ? lastKnownHours.get(t.id) : null;
+      console.warn(`Giving up on hours for "${t.name}" (${t.id}) after retries: ${err.message} — keeping last known value (${carried})`);
+      hours = carried; // one bad task shouldn't take down the whole run, or fake a change
     }
     const project = getCustomFieldValue(t, PROJECT_FIELD_ID) || 'Unassigned';
     const progressRaw = getCustomFieldValue(t, PROGRESS_FIELD_ID);
@@ -247,12 +301,17 @@ async function main() {
   const sum = (list) => list.reduce((a, b) => a + (b.time_estimate_hours || 0), 0);
   const snapshot = {
     t: output.generated_at,
-    // Pre Launch is excluded from dev hours (matches the dashboard cards) and tracked on its own line.
-    v1_dev_hours: sum(results.filter(r => r.version === 'v1' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch')),
-    v2_dev_hours: sum(results.filter(r => r.version === 'v2' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch')),
+    // Pre Launch and Post Launch are excluded from dev hours (matches the dashboard cards) and
+    // tracked on their own lines. 'in review' (built, awaiting department review) is tracked
+    // separately from testing, and like testing it is not counted as build work.
+    v1_dev_hours: sum(results.filter(r => r.version === 'v1' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch' && r.project !== 'Post Launch')),
+    v2_dev_hours: sum(results.filter(r => r.version === 'v2' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch' && r.project !== 'Post Launch')),
     pre_launch_hours: sum(results.filter(r => DEV_STATUSES.includes(r.status) && r.project === 'Pre Launch')),
+    post_launch_hours: sum(results.filter(r => DEV_STATUSES.includes(r.status) && r.project === 'Post Launch')),
     v1_testing_hours: sum(results.filter(r => r.version === 'v1' && r.status === 'testing')),
     v2_testing_hours: sum(results.filter(r => r.version === 'v2' && r.status === 'testing')),
+    v1_review_hours: sum(results.filter(r => r.version === 'v1' && r.status === 'in review')),
+    v2_review_hours: sum(results.filter(r => r.version === 'v2' && r.status === 'in review')),
   };
 
   let history = [];
@@ -260,11 +319,13 @@ async function main() {
     try {
       history = JSON.parse(fs.readFileSync(HISTORY_PATH, 'utf8'));
       if (!Array.isArray(history)) history = [];
+      history = repairPostLaunchReadings(history);
     } catch {
       history = []; // corrupt/unreadable — start fresh rather than fail the whole run
     }
   }
   history.push(snapshot);
+  history = compactHistory(history, Date.parse(output.generated_at));
   if (history.length > HISTORY_MAX_ENTRIES) {
     history = history.slice(history.length - HISTORY_MAX_ENTRIES);
   }
