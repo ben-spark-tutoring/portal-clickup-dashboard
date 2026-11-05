@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T12:11:36.503Z",
+  "generated_at": "2026-11-05T12:26:09.549Z",
   "tasks": [
     {
       "id": "wdy2xh31jm",
@@ -812,8 +812,8 @@
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
-      "due_date": 1790733600000,
-      "date_updated": 1789734280774,
+      "due_date": null,
+      "date_updated": 1793880746730,
       "assignees": [
         "Okkert"
       ]
@@ -872,8 +872,8 @@
       "time_estimate_hours": 50,
       "has_subtasks": true,
       "progress_pct": 50,
-      "due_date": 1783386000000,
-      "date_updated": 1789041732590,
+      "due_date": null,
+      "date_updated": 1793880748011,
       "assignees": [
         "Davut Bayık"
       ]
@@ -902,8 +902,8 @@
       "time_estimate_hours": 7,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1788141600000,
-      "date_updated": 1789041732590,
+      "due_date": null,
+      "date_updated": 1793880747336,
       "assignees": [
         "Davut Bayık"
       ]
@@ -932,8 +932,8 @@
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
-      "due_date": 1787882400000,
-      "date_updated": 1789734230331,
+      "due_date": null,
+      "date_updated": 1793880746122,
       "assignees": [
         "Okkert"
       ]
@@ -1275,8 +1275,8 @@
       "time_estimate_hours": 16,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1784854800000,
-      "date_updated": 1789733989224,
+      "due_date": null,
+      "date_updated": 1793880745445,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1322,8 +1322,8 @@
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
-      "due_date": 1785466800000,
-      "date_updated": 1789734051736,
+      "due_date": null,
+      "date_updated": 1793880744532,
       "assignees": [
         "Okkert"
       ]
@@ -1352,8 +1352,8 @@
       "time_estimate_hours": 16,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1786932000000,
-      "date_updated": 1789734106875,
+      "due_date": null,
+      "date_updated": 1793880743730,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1367,8 +1367,8 @@
       "time_estimate_hours": 40,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1783648800000,
-      "date_updated": 1790068010744,
+      "due_date": null,
+      "date_updated": 1793880742968,
       "assignees": [
         "Okkert"
       ]
@@ -1397,8 +1397,8 @@
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1785459600000,
-      "date_updated": 1789734017788,
+      "due_date": null,
+      "date_updated": 1793880742188,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1427,8 +1427,8 @@
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
-      "due_date": 1787540400000,
-      "date_updated": 1789734148123,
+      "due_date": null,
+      "date_updated": 1793880741245,
       "assignees": [
         "Okkert"
       ]
@@ -1517,8 +1517,8 @@
       "time_estimate_hours": 10,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1786064400000,
-      "date_updated": 1789734261247,
+      "due_date": null,
+      "date_updated": 1793880740388,
       "assignees": [
         "Davut Bayık"
       ]
