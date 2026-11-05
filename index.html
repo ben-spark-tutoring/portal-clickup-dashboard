@@ -54,7 +54,7 @@
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
     gap: 14px;
     margin-bottom: 28px;
   }
@@ -281,7 +281,7 @@
 
   <div class="panels">
     <div class="panel full">
-      <h2>Dev Hours Remaining by Business Area (excl. Testing &amp; Pre Launch)</h2>
+      <h2>Dev Hours Remaining by Business Area (excl. sign-off queue, Pre &amp; Post Launch)</h2>
       <div class="tall-chart"><canvas id="projectChart"></canvas></div>
     </div>
   </div>
@@ -294,11 +294,11 @@
 
   <div class="panels">
     <div class="panel full">
-      <h2>Testing Bottleneck</h2>
-      <div class="calc-caveat" style="margin-bottom:10px;">Tasks sitting in Testing, oldest last-updated first. This is done-but-unverified work — hours here aren't counted in "remaining" totals elsewhere, but a task sitting untouched for weeks is worth a look.</div>
+      <h2>Awaiting Sign-off (Testing &amp; In Review)</h2>
+      <div class="calc-caveat" style="margin-bottom:10px;">Built work waiting for the relevant department to test or review it, oldest last-updated first. Hours here aren't counted in "remaining" totals elsewhere, but a task sitting untouched for weeks is worth a look.</div>
       <div class="table-scroll">
         <table>
-          <thead><tr><th>Task</th><th>Version</th><th>Project</th><th class="num">Hours</th><th class="num">Last Updated</th></tr></thead>
+          <thead><tr><th>Task</th><th>Status</th><th>Version</th><th>Project</th><th class="num">Hours</th><th class="num">Last Updated</th></tr></thead>
           <tbody id="testing-table"></tbody>
         </table>
       </div>
@@ -334,7 +334,7 @@
   <div class="panel full" style="margin-bottom:18px;">
     <h2>Dev Hours Remaining by Assignee</h2>
     <div class="tall-chart"><canvas id="assigneeChart"></canvas></div>
-    <div class="calc-caveat" style="margin-top:10px;">Excludes Testing, Complete and Pre Launch, same basis as the business-area chart. Tasks with multiple assignees count toward each of them (not split).</div>
+    <div class="calc-caveat" style="margin-top:10px;">Excludes work awaiting sign-off, Complete, Pre Launch and Post Launch, same basis as the business-area chart. Tasks with multiple assignees count toward each of them (not split).</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -344,10 +344,11 @@
       <label>Hours/week each <input type="number" id="calc-devhrs" value="30" min="0" step="1"></label>
       <label>Contingency buffer (days) <input type="number" id="calc-buffer" value="14" min="0" step="1"></label>
       <label>Pre Launch &amp; infra hours/week <input type="number" id="calc-prehrs" placeholder="same as dev team" min="0" step="1"></label>
+      <label>Pre Launch work alongside dev (%) <input type="number" id="calc-parallel" value="20" min="0" max="100" step="5"></label>
     </div>
     <div class="calc-results" id="calc-results"></div>
     <div class="calc-caveat" id="calc-launch-notes" style="margin-bottom:10px;"></div>
-    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> already sitting in Testing, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
+    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off in testing or review, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -418,26 +419,34 @@ document.getElementById('updated-line').textContent = 'Generated ' + now.toLocal
 // (they're being verified, not developed) so their hours are set aside, not counted here.
 // "complete" tasks are dropped from this report entirely — not part of what we track weekly.
 const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure'];
-const TRACKED_STATUSES = [...DEV_STATUSES, 'testing'];
+// 'in review' = built, waiting for the relevant department to review it. Treated like testing:
+// tracked and visible everywhere, but not counted as build work still to do.
+const WAITING_STATUSES = ['testing', 'in review'];
+const TRACKED_STATUSES = [...DEV_STATUSES, ...WAITING_STATUSES];
 const completeCount = DATA.filter(t => t.status === 'complete').length;
 const incomplete = DATA.filter(t => TRACKED_STATUSES.includes(t.status));
 // Pre Launch (launch-readiness: comms, migration, infra setup) is deliberately kept OUT of
 // the dev-hours figures and shown as its own separate line instead.
 const isPreLaunch = t => t.project === 'Pre Launch';
-const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && !isPreLaunch(t));
+// Post Launch work (client/tutor migration, post-rollout admin) happens after launch, so it is
+// kept out of the dev hours too and reported on its own line.
+const isPostLaunch = t => t.project === 'Post Launch';
+const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && !isPreLaunch(t) && !isPostLaunch(t));
 const preLaunchWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && isPreLaunch(t));
+const postLaunchWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && isPostLaunch(t));
 const testingWork = DATA.filter(t => t.status === 'testing');
+const waitingWork = DATA.filter(t => WAITING_STATUSES.includes(t.status));
 
 // --- Tasks Remaining for V1 Launch: everything V1 that isn't complete yet,
 // biggest hours first. Deliberately includes Testing here (unlike the "Dev
 // Hours Remaining" card above) — a task isn't launch-ready until it clears
 // testing, even though its hours don't count toward "dev work left to build".
 const v1Remaining = incomplete
-  .filter(t => t.version === 'v1')
+  .filter(t => t.version === 'v1' && !isPostLaunch(t))
   .sort((a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1));
 const v1RemainingMissing = v1Remaining.filter(t => t.time_estimate_hours === null).length;
 document.getElementById('v1-remaining-caveat').textContent =
-  v1Remaining.length + ' V1 tasks are not yet complete (includes Testing-stage work, unlike the Dev Hours Remaining card above, which excludes it). ' +
+  v1Remaining.length + ' V1 tasks still stand between us and launch (Post Launch work is left out). This includes work awaiting sign-off in testing or review, unlike the Dev Hours Remaining card above, which excludes it. ' +
   v1RemainingMissing + ' of these have no time estimate set — they\'re listed but sort to the bottom.';
 
 // Grouped view: one section per status, biggest total-hours group first,
@@ -462,7 +471,7 @@ document.getElementById('v1-remaining-grouped').innerHTML = groupOrder.map(statu
   const total = sum(tasks, 'time_estimate_hours');
   return `<div class="status-group">
     <div class="status-group-header">
-      <span class="name">${status}${status === 'testing' ? ' (in testing)' : ''}</span>
+      <span class="name">${status}${status === 'testing' ? ' (in testing)' : status === 'in review' ? ' (built, awaiting department review)' : ''}</span>
       <span class="meta">${tasks.length} task${tasks.length === 1 ? '' : 's'} · ${total.toFixed(1)}h</span>
     </div>
     <table><tbody>${tasks.map(renderGroupedRow).join('')}</tbody></table>
@@ -473,7 +482,7 @@ document.getElementById('v1-remaining-grouped').innerHTML = groupOrder.map(statu
 document.getElementById('v1-remaining-table').innerHTML = v1Remaining.map(t => `
   <tr>
     <td>${t.name}</td>
-    <td>${t.status}${t.status === 'testing' ? ' <span style="color:var(--text-muted);">(in testing)</span>' : ''}</td>
+    <td>${t.status}${t.status === 'testing' ? ' <span style="color:var(--text-muted);">(in testing)</span>' : t.status === 'in review' ? ' <span style="color:var(--text-muted);">(awaiting review)</span>' : ''}</td>
     <td>${t.project}</td>
     <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
   </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Nothing left for V1 — fully complete.</td></tr>';
@@ -496,15 +505,35 @@ document.querySelectorAll('#v1-remaining-view-toggle .filter-btn').forEach(btn =
 });
 
 // --- Trend chart: hours remaining over time, from history.json ---
-if (HISTORY.length >= 2) {
-  const labels = HISTORY.map(h => new Date(h.t).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }));
+// One point per day. history.json holds every 15-minute reading for the last two weeks and one
+// point per day before that, so charting it raw would squeeze the older weeks into a sliver.
+// Each past day uses its median reading (which also shrugs off one-cycle glitches); the most
+// recent day uses the latest reading so the chart ends on the current figure.
+function dailyPoints(history) {
+  const byDay = new Map();
+  for (const h of history) {
+    const day = h.t.slice(0, 10);
+    if (!byDay.has(day)) byDay.set(day, []);
+    byDay.get(day).push(h);
+  }
+  const days = [...byDay.keys()].sort();
+  return days.map((day, i) => {
+    const list = byDay.get(day);
+    if (i === days.length - 1) return list[list.length - 1];
+    const sorted = [...list].sort((a, b) => (a.v1_dev_hours || 0) - (b.v1_dev_hours || 0));
+    return sorted[Math.floor(sorted.length / 2)];
+  });
+}
+const TREND = dailyPoints(HISTORY);
+if (TREND.length >= 2) {
+  const labels = TREND.map(h => new Date(h.t).toLocaleDateString('en-GB', { day:'numeric', month:'short' }));
   new Chart(document.getElementById('trendChart'), {
     type: 'line',
     data: {
       labels,
       datasets: [
-        { label: 'V1 dev hours remaining', data: HISTORY.map(h => h.v1_dev_hours), borderColor: '#2563eb', backgroundColor: 'transparent', tension: 0.2 },
-        { label: 'V2 dev hours remaining', data: HISTORY.map(h => h.v2_dev_hours), borderColor: '#f97316', backgroundColor: 'transparent', tension: 0.2 },
+        { label: 'V1 dev hours remaining', data: TREND.map(h => h.v1_dev_hours), borderColor: '#2563eb', backgroundColor: 'transparent', tension: 0.2 },
+        { label: 'V2 dev hours remaining', data: TREND.map(h => h.v2_dev_hours), borderColor: '#f97316', backgroundColor: 'transparent', tension: 0.2 },
       ]
     },
     options: {
@@ -514,7 +543,7 @@ if (HISTORY.length >= 2) {
     }
   });
   document.getElementById('trend-caveat').textContent =
-    HISTORY.length + ' snapshots since ' + new Date(HISTORY[0].t).toLocaleDateString('en-GB') + ', recorded automatically every refresh.';
+    TREND.length + ' days of history since ' + new Date(TREND[0].t).toLocaleDateString('en-GB') + ', one point per day. Steps in the lines can come from changes to how hours are counted (Pre Launch has been excluded since 8 Oct; Post Launch is now excluded and "in review" is treated as awaiting sign-off), not only from real movement.';
 } else {
   document.getElementById('trendChart').style.display = 'none';
   document.getElementById('trend-caveat').textContent =
@@ -567,17 +596,18 @@ document.getElementById('changelog-caveat').textContent =
 renderChangelog();
 
 // --- Testing bottleneck: testing-status tasks, oldest last-updated first ---
-const testingSorted = [...testingWork].sort((a, b) => (a.date_updated || 0) - (b.date_updated || 0));
+const testingSorted = [...waitingWork].sort((a, b) => (a.date_updated || 0) - (b.date_updated || 0));
 document.getElementById('testing-table').innerHTML = testingSorted.map(t => {
   const days = t.date_updated ? Math.floor((Date.now() - t.date_updated) / 86400000) : null;
   return `<tr>
     <td>${t.name}</td>
+    <td>${t.status}</td>
     <td><span class="tag tag-${t.version}">${t.version.toUpperCase()}</span></td>
     <td>${t.project}</td>
     <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
     <td class="num">${days !== null ? days + 'd ago' : '—'}</td>
   </tr>`;
-}).join('') || '<tr><td colspan="5" style="color:var(--text-muted);">Nothing in Testing right now.</td></tr>';
+}).join('') || '<tr><td colspan="6" style="color:var(--text-muted);">Nothing awaiting sign-off right now.</td></tr>';
 
 // --- Overdue tasks: due date passed, not complete ---
 const overdue = incomplete
@@ -604,7 +634,7 @@ document.getElementById('missing-list-caveat').textContent =
 document.getElementById('missing-table').innerHTML = missingEstList.map(t => `
   <tr>
     <td>${t.name}</td>
-    <td>${t.status}${t.status === 'testing' ? ' (excluded from remaining-hours anyway)' : ''}</td>
+    <td>${t.status}${WAITING_STATUSES.includes(t.status) ? ' (excluded from remaining-hours anyway)' : ''}</td>
     <td><span class="tag tag-${t.version}">${t.version.toUpperCase()}</span></td>
     <td>${t.project}</td>
   </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Every tracked task has an estimate. 🎉</td></tr>';
@@ -637,7 +667,7 @@ new Chart(document.getElementById('assigneeChart'), {
 
 const missingEstDev = devWork.filter(t => t.time_estimate_hours === null).length;
 document.getElementById('missing-note').textContent =
-  missingEstDev + ' of ' + devWork.length + ' open v1/v2 dev tasks (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure) have no time estimate set yet, so the hours-remaining totals below are a floor, not the true total. Tasks already in Testing, and everything under the Pre Launch project, are excluded from these totals — both are tracked separately.';
+  missingEstDev + ' of ' + devWork.length + ' open v1/v2 dev tasks (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure) have no time estimate set yet, so the hours-remaining totals below are a floor, not the true total. Tasks awaiting sign-off (testing or in review), and everything under the Pre Launch and Post Launch projects, are excluded from these totals — all are tracked separately.';
 
 function sum(arr, key) { return arr.reduce((a,b) => a + (b[key] || 0), 0); }
 
@@ -645,21 +675,24 @@ const v1 = incomplete.filter(t => t.version === 'v1');
 const v2 = incomplete.filter(t => t.version === 'v2');
 const v1Dev = devWork.filter(t => t.version === 'v1');
 const v2Dev = devWork.filter(t => t.version === 'v2');
-const v1Testing = testingWork.filter(t => t.version === 'v1');
-const v2Testing = testingWork.filter(t => t.version === 'v2');
+const v1Waiting = waitingWork.filter(t => t.version === 'v1');
+const v2Waiting = waitingWork.filter(t => t.version === 'v2');
 const v1HoursRemaining = sum(v1Dev, 'time_estimate_hours');
 const v2HoursRemaining = sum(v2Dev, 'time_estimate_hours');
-const v1TestingHours = sum(v1Testing, 'time_estimate_hours');
-const v2TestingHours = sum(v2Testing, 'time_estimate_hours');
+const v1WaitingHours = sum(v1Waiting, 'time_estimate_hours');
+const v2WaitingHours = sum(v2Waiting, 'time_estimate_hours');
 const preLaunchHours = sum(preLaunchWork, 'time_estimate_hours');
 const preLaunchMissing = preLaunchWork.filter(t => t.time_estimate_hours === null).length;
+const postLaunchHours = sum(postLaunchWork, 'time_estimate_hours');
+const postLaunchMissing = postLaunchWork.filter(t => t.time_estimate_hours === null).length;
 
 const cards = [
   { label: 'Tracked Tasks (v1+v2)', value: incomplete.length, sub: completeCount + ' complete tasks excluded from this report', cls: '' },
-  { label: 'V1 Dev Hours Remaining', value: v1HoursRemaining.toFixed(1) + 'h', sub: v1Dev.length + ' dev tasks · ' + v1Testing.length + ' more in testing (' + v1TestingHours.toFixed(1) + 'h, not counted)', cls: 'v1-accent' },
-  { label: 'V2 Dev Hours Remaining', value: v2HoursRemaining.toFixed(1) + 'h', sub: v2Dev.length + ' dev tasks · ' + v2Testing.length + ' in testing', cls: 'v2-accent' },
+  { label: 'V1 Dev Hours Remaining', value: v1HoursRemaining.toFixed(1) + 'h', sub: v1Dev.length + ' dev tasks · ' + v1Waiting.length + ' more awaiting sign-off (' + v1WaitingHours.toFixed(1) + 'h in testing or review, not counted)', cls: 'v1-accent' },
+  { label: 'V2 Dev Hours Remaining', value: v2HoursRemaining.toFixed(1) + 'h', sub: v2Dev.length + ' dev tasks · ' + v2Waiting.length + ' awaiting sign-off', cls: 'v2-accent' },
   { label: 'Combined Dev Remaining', value: (v1HoursRemaining + v2HoursRemaining).toFixed(1) + 'h', sub: (v1Dev.length + v2Dev.length) + ' dev tasks total', cls: '' },
   { label: 'Pre Launch Hours (separate)', value: preLaunchHours.toFixed(1) + 'h', sub: preLaunchWork.length + ' open tasks · not included in dev totals' + (preLaunchMissing ? ' · ' + preLaunchMissing + ' with no estimate' : ''), cls: '' },
+  { label: 'Post Launch Hours (separate)', value: postLaunchHours.toFixed(1) + 'h', sub: postLaunchWork.length + ' open tasks · happens after launch, not in any total above' + (postLaunchMissing ? ' · ' + postLaunchMissing + ' with no estimate' : ''), cls: '' },
 ];
 document.getElementById('summary-cards').innerHTML = cards.map(c => `
   <div class="card">
@@ -669,7 +702,7 @@ document.getElementById('summary-cards').innerHTML = cards.map(c => `
   </div>`).join('');
 
 // Status breakdown (stacked by version) — "complete" is dropped, not a status we're tracking here
-const REPORT_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure', 'testing'];
+const REPORT_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure', 'testing', 'in review'];
 const statuses = REPORT_STATUSES.filter(s => DATA.some(t => t.status === s))
   .sort((a,b) => DATA.filter(t=>t.status===b).length - DATA.filter(t=>t.status===a).length);
 const statusV1 = statuses.map(s => DATA.filter(t => t.status === s && t.version === 'v1').length);
@@ -711,7 +744,7 @@ function projectTags(project) {
 function taskHasTag(task, tag) { return projectTags(task.project).includes(tag); }
 
 // Project hours breakdown (dev hours only — excludes testing and complete)
-const projects = [...new Set(DATA.flatMap(t => projectTags(t.project)))].filter(p => p !== 'Pre Launch'); // Pre Launch is reported on its own card, not in dev hours
+const projects = [...new Set(DATA.flatMap(t => projectTags(t.project)))].filter(p => p !== 'Pre Launch' && p !== 'Post Launch'); // reported on their own cards, not in dev hours
 const projHoursV1 = projects.map(p => sum(devWork.filter(t => taskHasTag(t, p) && t.version === 'v1'), 'time_estimate_hours'));
 const projHoursV2 = projects.map(p => sum(devWork.filter(t => taskHasTag(t, p) && t.version === 'v2'), 'time_estimate_hours'));
 const projOrder = projects.map((p,i) => ({p, total: projHoursV1[i] + projHoursV2[i]})).sort((a,b) => b.total - a.total).map(x => x.p);
@@ -829,9 +862,9 @@ projectSelect.addEventListener('change', () => {
 renderTable();
 
 // --- Projected V1 completion date calculator ---
-const v1RemainingHours = v1HoursRemaining; // dev-only, excl testing, from cards logic above
+const v1RemainingHours = v1HoursRemaining; // dev-only: excl. sign-off queue, Pre Launch and Post Launch (see cards logic above)
 document.getElementById('calc-basis-hours').textContent = v1RemainingHours.toFixed(1) + 'h';
-document.getElementById('calc-testing-hours').textContent = v1TestingHours.toFixed(1) + 'h';
+document.getElementById('calc-testing-hours').textContent = v1WaitingHours.toFixed(1) + 'h';
 document.getElementById('calc-prelaunch-hours').textContent = preLaunchHours.toFixed(1) + 'h';
 document.getElementById('calc-missing-count').textContent = v1Dev.filter(t => t.time_estimate_hours === null).length;
 
@@ -867,14 +900,21 @@ function runCalculator() {
   const workEnd = addDays(today, daysOfWork);
   const devCompletion = addDays(workEnd, bufferDays);
 
-  // Launch = dev completion, THEN the Pre Launch work (infrastructure tasks included, since
-  // they sit under Pre Launch). Same weekly capacity unless the extra input is filled in.
+  // Launch: Pre Launch work is mostly AFTER dev, with a share that can run ALONGSIDE it.
+  // The "after" part starts at dev completion; the "alongside" part starts today. Launch is
+  // whichever of the two finishes later. Same weekly capacity unless the extra input is filled in.
   const preInput = parseFloat(document.getElementById('calc-prehrs').value);
   const preWeekly = preInput > 0 ? preInput : weeklyHours;
+  const rawShare = parseFloat(document.getElementById('calc-parallel').value);
+  const alongsidePct = Number.isFinite(rawShare) ? Math.min(100, Math.max(0, rawShare)) : 0;
+  const alongsideHours = preLaunchHours * alongsidePct / 100;
+  const afterHours = preLaunchHours - alongsideHours;
+  const alongsideDays = alongsideHours > 0 ? Math.ceil(alongsideHours / (preWeekly / 7)) : 0;
+  const afterDays = afterHours > 0 ? Math.ceil(afterHours / (preWeekly / 7)) : 0;
+  const afterEnd = addDays(devCompletion, afterDays);
+  const alongsideEnd = addDays(today, alongsideDays);
+  const launchDate = alongsideEnd > afterEnd ? alongsideEnd : afterEnd;
   const preInfraHours = sum(preLaunchWork.filter(t => t.status === 'infrastructure'), 'time_estimate_hours');
-  const preOtherHours = preLaunchHours - preInfraHours;
-  const preDays = preLaunchHours > 0 ? Math.ceil(preLaunchHours / (preWeekly / 7)) : 0;
-  const launchDate = addDays(devCompletion, preDays);
 
   out.innerHTML = `<div class="calc-result-card">
     <div class="scenario">Projected V1 dev completion</div>
@@ -884,7 +924,7 @@ function runCalculator() {
   <div class="calc-result-card expected">
     <div class="scenario">Estimated portal launch</div>
     <div class="date">${fmtDate(launchDate)}</div>
-    <div class="weeks">Dev completion + ${preLaunchHours.toFixed(1)}h of Pre Launch work (${preInfraHours.toFixed(1)}h infrastructure, ${preOtherHours.toFixed(1)}h other) at ${preWeekly}h/week = ${preDays}d</div>
+    <div class="weeks">Of ${preLaunchHours.toFixed(1)}h Pre Launch work, ${afterHours.toFixed(1)}h happens after dev (${afterDays}d at ${preWeekly}h/week) and ${alongsideHours.toFixed(1)}h (${alongsidePct}%) runs alongside dev${alongsideEnd > afterEnd ? ' and is the longer path' : ''}</div>
   </div>`;
 
   // Notes that explain what is (and isn't) in the launch date
@@ -896,6 +936,7 @@ function runCalculator() {
   if (preDone.length) {
     lines.push(`${preDone.length} Pre Launch task${preDone.length === 1 ? ' is' : 's are'} at 100% progress but still open (${preDone.map(t => t.name).slice(0, 3).join(', ')}${preDone.length > 3 ? '…' : ''}; ${sum(preDone, 'time_estimate_hours').toFixed(1)}h) — moving ${preDone.length === 1 ? 'it' : 'them'} to Complete would bring the launch date forward.`);
   }
+  lines.push(`The ${alongsidePct}% alongside-dev share is an assumption, so set it to your own view. For reference, infrastructure tasks, which are already underway during dev, are ${preLaunchHours ? Math.round(preInfraHours / preLaunchHours * 100) : 0}% of Pre Launch hours.`);
   const infraElsewhere = devWork.filter(t => t.status === 'infrastructure');
   lines.push(infraElsewhere.length
     ? `${infraElsewhere.length} infrastructure task${infraElsewhere.length === 1 ? '' : 's'} in other projects (${sum(infraElsewhere, 'time_estimate_hours').toFixed(1)}h) already ${infraElsewhere.length === 1 ? 'sits' : 'sit'} inside the dev hours, so ${infraElsewhere.length === 1 ? 'it is' : 'they are'} not added again.`
@@ -907,7 +948,7 @@ function runCalculator() {
   notes.textContent = lines.join(' ');
 }
 
-['calc-devs', 'calc-devhrs', 'calc-buffer', 'calc-prehrs'].forEach(id => {
+['calc-devs', 'calc-devhrs', 'calc-buffer', 'calc-prehrs', 'calc-parallel'].forEach(id => {
   document.getElementById(id).addEventListener('change', runCalculator);
 });
 runCalculator();
