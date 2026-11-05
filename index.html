@@ -338,13 +338,15 @@
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
-    <h2>Projected V1 Dev Completion</h2>
+    <h2>Projected Dev Completion &amp; Portal Launch</h2>
     <div class="calc-grid">
       <label>Developers <input type="number" id="calc-devs" value="3" min="0" step="1"></label>
       <label>Hours/week each <input type="number" id="calc-devhrs" value="30" min="0" step="1"></label>
       <label>Contingency buffer (days) <input type="number" id="calc-buffer" value="14" min="0" step="1"></label>
+      <label>Pre Launch &amp; infra hours/week <input type="number" id="calc-prehrs" placeholder="same as dev team" min="0" step="1"></label>
     </div>
     <div class="calc-results" id="calc-results"></div>
+    <div class="calc-caveat" id="calc-launch-notes" style="margin-bottom:10px;"></div>
     <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> already sitting in Testing, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
   </div>
 
@@ -842,29 +844,70 @@ function runCalculator() {
   const bufferDays = parseInt(document.getElementById('calc-buffer').value, 10) || 0;
   const weeklyHours = devs * devHrs;
   const out = document.getElementById('calc-results');
+  const notes = document.getElementById('calc-launch-notes');
 
   if (weeklyHours <= 0) {
-    out.innerHTML = `<div class="calc-result-card expected">
+    out.innerHTML = `<div class="calc-result-card">
       <div class="scenario">Projected V1 dev completion</div>
       <div class="date">—</div>
       <div class="weeks">Enter at least one developer and some weekly hours.</div>
+    </div>
+    <div class="calc-result-card expected">
+      <div class="scenario">Estimated portal launch</div>
+      <div class="date">—</div>
+      <div class="weeks">Needs a dev completion date first.</div>
     </div>`;
+    notes.textContent = '';
     return;
   }
 
-  // Constant capacity: everyone works the same hours every week from today.
+  // Dev completion: constant capacity from today, then the contingency buffer.
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const daysOfWork = Math.ceil(v1RemainingHours / (weeklyHours / 7));
   const workEnd = addDays(today, daysOfWork);
-  const finalDate = addDays(workEnd, bufferDays);
-  out.innerHTML = `<div class="calc-result-card expected">
+  const devCompletion = addDays(workEnd, bufferDays);
+
+  // Launch = dev completion, THEN the Pre Launch work (infrastructure tasks included, since
+  // they sit under Pre Launch). Same weekly capacity unless the extra input is filled in.
+  const preInput = parseFloat(document.getElementById('calc-prehrs').value);
+  const preWeekly = preInput > 0 ? preInput : weeklyHours;
+  const preInfraHours = sum(preLaunchWork.filter(t => t.status === 'infrastructure'), 'time_estimate_hours');
+  const preOtherHours = preLaunchHours - preInfraHours;
+  const preDays = preLaunchHours > 0 ? Math.ceil(preLaunchHours / (preWeekly / 7)) : 0;
+  const launchDate = addDays(devCompletion, preDays);
+
+  out.innerHTML = `<div class="calc-result-card">
     <div class="scenario">Projected V1 dev completion</div>
-    <div class="date">${fmtDate(finalDate)}</div>
+    <div class="date">${fmtDate(devCompletion)}</div>
     <div class="weeks">${(daysOfWork / 7).toFixed(1)} weeks of work at ${weeklyHours}h/week (${devs} × ${devHrs}h) ends ${fmtDate(workEnd)}, plus ${bufferDays}d buffer</div>
+  </div>
+  <div class="calc-result-card expected">
+    <div class="scenario">Estimated portal launch</div>
+    <div class="date">${fmtDate(launchDate)}</div>
+    <div class="weeks">Dev completion + ${preLaunchHours.toFixed(1)}h of Pre Launch work (${preInfraHours.toFixed(1)}h infrastructure, ${preOtherHours.toFixed(1)}h other) at ${preWeekly}h/week = ${preDays}d</div>
   </div>`;
+
+  // Notes that explain what is (and isn't) in the launch date
+  const lines = [];
+  if (preLaunchMissing) {
+    lines.push(`${preLaunchMissing} open Pre Launch task${preLaunchMissing === 1 ? ' has' : 's have'} no time estimate and ${preLaunchMissing === 1 ? 'adds' : 'add'} nothing here, so the launch date is a floor.`);
+  }
+  const preDone = preLaunchWork.filter(t => t.progress_pct === 100 && t.time_estimate_hours);
+  if (preDone.length) {
+    lines.push(`${preDone.length} Pre Launch task${preDone.length === 1 ? ' is' : 's are'} at 100% progress but still open (${preDone.map(t => t.name).slice(0, 3).join(', ')}${preDone.length > 3 ? '…' : ''}; ${sum(preDone, 'time_estimate_hours').toFixed(1)}h) — moving ${preDone.length === 1 ? 'it' : 'them'} to Complete would bring the launch date forward.`);
+  }
+  const infraElsewhere = devWork.filter(t => t.status === 'infrastructure');
+  lines.push(infraElsewhere.length
+    ? `${infraElsewhere.length} infrastructure task${infraElsewhere.length === 1 ? '' : 's'} in other projects (${sum(infraElsewhere, 'time_estimate_hours').toFixed(1)}h) already ${infraElsewhere.length === 1 ? 'sits' : 'sit'} inside the dev hours, so ${infraElsewhere.length === 1 ? 'it is' : 'they are'} not added again.`
+    : 'Every infrastructure-status task currently sits under Pre Launch, so none is counted twice.');
+  const preDue = preLaunchWork.map(t => t.due_date).filter(Boolean);
+  if (preDue.length) {
+    lines.push(`For comparison, the latest due date on an open Pre Launch task in ClickUp is ${fmtDate(new Date(Math.max(...preDue)))}.`);
+  }
+  notes.textContent = lines.join(' ');
 }
 
-['calc-devs', 'calc-devhrs', 'calc-buffer'].forEach(id => {
+['calc-devs', 'calc-devhrs', 'calc-buffer', 'calc-prehrs'].forEach(id => {
   document.getElementById(id).addEventListener('change', runCalculator);
 });
 runCalculator();
