@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T08:11:32.671Z",
+  "generated_at": "2026-11-09T08:26:11.503Z",
   "tasks": [
     {
       "id": "wdy2xh31jm",
@@ -19,14 +19,14 @@
     {
       "id": "wdy2xh30n0",
       "name": "Edit Homework Uploads",
-      "status": "in review",
+      "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1793889931457,
+      "date_updated": 1794211478937,
       "assignees": [
         "Bea Shakjiri",
         "Okkert"
@@ -110,14 +110,14 @@
     {
       "id": "wdy2xh2gtu",
       "name": "Connect Protal to GHL",
-      "status": "in review",
+      "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 3,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1793957160753,
+      "date_updated": 1794211475025,
       "assignees": [
         "Bea Shakjiri"
       ]
