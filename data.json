@@ -1,17 +1,32 @@
 {
-  "generated_at": "2026-11-10T08:26:12.418Z",
+  "generated_at": "2026-11-10T08:41:24.434Z",
   "tasks": [
+    {
+      "id": "wdy2xh3ajk",
+      "name": "Progress Report",
+      "status": "in progress",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 8,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": 1794362400000,
+      "date_updated": 1794299132329,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh31jm",
       "name": "Survey Feedback Filter",
-      "status": "in review",
+      "status": "testing",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794297087373,
+      "date_updated": 1794298981450,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -185,14 +200,14 @@
     {
       "id": "wdy2xh17x3",
       "name": "Message Issue",
-      "status": "bugs",
+      "status": "testing",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 4,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1793601183719,
+      "date_updated": 1794299221831,
       "assignees": [
         "Okkert",
         "Bea Shakjiri"
