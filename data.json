@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T13:56:23.400Z",
+  "generated_at": "2026-11-12T14:11:47.307Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -656,7 +656,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1793701524442,
+      "date_updated": 1794491869279,
       "assignees": [
         "Davut Bayık"
       ]
