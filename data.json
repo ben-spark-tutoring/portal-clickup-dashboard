@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T11:41:37.766Z",
+  "generated_at": "2026-11-12T11:56:22.512Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -36,14 +36,14 @@
     {
       "id": "wdy2xh31jm",
       "name": "Survey Feedback Filter",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794298981450,
+      "date_updated": 1794483745848,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -51,14 +51,14 @@
     {
       "id": "wdy2xh30n0",
       "name": "Edit Homework Uploads",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794211478937,
+      "date_updated": 1794483745848,
       "assignees": [
         "Bea Shakjiri",
         "Okkert"
@@ -67,14 +67,14 @@
     {
       "id": "wdy2xh2wbw",
       "name": "Manual Password Creation",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Testing",
       "time_estimate_hours": 4,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1793607439319,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -112,14 +112,14 @@
     {
       "id": "wdy2xh2raj",
       "name": "Manual Chat Creations",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1793152800000,
-      "date_updated": 1793363448317,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -127,14 +127,14 @@
     {
       "id": "wdy2xh2pfb",
       "name": "Tutor Exits",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1793066400000,
-      "date_updated": 1793097108759,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -142,14 +142,14 @@
     {
       "id": "wdy2xh2gtu",
       "name": "Connect Protal to GHL",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 3,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794211475025,
+      "date_updated": 1794483745848,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -157,14 +157,14 @@
     {
       "id": "wdy2xh28ym",
       "name": "Pairings Flow",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 3,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1793174821648,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -172,14 +172,14 @@
     {
       "id": "wdy2xh27v0",
       "name": "Pricing on Stripe",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1792418195696,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -187,14 +187,14 @@
     {
       "id": "wdy2xh27ux",
       "name": "Sales Performance",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1792483030157,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -202,14 +202,14 @@
     {
       "id": "wdy2xh216k",
       "name": "SEN Test Result Binding to Tutors",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Pre Launch",
       "time_estimate_hours": 4,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1792112400000,
-      "date_updated": 1792410279290,
+      "date_updated": 1794483745848,
       "assignees": [
         "Bea Shakjiri"
       ]
@@ -217,14 +217,14 @@
     {
       "id": "wdy2xh17x3",
       "name": "Message Issue",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 4,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794299221831,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert",
         "Bea Shakjiri"
@@ -233,14 +233,14 @@
     {
       "id": "wdy2xh17wp",
       "name": "Error code on Talent Create",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 0.3333333333333333,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1790245198529,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -458,14 +458,14 @@
     {
       "id": "wdy2xh10re",
       "name": "Bad Debt Toggle",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 18,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1793105994987,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -473,14 +473,14 @@
     {
       "id": "wdy2xh0qu4",
       "name": "Feedback Button",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Portal Feedback",
       "time_estimate_hours": 1,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1793152800000,
-      "date_updated": 1793108521526,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -591,14 +591,14 @@
     {
       "id": "wdy2xgzvk3",
       "name": "Stripe Addition",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 212,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1793688300000,
-      "date_updated": 1791969815786,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -649,7 +649,7 @@
     {
       "id": "wdy2xgzj87",
       "name": "Commissions",
-      "status": "in review",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 168,
@@ -690,14 +690,14 @@
     {
       "id": "wdy2xgw65h",
       "name": "Login Logic",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 3,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1790080448966,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -792,14 +792,14 @@
     {
       "id": "wdy2xgujqr",
       "name": "SEN Certificate Template Change",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v2",
       "project": "SEN",
       "time_estimate_hours": 16,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1791543552344,
+      "date_updated": 1794483745848,
       "assignees": [
         "Davut Bayık",
         "Bea Shakjiri"
@@ -823,14 +823,14 @@
     {
       "id": "wdy2xgucn7",
       "name": "Show pop-up and stop support to failed parents",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 1,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1785373200000,
-      "date_updated": 1789734734307,
+      "date_updated": 1794483745848,
       "assignees": [
         "Davut Bayık"
       ]
@@ -913,14 +913,14 @@
     {
       "id": "86ba17fn9",
       "name": "MRR Goal",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 9,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1790042400000,
-      "date_updated": 1790246308254,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1001,14 +1001,14 @@
     {
       "id": "86b9vv8m8",
       "name": "Whereby Upgrade",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 7,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1790080450804,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1016,14 +1016,14 @@
     {
       "id": "86b9vv8kb",
       "name": "Tutor Inconsistencies",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 36,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782698400000,
-      "date_updated": 1793265600173,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1061,14 +1061,14 @@
     {
       "id": "86b9vv3rz",
       "name": "Response Tracker",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 35,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1783044000000,
-      "date_updated": 1789474524428,
+      "date_updated": 1794483890194,
       "assignees": [
         "Okkert"
       ]
@@ -1076,14 +1076,14 @@
     {
       "id": "86b9vv3re",
       "name": "Tutor Breaks",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 5,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1779933600000,
-      "date_updated": 1792402402750,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1121,14 +1121,14 @@
     {
       "id": "86b9vv3qm",
       "name": "Monthly Feedback",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 25,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782784800000,
-      "date_updated": 1789641381112,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1136,14 +1136,14 @@
     {
       "id": "86b9vv3pw",
       "name": "Credit Control",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops & Finance",
       "time_estimate_hours": 9,
       "has_subtasks": true,
       "progress_pct": 66.66666666666666,
       "due_date": 1782784800000,
-      "date_updated": 1789735193410,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1181,14 +1181,14 @@
     {
       "id": "86b9vv3nt",
       "name": "Summer  Breaks",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 6,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782180000000,
-      "date_updated": 1790080420822,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1226,14 +1226,14 @@
     {
       "id": "86b9vv3m5",
       "name": "Accelerator Update",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 4,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1781834400000,
-      "date_updated": 1790080427587,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1316,14 +1316,14 @@
     {
       "id": "86b9mdjcd",
       "name": "Change Subject Requests",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 10,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1784250000000,
-      "date_updated": 1793861082964,
+      "date_updated": 1794483745848,
       "assignees": [
         "Davut Bayık",
         "Bea Shakjiri"
@@ -1363,14 +1363,14 @@
     {
       "id": "86b9mdavn",
       "name": "Tutor Build on Resources",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782781200000,
-      "date_updated": 1789735185173,
+      "date_updated": 1794483745848,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1408,14 +1408,14 @@
     {
       "id": "86b9md4xb",
       "name": "CRON job for run update_tutor_groups",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1782439200000,
-      "date_updated": 1790080480152,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1468,14 +1468,14 @@
     {
       "id": "86b9md1p5",
       "name": "Ops Finance Visibility",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1783908000000,
-      "date_updated": 1790943164681,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1498,14 +1498,14 @@
     {
       "id": "86b9mbyg4",
       "name": "Tutor Rankings",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 60,
       "has_subtasks": true,
       "progress_pct": 60,
       "due_date": 1778209200000,
-      "date_updated": 1791964822172,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1513,14 +1513,14 @@
     {
       "id": "86b9mbwr1",
       "name": "COS Tracking Measures",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 5,
       "has_subtasks": true,
       "progress_pct": 83.33333333333334,
       "due_date": 1778855400000,
-      "date_updated": 1793177449124,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
@@ -1528,14 +1528,14 @@
     {
       "id": "86b9mbv30",
       "name": "Calendar Build",
-      "status": "testing",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 39,
       "has_subtasks": true,
       "progress_pct": 61.53846153846154,
       "due_date": 1791511200000,
-      "date_updated": 1792411057569,
+      "date_updated": 1794483745848,
       "assignees": [
         "Okkert"
       ]
