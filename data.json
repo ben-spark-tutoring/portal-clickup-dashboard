@@ -1,6 +1,23 @@
 {
-  "generated_at": "2026-11-12T11:26:10.520Z",
+  "generated_at": "2026-11-12T11:41:37.766Z",
   "tasks": [
+    {
+      "id": "wdy2xh3cxj",
+      "name": "Tokens",
+      "status": "to do",
+      "version": "v1",
+      "project": "Core",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1794482936176,
+      "assignees": [
+        "Okkert",
+        "Bea Shakjiri",
+        "Davut Bayık"
+      ]
+    },
     {
       "id": "wdy2xh3br7",
       "name": "Progress Report",
