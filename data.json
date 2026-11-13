@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T07:26:23.474Z",
+  "generated_at": "2026-11-13T07:41:35.343Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -21,14 +21,14 @@
     {
       "id": "wdy2xh3br7",
       "name": "Progress Report",
-      "status": "in progress",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": 1794362400000,
-      "date_updated": 1794384231000,
+      "date_updated": 1794554302047,
       "assignees": [
         "Okkert"
       ]
