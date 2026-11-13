@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T08:56:24.137Z",
+  "generated_at": "2026-11-13T09:11:45.611Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -187,14 +187,14 @@
     {
       "id": "wdy2xh27ux",
       "name": "Sales Performance",
-      "status": "in initial review",
+      "status": "testing live",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794483745848,
+      "date_updated": 1794560115499,
       "assignees": [
         "Okkert"
       ]
@@ -649,14 +649,14 @@
     {
       "id": "wdy2xgzj87",
       "name": "Commissions",
-      "status": "in initial review",
+      "status": "testing live",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 168,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794491869279,
+      "date_updated": 1794560106670,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1061,14 +1061,14 @@
     {
       "id": "86b9vv3rz",
       "name": "Response Tracker",
-      "status": "in initial review",
+      "status": "bugs",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 35,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1783044000000,
-      "date_updated": 1794483890194,
+      "date_updated": 1794560411658,
       "assignees": [
         "Okkert"
       ]
