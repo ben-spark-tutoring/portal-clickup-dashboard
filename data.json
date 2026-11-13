@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T09:26:23.734Z",
+  "generated_at": "2026-11-13T09:41:35.645Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -1316,14 +1316,14 @@
     {
       "id": "86b9mdjcd",
       "name": "Change Subject Requests",
-      "status": "in initial review",
+      "status": "bugs",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 10,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1784250000000,
-      "date_updated": 1794483745848,
+      "date_updated": 1794562090397,
       "assignees": [
         "Davut Bayık",
         "Bea Shakjiri"
