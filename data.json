@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T13:26:29.385Z",
+  "generated_at": "2026-11-16T13:41:49.195Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -58,7 +58,7 @@
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794830164491,
+      "date_updated": 1794835775887,
       "assignees": [
         "Bea Shakjiri",
         "Okkert"
@@ -74,7 +74,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794565128470,
+      "date_updated": 1794835773827,
       "assignees": [
         "Okkert"
       ]
@@ -119,7 +119,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1793152800000,
-      "date_updated": 1794564708595,
+      "date_updated": 1794835774342,
       "assignees": [
         "Okkert"
       ]
@@ -164,7 +164,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1794830164490,
+      "date_updated": 1794835774340,
       "assignees": [
         "Okkert"
       ]
@@ -510,7 +510,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1789734696233,
+      "date_updated": 1794835775731,
       "assignees": [
         "Okkert"
       ]
@@ -628,7 +628,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1793270218714,
+      "date_updated": 1794835774877,
       "assignees": [
         "Okkert"
       ]
@@ -656,7 +656,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794560106670,
+      "date_updated": 1794835775403,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1158,7 +1158,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1780452000000,
-      "date_updated": 1793280149110,
+      "date_updated": 1794835774890,
       "assignees": [
         "Okkert"
       ]
@@ -1370,7 +1370,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782781200000,
-      "date_updated": 1794492417335,
+      "date_updated": 1794835775383,
       "assignees": [
         "Davut Bayık"
       ]
