@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T12:26:34.533Z",
+  "generated_at": "2026-11-16T12:41:37.337Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -233,14 +233,14 @@
     {
       "id": "wdy2xh17wp",
       "name": "Error code on Talent Create",
-      "status": "testing live",
+      "status": "bugs",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": 0.3333333333333333,
       "has_subtasks": true,
-      "progress_pct": 100,
+      "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794830163945,
+      "date_updated": 1794831784217,
       "assignees": [
         "Okkert"
       ]
