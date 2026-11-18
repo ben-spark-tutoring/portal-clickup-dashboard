@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T08:56:26.684Z",
+  "generated_at": "2026-11-18T09:11:56.452Z",
   "tasks": [
     {
       "id": "wdy2xh3cxj",
@@ -9,7 +9,7 @@
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 27.27272727272727,
+      "progress_pct": 36.36363636363637,
       "due_date": 1795140000000,
       "date_updated": 1794987836466,
       "assignees": [
