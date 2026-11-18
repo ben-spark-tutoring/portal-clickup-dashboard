@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-11-18T11:41:37.502Z",
+  "generated_at": "2026-11-18T11:56:24.622Z",
   "tasks": [
+    {
+      "id": "wdy2xh3jyt",
+      "name": "Credit Extension Request",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795002322573,
+      "assignees": []
+    },
     {
       "id": "wdy2xh3cxj",
       "name": "Tokens",
