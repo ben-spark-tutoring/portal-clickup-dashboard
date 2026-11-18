@@ -1,6 +1,21 @@
 {
-  "generated_at": "2026-11-18T12:26:27.802Z",
+  "generated_at": "2026-11-18T12:41:49.984Z",
   "tasks": [
+    {
+      "id": "wdy2xh3jz5",
+      "name": "Preferred Durations",
+      "status": "in initial review",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 100,
+      "due_date": 1795140000000,
+      "date_updated": 1795004664189,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh3jyt",
       "name": "Credit Extension Request",
@@ -22,7 +37,7 @@
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 45.45454545454545,
+      "progress_pct": 54.54545454545454,
       "due_date": 1795140000000,
       "date_updated": 1794987836466,
       "assignees": [
