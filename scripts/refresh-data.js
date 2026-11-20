@@ -53,6 +53,41 @@ function compactHistory(history, nowMs) {
   }
   return [...thinned, ...recent];
 }
+// What each ClickUp status means. These match the statuses configured on the Portal Projects list.
+// Build work still to do:
+const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure'];
+// Built, waiting on a department. 'testing' and 'in review' are retired ClickUp names, kept so older
+// readings stay comparable.
+const TESTING_STATUSES = ['testing live', 'testing'];
+const REVIEW_STATUSES = ['in initial review', 'in review'];
+const WAITING_STATUSES = [...TESTING_STATUSES, ...REVIEW_STATUSES];
+const KNOWN_STATUSES = [...DEV_STATUSES, ...WAITING_STATUSES, 'complete'];
+
+const sumHours = (list) => list.reduce((a, b) => a + (b.time_estimate_hours || 0), 0);
+
+// One compact reading for history.json. Pre Launch and Post Launch are excluded from dev hours
+// (matching the dashboard cards) and tracked on their own lines. Work awaiting sign-off is not
+// build work; it is tracked as testing hours, review hours, and the two combined (waiting hours,
+// which stays comparable across the ClickUp status rename).
+function buildSnapshot(results, generatedAt) {
+  const build = r => DEV_STATUSES.includes(r.status);
+  const launchWork = r => r.project !== 'Pre Launch' && r.project !== 'Post Launch';
+  const hours = (version, statuses) => sumHours(results.filter(r => r.version === version && statuses.includes(r.status)));
+  return {
+    t: generatedAt,
+    v1_dev_hours: sumHours(results.filter(r => r.version === 'v1' && build(r) && launchWork(r))),
+    v2_dev_hours: sumHours(results.filter(r => r.version === 'v2' && build(r) && launchWork(r))),
+    pre_launch_hours: sumHours(results.filter(r => build(r) && r.project === 'Pre Launch')),
+    post_launch_hours: sumHours(results.filter(r => build(r) && r.project === 'Post Launch')),
+    v1_testing_hours: hours('v1', TESTING_STATUSES),
+    v2_testing_hours: hours('v2', TESTING_STATUSES),
+    v1_review_hours: hours('v1', REVIEW_STATUSES),
+    v2_review_hours: hours('v2', REVIEW_STATUSES),
+    v1_waiting_hours: hours('v1', WAITING_STATUSES),
+    v2_waiting_hours: hours('v2', WAITING_STATUSES),
+  };
+}
+
 // One-time repair of the 3-5 Nov readings. On 3 Nov five tasks moved from Pre Launch to Post
 // Launch, and until Post Launch was excluded from dev hours those readings counted their hours as
 // build work (V1 +61h, V2 +1,070h), which drew a false spike in the trend chart. Readings written
@@ -296,23 +331,15 @@ async function main() {
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
   console.log(`Wrote ${results.length} tasks to ${OUTPUT_PATH}`);
 
+  // Say so in the log if ClickUp has a status this script has never been told about.
+  const unknownStatuses = results.filter(r => !KNOWN_STATUSES.includes(r.status));
+  if (unknownStatuses.length) {
+    const names = [...new Set(unknownStatuses.map(r => r.status))].join(', ');
+    console.warn(`WARNING: ${unknownStatuses.length} task(s) have a status the script does not recognise (${names}). They are left out of every hours total in the history until the status lists at the top of this file are updated.`);
+  }
+
   // --- append a compact snapshot to history.json for the trend chart ---
-  const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure'];
-  const sum = (list) => list.reduce((a, b) => a + (b.time_estimate_hours || 0), 0);
-  const snapshot = {
-    t: output.generated_at,
-    // Pre Launch and Post Launch are excluded from dev hours (matches the dashboard cards) and
-    // tracked on their own lines. 'in review' (built, awaiting department review) is tracked
-    // separately from testing, and like testing it is not counted as build work.
-    v1_dev_hours: sum(results.filter(r => r.version === 'v1' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch' && r.project !== 'Post Launch')),
-    v2_dev_hours: sum(results.filter(r => r.version === 'v2' && DEV_STATUSES.includes(r.status) && r.project !== 'Pre Launch' && r.project !== 'Post Launch')),
-    pre_launch_hours: sum(results.filter(r => DEV_STATUSES.includes(r.status) && r.project === 'Pre Launch')),
-    post_launch_hours: sum(results.filter(r => DEV_STATUSES.includes(r.status) && r.project === 'Post Launch')),
-    v1_testing_hours: sum(results.filter(r => r.version === 'v1' && r.status === 'testing')),
-    v2_testing_hours: sum(results.filter(r => r.version === 'v2' && r.status === 'testing')),
-    v1_review_hours: sum(results.filter(r => r.version === 'v1' && r.status === 'in review')),
-    v2_review_hours: sum(results.filter(r => r.version === 'v2' && r.status === 'in review')),
-  };
+  const snapshot = buildSnapshot(results, output.generated_at);
 
   let history = [];
   if (fs.existsSync(HISTORY_PATH)) {
