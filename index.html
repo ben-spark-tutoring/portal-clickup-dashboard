@@ -240,6 +240,8 @@
     <strong>Data quality note:</strong> <span id="missing-note"></span> Untagged legacy backlog tasks (no Version set) are excluded from this report entirely, per current reporting rules.
   </div>
 
+  <div class="note" id="unknown-status-note" style="display:none;"></div>
+
   <div class="grid-cards" id="summary-cards"></div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -294,8 +296,9 @@
 
   <div class="panels">
     <div class="panel full">
-      <h2>Awaiting Sign-off (Testing &amp; In Review)</h2>
-      <div class="calc-caveat" style="margin-bottom:10px;">Built work waiting for the relevant department to test or review it, oldest last-updated first. Hours here aren't counted in "remaining" totals elsewhere, but a task sitting untouched for weeks is worth a look.</div>
+      <h2>Awaiting Sign-off (In Initial Review &amp; Testing Live)</h2>
+      <div class="calc-caveat" style="margin-bottom:6px;font-weight:600;" id="signoff-summary"></div>
+      <div class="calc-caveat" style="margin-bottom:10px;">Built work waiting for the relevant department to review it or test it live, oldest last-updated first. Hours here aren't counted in "remaining" totals elsewhere, but a task sitting untouched for weeks is worth a look.</div>
       <div class="table-scroll">
         <table>
           <thead><tr><th>Task</th><th>Status</th><th>Version</th><th>Project</th><th class="num">Hours</th><th class="num">Last Updated</th></tr></thead>
@@ -348,7 +351,7 @@
     </div>
     <div class="calc-results" id="calc-results"></div>
     <div class="calc-caveat" id="calc-launch-notes" style="margin-bottom:10px;"></div>
-    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off in testing or review, the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
+    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off (in initial review or testing live), the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -419,10 +422,22 @@ document.getElementById('updated-line').textContent = 'Generated ' + now.toLocal
 // (they're being verified, not developed) so their hours are set aside, not counted here.
 // "complete" tasks are dropped from this report entirely — not part of what we track weekly.
 const DEV_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure'];
-// 'in review' = built, waiting for the relevant department to review it. Treated like testing:
-// tracked and visible everywhere, but not counted as build work still to do.
-const WAITING_STATUSES = ['testing', 'in review'];
+// Sign-off stages: the work is built and is waiting on a department. These are tracked and visible
+// everywhere, but are not counted as build work still to do. They match the statuses configured on
+// the Portal Projects list in ClickUp; the retired names ('testing', 'in review') are kept so older
+// data and the change log still read correctly.
+const WAITING_STATUS_NOTES = {
+  'in initial review': 'built, awaiting initial review',
+  'testing live': 'being tested live',
+  'testing': 'in testing',                          // retired in ClickUp
+  'in review': 'built, awaiting department review', // retired in ClickUp
+};
+const WAITING_STATUSES = Object.keys(WAITING_STATUS_NOTES);
+const statusNote = s => WAITING_STATUS_NOTES[s] ? ' (' + WAITING_STATUS_NOTES[s] + ')' : '';
 const TRACKED_STATUSES = [...DEV_STATUSES, ...WAITING_STATUSES];
+// Anything outside this list is shown in a warning instead of silently dropping out of every total.
+const KNOWN_STATUSES = [...TRACKED_STATUSES, 'complete'];
+const unknownStatusTasks = DATA.filter(t => !KNOWN_STATUSES.includes(t.status));
 const completeCount = DATA.filter(t => t.status === 'complete').length;
 const incomplete = DATA.filter(t => TRACKED_STATUSES.includes(t.status));
 // Pre Launch (launch-readiness: comms, migration, infra setup) is deliberately kept OUT of
@@ -434,19 +449,18 @@ const isPostLaunch = t => t.project === 'Post Launch';
 const devWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && !isPreLaunch(t) && !isPostLaunch(t));
 const preLaunchWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && isPreLaunch(t));
 const postLaunchWork = DATA.filter(t => DEV_STATUSES.includes(t.status) && isPostLaunch(t));
-const testingWork = DATA.filter(t => t.status === 'testing');
 const waitingWork = DATA.filter(t => WAITING_STATUSES.includes(t.status));
 
 // --- Tasks Remaining for V1 Launch: everything V1 that isn't complete yet,
-// biggest hours first. Deliberately includes Testing here (unlike the "Dev
+// biggest hours first. Deliberately includes work awaiting sign-off here (unlike the "Dev
 // Hours Remaining" card above) — a task isn't launch-ready until it clears
-// testing, even though its hours don't count toward "dev work left to build".
+// review and testing, even though its hours don't count toward "dev work left to build".
 const v1Remaining = incomplete
   .filter(t => t.version === 'v1' && !isPostLaunch(t))
   .sort((a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1));
 const v1RemainingMissing = v1Remaining.filter(t => t.time_estimate_hours === null).length;
 document.getElementById('v1-remaining-caveat').textContent =
-  v1Remaining.length + ' V1 tasks still stand between us and launch (Post Launch work is left out). This includes work awaiting sign-off in testing or review, unlike the Dev Hours Remaining card above, which excludes it. ' +
+  v1Remaining.length + ' V1 tasks still stand between us and launch (Post Launch work is left out). This includes work awaiting sign-off (in initial review or testing live), unlike the Dev Hours Remaining card above, which excludes it. ' +
   v1RemainingMissing + ' of these have no time estimate set — they\'re listed but sort to the bottom.';
 
 // Grouped view: one section per status, biggest total-hours group first,
@@ -471,7 +485,7 @@ document.getElementById('v1-remaining-grouped').innerHTML = groupOrder.map(statu
   const total = sum(tasks, 'time_estimate_hours');
   return `<div class="status-group">
     <div class="status-group-header">
-      <span class="name">${status}${status === 'testing' ? ' (in testing)' : status === 'in review' ? ' (built, awaiting department review)' : ''}</span>
+      <span class="name">${status}${statusNote(status)}</span>
       <span class="meta">${tasks.length} task${tasks.length === 1 ? '' : 's'} · ${total.toFixed(1)}h</span>
     </div>
     <table><tbody>${tasks.map(renderGroupedRow).join('')}</tbody></table>
@@ -482,7 +496,7 @@ document.getElementById('v1-remaining-grouped').innerHTML = groupOrder.map(statu
 document.getElementById('v1-remaining-table').innerHTML = v1Remaining.map(t => `
   <tr>
     <td>${t.name}</td>
-    <td>${t.status}${t.status === 'testing' ? ' <span style="color:var(--text-muted);">(in testing)</span>' : t.status === 'in review' ? ' <span style="color:var(--text-muted);">(awaiting review)</span>' : ''}</td>
+    <td>${t.status}${WAITING_STATUS_NOTES[t.status] ? ' <span style="color:var(--text-muted);">' + statusNote(t.status) + '</span>' : ''}</td>
     <td>${t.project}</td>
     <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
   </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Nothing left for V1 — fully complete.</td></tr>';
@@ -596,6 +610,9 @@ document.getElementById('changelog-caveat').textContent =
 renderChangelog();
 
 // --- Testing bottleneck: testing-status tasks, oldest last-updated first ---
+document.getElementById('signoff-summary').textContent = WAITING_STATUSES
+  .map(s => [s, waitingWork.filter(t => t.status === s)]).filter(([, l]) => l.length)
+  .map(([s, l]) => s + ': ' + l.length + ' task' + (l.length === 1 ? '' : 's') + ', ' + sum(l, 'time_estimate_hours').toFixed(1) + 'h').join('   |   ') || 'Nothing awaiting sign-off.';
 const testingSorted = [...waitingWork].sort((a, b) => (a.date_updated || 0) - (b.date_updated || 0));
 document.getElementById('testing-table').innerHTML = testingSorted.map(t => {
   const days = t.date_updated ? Math.floor((Date.now() - t.date_updated) / 86400000) : null;
@@ -666,8 +683,18 @@ new Chart(document.getElementById('assigneeChart'), {
 
 
 const missingEstDev = devWork.filter(t => t.time_estimate_hours === null).length;
+if (unknownStatusTasks.length) {
+  const byStatus = {};
+  for (const t of unknownStatusTasks) (byStatus[t.status] = byStatus[t.status] || []).push(t);
+  const el = document.getElementById('unknown-status-note');
+  el.style.display = '';
+  el.innerHTML = '<strong>Unrecognised status:</strong> ' + unknownStatusTasks.length + ' task' + (unknownStatusTasks.length === 1 ? ' has' : 's have') +
+    ' a ClickUp status this dashboard has not been told how to treat, so ' + (unknownStatusTasks.length === 1 ? 'it is' : 'they are') + ' <strong>not in any total</strong>: ' +
+    Object.entries(byStatus).map(([s, l]) => '"' + s + '" (' + l.length + ' task' + (l.length === 1 ? '' : 's') + ', ' + sum(l, 'time_estimate_hours').toFixed(1) + 'h: ' + l.slice(0, 4).map(t => t.name).join(', ') + (l.length > 4 ? '…' : '') + ')').join('; ') +
+    '. The dashboard code needs a one-line update to classify ' + (Object.keys(byStatus).length === 1 ? 'it' : 'them') + '.';
+}
 document.getElementById('missing-note').textContent =
-  missingEstDev + ' of ' + devWork.length + ' open v1/v2 dev tasks (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure) have no time estimate set yet, so the hours-remaining totals below are a floor, not the true total. Tasks awaiting sign-off (testing or in review), and everything under the Pre Launch and Post Launch projects, are excluded from these totals — all are tracked separately.';
+  missingEstDev + ' of ' + devWork.length + ' open v1/v2 dev tasks (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure) have no time estimate set yet, so the hours-remaining totals below are a floor, not the true total. Tasks awaiting sign-off (in initial review or testing live), and everything under the Pre Launch and Post Launch projects, are excluded from these totals — all are tracked separately.';
 
 function sum(arr, key) { return arr.reduce((a,b) => a + (b[key] || 0), 0); }
 
@@ -675,6 +702,10 @@ const v1 = incomplete.filter(t => t.version === 'v1');
 const v2 = incomplete.filter(t => t.version === 'v2');
 const v1Dev = devWork.filter(t => t.version === 'v1');
 const v2Dev = devWork.filter(t => t.version === 'v2');
+// e.g. "25 in initial review, 6 testing live"
+function waitingBreakdown(list) {
+  return WAITING_STATUSES.map(s => [s, list.filter(t => t.status === s).length]).filter(([, n]) => n).map(([s, n]) => n + ' ' + (s === 'testing' ? 'in testing' : s)).join(', ') || 'none';
+}
 const v1Waiting = waitingWork.filter(t => t.version === 'v1');
 const v2Waiting = waitingWork.filter(t => t.version === 'v2');
 const v1HoursRemaining = sum(v1Dev, 'time_estimate_hours');
@@ -688,7 +719,7 @@ const postLaunchMissing = postLaunchWork.filter(t => t.time_estimate_hours === n
 
 const cards = [
   { label: 'Tracked Tasks (v1+v2)', value: incomplete.length, sub: completeCount + ' complete tasks excluded from this report', cls: '' },
-  { label: 'V1 Dev Hours Remaining', value: v1HoursRemaining.toFixed(1) + 'h', sub: v1Dev.length + ' dev tasks · ' + v1Waiting.length + ' more awaiting sign-off (' + v1WaitingHours.toFixed(1) + 'h in testing or review, not counted)', cls: 'v1-accent' },
+  { label: 'V1 Dev Hours Remaining', value: v1HoursRemaining.toFixed(1) + 'h', sub: v1Dev.length + ' dev tasks · ' + v1Waiting.length + ' more awaiting sign-off (' + v1WaitingHours.toFixed(1) + 'h, not counted: ' + waitingBreakdown(v1Waiting) + ')', cls: 'v1-accent' },
   { label: 'V2 Dev Hours Remaining', value: v2HoursRemaining.toFixed(1) + 'h', sub: v2Dev.length + ' dev tasks · ' + v2Waiting.length + ' awaiting sign-off', cls: 'v2-accent' },
   { label: 'Combined Dev Remaining', value: (v1HoursRemaining + v2HoursRemaining).toFixed(1) + 'h', sub: (v1Dev.length + v2Dev.length) + ' dev tasks total', cls: '' },
   { label: 'Pre Launch Hours (separate)', value: preLaunchHours.toFixed(1) + 'h', sub: preLaunchWork.length + ' open tasks · not included in dev totals' + (preLaunchMissing ? ' · ' + preLaunchMissing + ' with no estimate' : ''), cls: '' },
@@ -702,7 +733,7 @@ document.getElementById('summary-cards').innerHTML = cards.map(c => `
   </div>`).join('');
 
 // Status breakdown (stacked by version) — "complete" is dropped, not a status we're tracking here
-const REPORT_STATUSES = ['to do', 'in progress', 'bugs', 'ui ux fixes', 'infrastructure', 'testing', 'in review'];
+const REPORT_STATUSES = TRACKED_STATUSES;
 const statuses = REPORT_STATUSES.filter(s => DATA.some(t => t.status === s))
   .sort((a,b) => DATA.filter(t=>t.status===b).length - DATA.filter(t=>t.status===a).length);
 const statusV1 = statuses.map(s => DATA.filter(t => t.status === s && t.version === 'v1').length);
