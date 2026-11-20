@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T09:11:56.600Z",
+  "generated_at": "2026-11-20T09:26:28.955Z",
   "tasks": [
     {
       "id": "wdy2xh3jz5",
@@ -916,11 +916,11 @@
       "status": "in progress",
       "version": "v1",
       "project": "Video Conference Update",
-      "time_estimate_hours": 340,
+      "time_estimate_hours": 40,
       "has_subtasks": true,
       "progress_pct": 57.14285714285714,
       "due_date": 1784516400000,
-      "date_updated": 1793701592809,
+      "date_updated": 1795165979321,
       "assignees": [
         "Davut Bayık"
       ]
