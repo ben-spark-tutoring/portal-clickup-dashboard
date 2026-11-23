@@ -1,0 +1,10 @@
+{
+  "_help": "Optional. Any value here sets the calculator's starting value for everyone who opens the dashboard; delete a line to fall back to the built-in default. team_days_lost = working days the whole team is out (bank holidays, a shutdown, an all-hands). person_days_lost = individual days out, counted per developer (two developers off for three days each is 6). days_lost_notes = shown under the calculator so people can see what the days are. Only count days that fall before development finishes.",
+  "developers": 3,
+  "hours_per_week_each": 30,
+  "buffer_days": 14,
+  "prelaunch_alongside_pct": 20,
+  "team_days_lost": 0,
+  "person_days_lost": 0,
+  "days_lost_notes": ""
+}
