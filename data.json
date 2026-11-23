@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T11:57:12.841Z",
+  "generated_at": "2026-11-23T12:13:10.659Z",
   "tasks": [
     {
       "id": "wdy2xh3qtp",
@@ -25,8 +25,8 @@
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1795433815056,
+      "due_date": 1795752000000,
+      "date_updated": 1795435153309,
       "assignees": [
         "Okkert"
       ]
@@ -37,11 +37,11 @@
       "status": "to do",
       "version": "v1",
       "project": "Video Conference Update",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 4,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1795432884553,
+      "date_updated": 1795435171461,
       "assignees": [
         "Davut Bayık"
       ]
@@ -67,8 +67,8 @@
       "status": "to do",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 29.25,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1795752000000,
       "date_updated": 1795100268440,
@@ -84,7 +84,7 @@
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 76.92307692307693,
+      "progress_pct": 83.33333333333334,
       "due_date": 1795492800000,
       "date_updated": 1795429797867,
       "assignees": [
@@ -160,11 +160,11 @@
       "status": "to do",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": null,
-      "has_subtasks": false,
+      "time_estimate_hours": 16.5,
+      "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1793276198945,
+      "date_updated": 1795435085506,
       "assignees": [
         "Bea Shakjiri"
       ]
