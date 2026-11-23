@@ -348,10 +348,13 @@
       <label>Contingency buffer (days) <input type="number" id="calc-buffer" value="14" min="0" step="1"></label>
       <label>Pre Launch &amp; infra hours/week <input type="number" id="calc-prehrs" placeholder="same as dev team" min="0" step="1"></label>
       <label>Pre Launch work alongside dev (%) <input type="number" id="calc-parallel" value="20" min="0" max="100" step="5"></label>
+      <label>Team days lost (holiday &amp; ad hoc) <input type="number" id="calc-lost-team" value="0" min="0" step="0.5" title="Working days when the whole team is out: bank holidays, a shutdown, an all-hands, whole-team ad hoc work."></label>
+      <label>Individual days lost (person-days) <input type="number" id="calc-lost-person" value="0" min="0" step="0.5" title="Days when one developer is out (leave, sickness, pulled onto other work). Count each developer separately."></label>
     </div>
+    <div class="calc-caveat" style="margin-bottom:12px;">Days lost push the dev completion date out, and the launch date with it. <strong>Team days</strong> = the whole team is out (bank holidays, a shutdown, an all-hands). <strong>Individual days</strong> = one developer is out for a day, counted per developer, so two developers off for three days each is 6. Enter days that fall before development finishes.</div>
     <div class="calc-results" id="calc-results"></div>
     <div class="calc-caveat" id="calc-launch-notes" style="margin-bottom:10px;"></div>
-    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off (in initial review or testing live), the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts.</div>
+    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off (in initial review or testing live), the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts, and that any days lost fall before development finishes.</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -404,6 +407,15 @@ async function loadDashboard() {
     if (histRes.ok) HISTORY = await histRes.json();
   } catch {
     HISTORY = [];
+  }
+
+  // Optional shared calculator settings; a missing or unreadable file just means built-in defaults.
+  let SETTINGS = {};
+  try {
+    const settingsRes = await fetch('/settings.json?t=' + Date.now());
+    if (settingsRes.ok) { const s = await settingsRes.json(); if (s && typeof s === 'object') SETTINGS = s; }
+  } catch {
+    SETTINGS = {};
   }
 
   let CHANGELOG = [];
@@ -902,6 +914,21 @@ document.getElementById('calc-missing-count').textContent = v1Dev.filter(t => t.
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
 function fmtDate(d) { return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
 
+// Shared starting values. Anything typed into the page is for this view only and resets on reload,
+// so the values everyone should see live in settings.json (optional) in the repo.
+let daysLostNotes = '';
+const SETTING_INPUTS = {
+  developers: 'calc-devs', hours_per_week_each: 'calc-devhrs', buffer_days: 'calc-buffer',
+  prelaunch_hours_per_week: 'calc-prehrs', prelaunch_alongside_pct: 'calc-parallel',
+  team_days_lost: 'calc-lost-team', person_days_lost: 'calc-lost-person',
+};
+function applySettings(settings) {
+  for (const [key, id] of Object.entries(SETTING_INPUTS)) {
+    const v = settings[key];
+    if (typeof v === 'number' && Number.isFinite(v) && v >= 0) document.getElementById(id).value = v;
+  }
+  daysLostNotes = typeof settings.days_lost_notes === 'string' ? settings.days_lost_notes.trim().replace(/\.$/, '') : '';
+}
 function runCalculator() {
   const devs = parseFloat(document.getElementById('calc-devs').value) || 0;
   const devHrs = parseFloat(document.getElementById('calc-devhrs').value) || 0;
@@ -925,9 +952,19 @@ function runCalculator() {
     return;
   }
 
+  // Holiday and ad hoc days. A working week is 5 days, so one team day is a fifth of the team's
+  // weekly hours and one individual day is a fifth of one developer's. The lost hours are added
+  // to the work still to do, which moves the end date by exactly the capacity that was lost.
+  const readDays = id => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+  const teamDaysLost = readDays('calc-lost-team');
+  const personDaysLost = readDays('calc-lost-person');
+  const lostHours = teamDaysLost * weeklyHours / 5 + personDaysLost * devHrs / 5;
+
   // Dev completion: constant capacity from today, then the contingency buffer.
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  const daysOfWork = Math.ceil(v1RemainingHours / (weeklyHours / 7));
+  const baseDays = Math.ceil(v1RemainingHours / (weeklyHours / 7));
+  const daysOfWork = Math.ceil((v1RemainingHours + lostHours) / (weeklyHours / 7));
+  const lostDays = daysOfWork - baseDays; // calendar days the lost time adds, matching the date shown
   const workEnd = addDays(today, daysOfWork);
   const devCompletion = addDays(workEnd, bufferDays);
 
@@ -950,7 +987,7 @@ function runCalculator() {
   out.innerHTML = `<div class="calc-result-card">
     <div class="scenario">Projected V1 dev completion</div>
     <div class="date">${fmtDate(devCompletion)}</div>
-    <div class="weeks">${(daysOfWork / 7).toFixed(1)} weeks of work at ${weeklyHours}h/week (${devs} × ${devHrs}h) ends ${fmtDate(workEnd)}, plus ${bufferDays}d buffer</div>
+    <div class="weeks">${(baseDays / 7).toFixed(1)} weeks of work at ${weeklyHours}h/week (${devs} × ${devHrs}h)${lostHours > 0 ? ' and ' + lostDays + 'd lost to holiday and ad hoc days (' + lostHours.toFixed(0) + 'h)' : ''} ends ${fmtDate(workEnd)}, plus ${bufferDays}d buffer</div>
   </div>
   <div class="calc-result-card expected">
     <div class="scenario">Estimated portal launch</div>
@@ -960,6 +997,11 @@ function runCalculator() {
 
   // Notes that explain what is (and isn't) in the launch date
   const lines = [];
+  if (lostHours > 0) {
+    const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+    lines.push(`Holiday and ad hoc time: ${plural(teamDaysLost, 'team day')} and ${plural(personDaysLost, 'individual day')} = ${lostHours.toFixed(0)}h of capacity, which moves dev completion (and launch) out by ${lostDays} day${lostDays === 1 ? '' : 's'}. The ${bufferDays}-day buffer already allows for some unplanned time, so avoid counting the same days twice.`);
+  }
+  if (daysLostNotes) lines.push(`Includes: ${daysLostNotes}.`);
   if (preLaunchMissing) {
     lines.push(`${preLaunchMissing} open Pre Launch task${preLaunchMissing === 1 ? ' has' : 's have'} no time estimate and ${preLaunchMissing === 1 ? 'adds' : 'add'} nothing here, so the launch date is a floor.`);
   }
@@ -979,9 +1021,10 @@ function runCalculator() {
   notes.textContent = lines.join(' ');
 }
 
-['calc-devs', 'calc-devhrs', 'calc-buffer', 'calc-prehrs', 'calc-parallel'].forEach(id => {
+['calc-devs', 'calc-devhrs', 'calc-buffer', 'calc-prehrs', 'calc-parallel', 'calc-lost-team', 'calc-lost-person'].forEach(id => {
   document.getElementById(id).addEventListener('change', runCalculator);
 });
+applySettings(SETTINGS);
 runCalculator();
 }
 loadDashboard();
