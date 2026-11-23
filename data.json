@@ -1,6 +1,36 @@
 {
-  "generated_at": "2026-11-23T12:13:10.659Z",
+  "generated_at": "2026-11-23T12:28:24.916Z",
   "tasks": [
+    {
+      "id": "wdy2xh3qwt",
+      "name": "Accelerator Credit Update",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 15.5,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795436077308,
+      "assignees": [
+        "Okkert"
+      ]
+    },
+    {
+      "id": "wdy2xh3qvt",
+      "name": "Ticketing System",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 32,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795435658045,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh3qtp",
       "name": "Split Subject",
@@ -88,9 +118,9 @@
       "due_date": 1795492800000,
       "date_updated": 1795429797867,
       "assignees": [
-        "Davut Bayık",
         "Okkert",
-        "Bea Shakjiri"
+        "Bea Shakjiri",
+        "Davut Bayık"
       ]
     },
     {
