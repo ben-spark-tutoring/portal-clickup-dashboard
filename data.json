@@ -1,17 +1,32 @@
 {
-  "generated_at": "2026-11-23T11:41:58.948Z",
+  "generated_at": "2026-11-23T11:57:12.841Z",
   "tasks": [
+    {
+      "id": "wdy2xh3qtp",
+      "name": "Split Subject",
+      "status": "to do",
+      "version": "v1",
+      "project": "Ops Updates",
+      "time_estimate_hours": 88,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795433851268,
+      "assignees": [
+        "Okkert"
+      ]
+    },
     {
       "id": "wdy2xh3qt0",
       "name": "Quarterly Assessments - V2",
       "status": "to do",
       "version": "v1",
-      "project": "Unassigned",
+      "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1795433438336,
+      "date_updated": 1795433815056,
       "assignees": [
         "Okkert"
       ]
@@ -73,9 +88,9 @@
       "due_date": 1795492800000,
       "date_updated": 1795429797867,
       "assignees": [
+        "Davut Bayık",
         "Okkert",
-        "Bea Shakjiri",
-        "Davut Bayık"
+        "Bea Shakjiri"
       ]
     },
     {
@@ -1244,11 +1259,11 @@
       "status": "to do",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 18,
+      "time_estimate_hours": 33.5,
       "has_subtasks": true,
-      "progress_pct": 100,
+      "progress_pct": 23.809523809523807,
       "due_date": 1782180000000,
-      "date_updated": 1795005523405,
+      "date_updated": 1795433646012,
       "assignees": [
         "Okkert"
       ]
