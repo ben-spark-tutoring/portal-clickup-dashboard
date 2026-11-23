@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T12:28:24.916Z",
+  "generated_at": "2026-11-23T12:59:14.217Z",
   "tasks": [
     {
       "id": "wdy2xh3qwt",
@@ -11,9 +11,9 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1795436077308,
+      "date_updated": 1795437115816,
       "assignees": [
-        "Okkert"
+        "Bea Shakjiri"
       ]
     },
     {
@@ -25,10 +25,10 @@
       "time_estimate_hours": 32,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1795435658045,
+      "due_date": 1801108800000,
+      "date_updated": 1795437202029,
       "assignees": [
-        "Okkert"
+        "Davut Bayık"
       ]
     },
     {
@@ -67,11 +67,11 @@
       "status": "to do",
       "version": "v1",
       "project": "Video Conference Update",
-      "time_estimate_hours": 4,
+      "time_estimate_hours": 31.5,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1795435171461,
+      "date_updated": 1795436817142,
       "assignees": [
         "Davut Bayık"
       ]
@@ -208,8 +208,8 @@
       "time_estimate_hours": 94,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1793277134174,
+      "due_date": 1801108800000,
+      "date_updated": 1795437222688,
       "assignees": [
         "Okkert"
       ]
@@ -916,11 +916,11 @@
       "status": "to do",
       "version": "v1",
       "project": "Finance",
-      "time_estimate_hours": 6,
+      "time_estimate_hours": 20,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1792664217438,
+      "date_updated": 1795437297802,
       "assignees": [
         "Davut Bayık"
       ]
@@ -1334,11 +1334,11 @@
       "status": "to do",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 4,
+      "time_estimate_hours": 25.25,
       "has_subtasks": true,
-      "progress_pct": 100,
+      "progress_pct": 13.333333333333334,
       "due_date": 1781834400000,
-      "date_updated": 1794492601440,
+      "date_updated": 1795436423467,
       "assignees": [
         "Okkert"
       ]
