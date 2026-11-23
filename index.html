@@ -246,7 +246,14 @@
 
   <div class="panel full" style="margin-bottom:18px;">
     <h2>Tasks Remaining for V1 Launch</h2>
-    <div class="filters" id="v1-remaining-view-toggle" style="margin-bottom:10px;"></div>
+    <div class="filters-row" style="margin-bottom:8px;">
+      <span class="calc-caveat" style="margin:0;min-width:44px;">Show:</span>
+      <div class="filters" id="v1-remaining-scope-toggle"></div>
+    </div>
+    <div class="filters-row" style="margin-bottom:10px;">
+      <span class="calc-caveat" style="margin:0;min-width:44px;">View:</span>
+      <div class="filters" id="v1-remaining-view-toggle"></div>
+    </div>
     <div class="calc-caveat" style="margin-bottom:10px;" id="v1-remaining-caveat"></div>
     <div id="v1-remaining-grouped"></div>
     <div class="table-scroll" id="v1-remaining-flat-wrap" style="display:none;">
@@ -467,68 +474,104 @@ const waitingWork = DATA.filter(t => WAITING_STATUSES.includes(t.status));
 // biggest hours first. Deliberately includes work awaiting sign-off here (unlike the "Dev
 // Hours Remaining" card above) — a task isn't launch-ready until it clears
 // review and testing, even though its hours don't count toward "dev work left to build".
+const byHoursDesc = (a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1);
 const v1Remaining = incomplete
   .filter(t => t.version === 'v1' && !isPostLaunch(t))
-  .sort((a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1));
-const v1RemainingMissing = v1Remaining.filter(t => t.time_estimate_hours === null).length;
-document.getElementById('v1-remaining-caveat').textContent =
-  v1Remaining.length + ' V1 tasks still stand between us and launch (Post Launch work is left out). This includes work awaiting sign-off (in initial review or testing live), unlike the Dev Hours Remaining card above, which excludes it. ' +
-  v1RemainingMissing + ' of these have no time estimate set — they\'re listed but sort to the bottom.';
+  .sort(byHoursDesc);
 
-// Grouped view: one section per status, biggest total-hours group first,
-// tasks sorted by hours within each group — built for walking through in a
-// discussion (e.g. "here's everything still To Do", then Testing, etc.)
-const statusGroups = {};
-for (const t of v1Remaining) {
-  if (!statusGroups[t.status]) statusGroups[t.status] = [];
-  statusGroups[t.status].push(t);
-}
-const groupOrder = Object.keys(statusGroups).sort((a, b) => sum(statusGroups[b], 'time_estimate_hours') - sum(statusGroups[a], 'time_estimate_hours'));
-
-function renderGroupedRow(t) {
-  return `<tr>
-    <td>${t.name}</td>
-    <td>${t.project}</td>
-    <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
-  </tr>`;
-}
-document.getElementById('v1-remaining-grouped').innerHTML = groupOrder.map(status => {
-  const tasks = statusGroups[status];
-  const total = sum(tasks, 'time_estimate_hours');
-  return `<div class="status-group">
-    <div class="status-group-header">
-      <span class="name">${status}${statusNote(status)}</span>
-      <span class="meta">${tasks.length} task${tasks.length === 1 ? '' : 's'} · ${total.toFixed(1)}h</span>
-    </div>
-    <table><tbody>${tasks.map(renderGroupedRow).join('')}</tbody></table>
-  </div>`;
-}).join('') || '<div style="color:var(--text-muted);">Nothing left for V1 — fully complete.</div>';
-
-// Flat view (original single sorted table, no grouping)
-document.getElementById('v1-remaining-table').innerHTML = v1Remaining.map(t => `
-  <tr>
-    <td>${t.name}</td>
-    <td>${t.status}${WAITING_STATUS_NOTES[t.status] ? ' <span style="color:var(--text-muted);">' + statusNote(t.status) + '</span>' : ''}</td>
-    <td>${t.project}</td>
-    <td class="num">${t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—'}</td>
-  </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Nothing left for V1 — fully complete.</td></tr>';
-
-// View toggle
-const v1ViewDefs = [
-  { key: 'grouped', label: 'Grouped by Status' },
+// Scope = which projects the list covers. "Development" is every project except Pre Launch and
+// Post Launch: the build work that decides when development finishes, plus whatever of it is
+// built and awaiting sign-off. Post Launch work is never part of launch, so it is always left out.
+const V1_SCOPES = [
+  { key: 'all', label: 'All launch work', test: () => true },
+  { key: 'dev', label: 'Development', test: t => !isPreLaunch(t) },
+  { key: 'pre', label: 'Pre Launch', test: t => isPreLaunch(t) },
+];
+const V1_VIEWS = [
+  { key: 'status', label: 'Grouped by Status' },
+  { key: 'project', label: 'Grouped by Project' },
   { key: 'flat', label: 'Flat List' },
 ];
-document.getElementById('v1-remaining-view-toggle').innerHTML = v1ViewDefs.map(v =>
-  `<button class="filter-btn${v.key==='grouped'?' active':''}" data-key="${v.key}">${v.label}</button>`).join('');
-document.querySelectorAll('#v1-remaining-view-toggle .filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#v1-remaining-view-toggle .filter-btn').forEach(b => b.classList.remove('active'));
+let v1Scope = 'all', v1View = 'status';
+
+const taskHours = t => t.time_estimate_hours !== null ? t.time_estimate_hours.toFixed(1) : '—';
+const statusCell = t => t.status + (WAITING_STATUS_NOTES[t.status] ? ' <span style="color:var(--text-muted);">' + statusNote(t.status) + '</span>' : '');
+const nTasks = n => n + ' task' + (n === 1 ? '' : 's');
+const sortGroupsByHours = groups => Object.keys(groups).sort((a, b) => sum(groups[b], 'time_estimate_hours') - sum(groups[a], 'time_estimate_hours'));
+
+function renderV1Remaining() {
+  const scope = V1_SCOPES.find(s => s.key === v1Scope);
+  const list = v1Remaining.filter(scope.test);
+  const build = list.filter(t => DEV_STATUSES.includes(t.status));
+  const waiting = list.filter(t => WAITING_STATUSES.includes(t.status));
+  const missing = list.filter(t => t.time_estimate_hours === null).length;
+
+  const scopeNote = { all: '', dev: ' Development means every project except Pre Launch and Post Launch.', pre: ' Pre Launch is launch-readiness work (comms, migration, infrastructure setup).' }[v1Scope];
+  document.getElementById('v1-remaining-caveat').textContent = list.length
+    ? `${nTasks(list.length)} still stand between us and launch in this view.${scopeNote} Build work still to do: ${nTasks(build.length)}, ${sum(build, 'time_estimate_hours').toFixed(1)}h` +
+      `${v1Scope === 'dev' ? ' (the same hours the Dev Hours Remaining card and the dev completion date use)' : ''}. ` +
+      `Built and awaiting sign-off: ${nTasks(waiting.length)}, ${sum(waiting, 'time_estimate_hours').toFixed(1)}h (not counted as build work). ` +
+      `${missing} ${missing === 1 ? 'has' : 'have'} no time estimate and ${missing === 1 ? 'is' : 'are'} listed at the bottom. Post Launch work is left out.`
+    : 'Nothing left in this view.';
+
+  // Grouped views: biggest total-hours group first, tasks biggest first within each group.
+  const grouped = document.getElementById('v1-remaining-grouped');
+  if (v1View === 'status') {
+    const groups = {};
+    for (const t of list) (groups[t.status] = groups[t.status] || []).push(t);
+    grouped.innerHTML = sortGroupsByHours(groups).map(status => `<div class="status-group">
+      <div class="status-group-header">
+        <span class="name">${status}${statusNote(status)}</span>
+        <span class="meta">${nTasks(groups[status].length)} · ${sum(groups[status], 'time_estimate_hours').toFixed(1)}h</span>
+      </div>
+      <table><tbody>${groups[status].map(t => `<tr><td>${t.name}</td><td>${t.project}</td><td class="num">${taskHours(t)}</td></tr>`).join('')}</tbody></table>
+    </div>`).join('');
+  } else if (v1View === 'project') {
+    // Each project's header splits build hours from hours awaiting sign-off, so the time left
+    // for development to finish is visible per project.
+    const groups = {};
+    for (const t of list) (groups[t.project] = groups[t.project] || []).push(t);
+    grouped.innerHTML = sortGroupsByHours(groups).map(project => {
+      const g = groups[project];
+      const b = g.filter(t => DEV_STATUSES.includes(t.status)), w = g.filter(t => WAITING_STATUSES.includes(t.status));
+      return `<div class="status-group">
+        <div class="status-group-header">
+          <span class="name">${project}</span>
+          <span class="meta">${nTasks(g.length)} · ${sum(b, 'time_estimate_hours').toFixed(1)}h to build · ${sum(w, 'time_estimate_hours').toFixed(1)}h awaiting sign-off</span>
+        </div>
+        <table><tbody>${g.map(t => `<tr><td>${t.name}</td><td>${statusCell(t)}</td><td class="num">${taskHours(t)}</td></tr>`).join('')}</tbody></table>
+      </div>`;
+    }).join('');
+  }
+  if (!list.length) grouped.innerHTML = '<div style="color:var(--text-muted);">Nothing left in this view.</div>';
+
+  // Flat view: one sorted table, no grouping
+  document.getElementById('v1-remaining-table').innerHTML = list.map(t => `
+    <tr>
+      <td>${t.name}</td>
+      <td>${statusCell(t)}</td>
+      <td>${t.project}</td>
+      <td class="num">${taskHours(t)}</td>
+    </tr>`).join('') || '<tr><td colspan="4" style="color:var(--text-muted);">Nothing left in this view.</td></tr>';
+
+  const flat = v1View === 'flat';
+  grouped.style.display = flat ? 'none' : '';
+  document.getElementById('v1-remaining-flat-wrap').style.display = flat ? '' : 'none';
+}
+
+function setupV1Toggle(id, defs, current, onPick) {
+  const el = document.getElementById(id);
+  el.innerHTML = defs.map(d => `<button class="filter-btn${d.key === current ? ' active' : ''}" data-key="${d.key}">${d.label}${d.count !== undefined ? ' (' + d.count + ')' : ''}</button>`).join('');
+  el.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => {
+    el.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const grouped = btn.dataset.key === 'grouped';
-    document.getElementById('v1-remaining-grouped').style.display = grouped ? '' : 'none';
-    document.getElementById('v1-remaining-flat-wrap').style.display = grouped ? 'none' : '';
-  });
-});
+    onPick(btn.dataset.key);
+    renderV1Remaining();
+  }));
+}
+setupV1Toggle('v1-remaining-scope-toggle', V1_SCOPES.map(s => ({ ...s, count: v1Remaining.filter(s.test).length })), v1Scope, k => { v1Scope = k; });
+setupV1Toggle('v1-remaining-view-toggle', V1_VIEWS, v1View, k => { v1View = k; });
+renderV1Remaining();
 
 // --- Trend chart: hours remaining over time, from history.json ---
 // One point per day. history.json holds every 15-minute reading for the last two weeks and one
