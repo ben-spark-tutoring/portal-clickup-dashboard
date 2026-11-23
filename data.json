@@ -1,6 +1,36 @@
 {
-  "generated_at": "2026-11-23T11:26:35.213Z",
+  "generated_at": "2026-11-23T11:41:58.948Z",
   "tasks": [
+    {
+      "id": "wdy2xh3qt0",
+      "name": "Quarterly Assessments - V2",
+      "status": "to do",
+      "version": "v1",
+      "project": "Unassigned",
+      "time_estimate_hours": 2,
+      "has_subtasks": true,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795433438336,
+      "assignees": [
+        "Okkert"
+      ]
+    },
+    {
+      "id": "wdy2xh3qrg",
+      "name": "Ensure Client can purchase recording and transcription as an add on service",
+      "status": "to do",
+      "version": "v1",
+      "project": "Video Conference Update",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795432884553,
+      "assignees": [
+        "Davut Bayık"
+      ]
+    },
     {
       "id": "wdy2xh3jz5",
       "name": "Preferred Durations",
@@ -156,15 +186,15 @@
     },
     {
       "id": "wdy2xh2pfb",
-      "name": "Tutor Exits",
+      "name": "Tutor Dashboard",
       "status": "to do",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 32,
+      "time_estimate_hours": 96,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794492232093,
+      "date_updated": 1795433302078,
       "assignees": [
         "Okkert"
       ]
@@ -1214,7 +1244,7 @@
       "status": "to do",
       "version": "v1",
       "project": "Ops Updates",
-      "time_estimate_hours": 6,
+      "time_estimate_hours": 18,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782180000000,
