@@ -354,7 +354,7 @@
     <div class="calc-caveat" style="margin-bottom:12px;">Days lost push the dev completion date out, and the launch date with it. <strong>Team days</strong> = the whole team is out (bank holidays, a shutdown, an all-hands). <strong>Individual days</strong> = one developer is out for a day, counted per developer, so two developers off for three days each is 6. Enter days that fall before development finishes.</div>
     <div class="calc-results" id="calc-results"></div>
     <div class="calc-caveat" id="calc-launch-notes" style="margin-bottom:10px;"></div>
-    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus a contingency buffer for meetings, context-switching, and unplanned work. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off (in initial review or testing live), the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts, and that any days lost fall before development finishes.</div>
+    <div class="calc-caveat">Based on <strong id="calc-basis-hours"></strong> of open dev-only work (To Do / In Progress / Bugs / UI UX Fixes / Infrastructure), plus any holiday and ad hoc days lost (entered above), with the contingency buffer added on top of both. Excludes the <strong id="calc-testing-hours"></strong> awaiting sign-off (in initial review or testing live), the <strong id="calc-prelaunch-hours"></strong> of Pre Launch work (shown separately above; the launch date adds it back) and the <strong id="calc-missing-count"></strong> open tasks with no time estimate set — so treat this date as a floor, not a guarantee. Post Launch work is not part of either date. Assumes 100% of dev capacity goes to V1 before any V2 work starts, and that any days lost fall before development finishes.</div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -999,7 +999,7 @@ function runCalculator() {
   const lines = [];
   if (lostHours > 0) {
     const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
-    lines.push(`Holiday and ad hoc time: ${plural(teamDaysLost, 'team day')} and ${plural(personDaysLost, 'individual day')} = ${lostHours.toFixed(0)}h of capacity, which moves dev completion (and launch) out by ${lostDays} day${lostDays === 1 ? '' : 's'}. The ${bufferDays}-day buffer already allows for some unplanned time, so avoid counting the same days twice.`);
+    lines.push(`Holiday and ad hoc time: ${plural(teamDaysLost, 'team day')} and ${plural(personDaysLost, 'individual day')} = ${lostHours.toFixed(0)}h of capacity, which moves dev completion (and launch) out by ${lostDays} day${lostDays === 1 ? '' : 's'}.`);
   }
   if (daysLostNotes) lines.push(`Includes: ${daysLostNotes}.`);
   if (preLaunchMissing) {
