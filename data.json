@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T08:29:10.854Z",
+  "generated_at": "2026-11-24T08:44:28.875Z",
   "tasks": [
     {
       "id": "wdy2xh3qwt",
@@ -49,14 +49,14 @@
     {
       "id": "wdy2xh3qt0",
       "name": "Quarterly Assessments - V2",
-      "status": "in progress",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 2,
       "has_subtasks": true,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": 1795752000000,
-      "date_updated": 1795505261204,
+      "date_updated": 1795509029674,
       "assignees": [
         "Okkert"
       ]
@@ -94,14 +94,14 @@
     {
       "id": "wdy2xh3jyt",
       "name": "Credit Extension Request",
-      "status": "to do",
+      "status": "in progress",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 29.25,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1795752000000,
-      "date_updated": 1795100268440,
+      "date_updated": 1795508656148,
       "assignees": [
         "Okkert"
       ]
