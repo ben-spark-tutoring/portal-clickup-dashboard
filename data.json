@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T11:59:14.733Z",
+  "generated_at": "2026-11-24T12:14:38.939Z",
   "tasks": [
     {
       "id": "wdy2xh3qwt",
@@ -77,6 +77,21 @@
       ]
     },
     {
+      "id": "wdy2xh3ng7",
+      "name": "Return refunded lesson credits to their original batches without resetting expiry",
+      "status": "to do",
+      "version": "v1",
+      "project": "Unassigned",
+      "time_estimate_hours": null,
+      "has_subtasks": false,
+      "progress_pct": 0,
+      "due_date": null,
+      "date_updated": 1795521404656,
+      "assignees": [
+        "Bea Shakjiri"
+      ]
+    },
+    {
       "id": "wdy2xh3jz5",
       "name": "Preferred Durations",
       "status": "in initial review",
@@ -109,18 +124,18 @@
     {
       "id": "wdy2xh3cxj",
       "name": "Tokens",
-      "status": "in progress",
+      "status": "in initial review",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 83.33333333333334,
+      "progress_pct": 100,
       "due_date": 1795492800000,
-      "date_updated": 1795429797867,
+      "date_updated": 1795521422284,
       "assignees": [
+        "Davut Bayık",
         "Okkert",
-        "Bea Shakjiri",
-        "Davut Bayık"
+        "Bea Shakjiri"
       ]
     },
     {
@@ -141,14 +156,14 @@
     {
       "id": "wdy2xh31jm",
       "name": "Survey Feedback Filter",
-      "status": "bugs",
+      "status": "in progress",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1794567461401,
+      "date_updated": 1795521272117,
       "assignees": [
         "Bea Shakjiri"
       ]
