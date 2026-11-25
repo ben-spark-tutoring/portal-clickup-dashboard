@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T06:14:30.736Z",
+  "generated_at": "2026-11-25T06:29:20.129Z",
   "tasks": [
     {
       "id": "wdy2xh3qwt",
@@ -156,14 +156,14 @@
     {
       "id": "wdy2xh31jm",
       "name": "Survey Feedback Filter",
-      "status": "in progress",
+      "status": "in initial review",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1795521272117,
+      "date_updated": 1795586912013,
       "assignees": [
         "Bea Shakjiri"
       ]
