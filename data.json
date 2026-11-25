@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T09:14:37.551Z",
+  "generated_at": "2026-11-25T09:29:12.167Z",
   "tasks": [
     {
       "id": "wdy2xh3qwt",
@@ -40,10 +40,10 @@
       "time_estimate_hours": 88,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1795433851268,
+      "due_date": 1798516800000,
+      "date_updated": 1795597355843,
       "assignees": [
-        "Okkert"
+        "Bea Shakjiri"
       ]
     },
     {
@@ -70,8 +70,8 @@
       "time_estimate_hours": 31.5,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1795436817142,
+      "due_date": 1796184000000,
+      "date_updated": 1795597393005,
       "assignees": [
         "Davut Bayık"
       ]
@@ -253,8 +253,8 @@
       "time_estimate_hours": 96,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1795433302078,
+      "due_date": 1799200800000,
+      "date_updated": 1795597381342,
       "assignees": [
         "Okkert"
       ]
@@ -547,15 +547,15 @@
     },
     {
       "id": "wdy2xh16ez",
-      "name": "Tutor Pay Approval Process",
+      "name": "Tutor Pay Approval Process (Invoice)",
       "status": "to do",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 10,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1788836400000,
-      "date_updated": 1792664003837,
+      "due_date": 1795741200000,
+      "date_updated": 1795597343172,
       "assignees": [
         "Davut Bayık"
       ]
@@ -702,8 +702,8 @@
       "time_estimate_hours": 15.333333333333334,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": null,
-      "date_updated": 1792664001136,
+      "due_date": 1795741200000,
+      "date_updated": 1795597336057,
       "assignees": [
         "Davut Bayık"
       ]
@@ -934,8 +934,8 @@
       "time_estimate_hours": 20,
       "has_subtasks": true,
       "progress_pct": 0,
-      "due_date": 1795752000000,
-      "date_updated": 1795596126644,
+      "due_date": 1795654800000,
+      "date_updated": 1795597353646,
       "assignees": [
         "Davut Bayık"
       ]
