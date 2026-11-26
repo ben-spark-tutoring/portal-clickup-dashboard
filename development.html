@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>V1 Development Timeline — Spark Tutoring</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
   :root {
     --bg: #f7f8fa;
@@ -273,10 +272,16 @@
       <label>Developers <input type="number" id="dev-devs" value="3" min="0" step="1"></label>
       <label>Hours/week each <input type="number" id="dev-hrs" value="30" min="0" step="1"></label>
       <label>Contingency buffer (days) <input type="number" id="dev-buffer" value="14" min="0" step="1"></label>
-      <label>Team days lost (holiday &amp; ad hoc) <input type="number" id="dev-lost-team" value="0" min="0" step="0.5" title="Working days when the whole team is out: bank holidays, a shutdown, an all-hands, whole-team ad hoc work."></label>
-      <label>Individual days lost (person-days) <input type="number" id="dev-lost-person" value="0" min="0" step="0.5" title="Days when one developer is out (leave, sickness, pulled onto other work). Count each developer separately."></label>
+      <label>Team days lost (holiday &amp; ad hoc) <input type="number" id="dev-lost-team" value="6" min="0" step="0.5" title="Working days when the whole team is out: bank holidays, a shutdown, an all-hands, whole-team ad hoc work."></label>
+      <label>Individual days lost (person-days) <input type="number" id="dev-lost-person" value="10" min="0" step="0.5" title="Days when one developer is out (leave, sickness, pulled onto other work). Count each developer separately."></label>
     </div>
     <div class="calc-caveat" id="assumption-note"></div>
+  </div>
+
+  <div class="panel full" style="margin-bottom:18px;">
+    <h2>V1 development work still to do</h2>
+    <div class="calc-caveat" style="margin-bottom:10px;" id="remaining-note"></div>
+    <div id="remaining"></div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -286,24 +291,6 @@
     <div id="movements"></div>
   </div>
 
-  <div class="panels">
-    <div class="panel">
-      <h2>Work moved out of development, by week</h2>
-      <canvas id="throughputChart"></canvas>
-      <div class="calc-caveat" style="margin-top:10px;" id="throughput-note"></div>
-    </div>
-    <div class="panel">
-      <h2>Build hours remaining over time</h2>
-      <canvas id="burndownChart"></canvas>
-      <div class="calc-caveat" style="margin-top:10px;" id="burndown-note"></div>
-    </div>
-  </div>
-
-  <div class="panel full" style="margin-bottom:18px;">
-    <h2>V1 development work still to do</h2>
-    <div class="calc-caveat" style="margin-bottom:10px;" id="remaining-note"></div>
-    <div id="remaining"></div>
-  </div>
 </div>
 
 <script>
@@ -557,7 +544,8 @@ async function main() {
       (proj ? 'Capacity is ' + inp.devs + ' developers × ' + inp.perDev + 'h = ' + proj.weekly + 'h a week. ' : '') +
       (proj && proj.lost > 0 ? inp.team + ' team day(s) and ' + inp.person + ' individual day(s) lost = ' + proj.lost.toFixed(0) + 'h of capacity, adding ' + proj.lostDays + ' day(s). ' : '') +
       (daysLostNotes ? 'Includes: ' + daysLostNotes + '. ' : '') +
-      'The contingency buffer is added on top. Days lost are assumed to fall before development finishes. These are the same settings as the main dashboard, so both pages show the same date. Hours are estimates, not hours worked.';
+      'The contingency buffer is added on top. Days lost are assumed to fall before development finishes. These are the same settings as the main dashboard, so both pages show the same date. Hours are estimates, not hours worked. ' +
+      'The pace figure counts each task once, when it first leaves development, at its current estimate, so one big task lands in one week; it compares that with capacity at the ' + (capacityHistory.length ? 'capacity history in settings.json' : 'current setting for every week (if the team was smaller earlier, settings.json can hold a capacity_history)') + '.';
 
     // movement summary chips + lists
     document.getElementById('move-summary').innerHTML = [
@@ -601,47 +589,6 @@ async function main() {
       list.map(t => '<tr><td>' + esc(t.name) + '</td><td>' + esc(t.project) + '</td><td>' + esc((t.assignees || []).join(', ') || '—') + '</td><td class="num">' + (t.progress_pct === null || t.progress_pct === undefined ? '—' : Math.round(t.progress_pct) + '%') + '</td><td class="num">' + hrs(t.time_estimate_hours) + '</td></tr>').join('') +
       '</tbody></table></div></div>';
   }).join('') || '<div class="move-empty">No V1 build work left.</div>';
-
-  // ---------- charts ----------
-  if (weekly.length >= 1) {
-    const usingHistory = capacityHistory.length > 0;
-    new Chart(document.getElementById('throughputChart'), {
-      type: 'bar',
-      data: {
-        labels: weekly.map(w => 'Wk of ' + new Date(w.start).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + (w.partial ? '*' : '')),
-        datasets: [
-          { label: 'Estimate-hours moved out of development', data: weekly.map(w => Math.round(w.hours * 10) / 10), backgroundColor: '#2563eb' },
-          { type: 'line', label: usingHistory ? 'Capacity (from settings)' : 'Capacity (current setting, ' + capacityAt(NOW.getTime()) + 'h/week)', data: weekly.map(w => capacityAt(w.start)), borderColor: '#f28d4d', borderDash: [6, 4], pointRadius: 0, borderWidth: 2, stepped: true },
-        ],
-      },
-      options: { responsive: true, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { afterLabel: ctx => ctx.datasetIndex === 0 ? nTasks(weekly[ctx.dataIndex].tasks) : '' } } }, scales: { y: { beginAtZero: true } } },
-    });
-    const sinceMoved = weekly.filter(w => w.start >= firstFull).reduce((a, w) => a + w.hours, 0);
-    document.getElementById('throughput-note').textContent =
-      (weeksElapsed >= 2 ? 'Since ' + fmtDate(new Date(firstFull)) + ' (' + weeksElapsed.toFixed(1) + ' weeks): ' + Math.round(sinceMoved) + 'h moved out of development, against ' + Math.round(capacityBetween(firstFull, NOW.getTime())) + 'h of capacity. ' : '') +
-      '* partial week. Each task is counted once, in the week it first leaves development, at its current estimate, so a big task lands in one week rather than across the weeks it took: read the total, not a single week. ' +
-      (usingHistory ? 'Capacity follows the capacity history in settings.json. ' : 'Capacity is the current setting applied to every week, so if the team was smaller earlier on, those weeks are compared against too high a line (settings.json can hold a capacity history). ') +
-      'Estimates are not hours worked.';
-  } else {
-    document.getElementById('throughputChart').style.display = 'none';
-    document.getElementById('throughput-note').textContent = 'Not enough change history yet.';
-  }
-
-  const consistent = hist.filter(h => h.hasDef);
-  const days = {};
-  for (const h of consistent) { const d = startOfDay(new Date(h.ts)).getTime(); (days[d] = days[d] || []).push(h.v1); }
-  const dayKeys = Object.keys(days).map(Number).sort((a, b) => a - b);
-  if (dayKeys.length >= 2) {
-    new Chart(document.getElementById('burndownChart'), {
-      type: 'line',
-      data: { labels: dayKeys.map(d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })), datasets: [{ label: 'V1 build hours remaining', data: dayKeys.map(d => Math.round(median(days[d]) * 10) / 10), borderColor: '#2563eb', backgroundColor: 'transparent', tension: 0.2, pointRadius: 2 }] },
-      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true }, x: { ticks: { maxTicksLimit: 8 } } } },
-    });
-    document.getElementById('burndown-note').textContent = 'Daily median since ' + fmtDate(new Date(dayKeys[0])) + ', counted the same way as the figures above. Drops are work leaving development; rises are new work or re-estimates.';
-  } else {
-    document.getElementById('burndownChart').style.display = 'none';
-    document.getElementById('burndown-note').textContent = 'Not enough history yet.';
-  }
 
   ['dev-devs', 'dev-hrs', 'dev-buffer', 'dev-lost-team', 'dev-lost-person'].forEach(id => document.getElementById(id).addEventListener('change', render));
   sel.addEventListener('change', render);
