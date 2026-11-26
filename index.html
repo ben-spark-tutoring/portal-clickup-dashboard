@@ -358,8 +358,8 @@
       <label>Contingency buffer (days) <input type="number" id="calc-buffer" value="14" min="0" step="1"></label>
       <label>Pre Launch &amp; infra hours/week <input type="number" id="calc-prehrs" placeholder="same as dev team" min="0" step="1"></label>
       <label>Pre Launch work alongside dev (%) <input type="number" id="calc-parallel" value="20" min="0" max="100" step="5"></label>
-      <label>Team days lost (holiday &amp; ad hoc) <input type="number" id="calc-lost-team" value="0" min="0" step="0.5" title="Working days when the whole team is out: bank holidays, a shutdown, an all-hands, whole-team ad hoc work."></label>
-      <label>Individual days lost (person-days) <input type="number" id="calc-lost-person" value="0" min="0" step="0.5" title="Days when one developer is out (leave, sickness, pulled onto other work). Count each developer separately."></label>
+      <label>Team days lost (holiday &amp; ad hoc) <input type="number" id="calc-lost-team" value="6" min="0" step="0.5" title="Working days when the whole team is out: bank holidays, a shutdown, an all-hands, whole-team ad hoc work."></label>
+      <label>Individual days lost (person-days) <input type="number" id="calc-lost-person" value="10" min="0" step="0.5" title="Days when one developer is out (leave, sickness, pulled onto other work). Count each developer separately."></label>
     </div>
     <div class="calc-caveat" style="margin-bottom:12px;">Days lost push the dev completion date out, and the launch date with it. <strong>Team days</strong> = the whole team is out (bank holidays, a shutdown, an all-hands). <strong>Individual days</strong> = one developer is out for a day, counted per developer, so two developers off for three days each is 6. Enter days that fall before development finishes.</div>
     <div class="calc-results" id="calc-results"></div>
