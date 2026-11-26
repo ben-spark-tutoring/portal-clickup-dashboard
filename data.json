@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T10:44:26.039Z",
+  "generated_at": "2026-11-26T10:59:14.043Z",
   "tasks": [
     {
       "id": "wdy2xh3qwt",
@@ -748,7 +748,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1795665600000,
-      "date_updated": 1795688086382,
+      "date_updated": 1795689628859,
       "assignees": [
         "Okkert"
       ]
@@ -1278,7 +1278,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1795665600000,
-      "date_updated": 1795688085734,
+      "date_updated": 1795689627936,
       "assignees": [
         "Okkert"
       ]
