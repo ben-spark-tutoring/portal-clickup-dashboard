@@ -244,8 +244,33 @@
   .move-empty { color: var(--text-muted); font-size:0.85rem; padding:6px 0; }
   .delta-up { color: var(--warn); font-weight:600; } .delta-down { color: var(--accent); font-weight:600; }
   #remaining table { table-layout: fixed; width: 100%; }
-  #remaining th:nth-child(1) { width: 38%; } #remaining th:nth-child(2) { width: 20%; } #remaining th:nth-child(3) { width: 20%; }
-  #remaining th:nth-child(4) { width: 10%; } #remaining th:nth-child(5) { width: 12%; }
+  #remaining th:nth-child(1) { width: 31%; } #remaining th:nth-child(2) { width: 16%; } #remaining th:nth-child(3) { width: 16%; }
+  #remaining th:nth-child(4) { width: 8%; } #remaining th:nth-child(5) { width: 17%; } #remaining th:nth-child(6) { width: 12%; }
+  .overdue-text { color: var(--warn); font-weight: 600; } .due-text { color: var(--text-muted); }
+
+  .tl-axisrow, .tl-row { display: grid; grid-template-columns: 34% 1fr; align-items: center; }
+  .tl-axis { position: relative; height: 58px; border-bottom: 1px solid var(--border); }
+  .tl-tick { position: absolute; bottom: 6px; transform: translateX(-50%); font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; }
+  .tl-flag { position: absolute; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+  .tl-flag.today { color: var(--text); transform: translateX(-100%); padding-right: 5px; }
+  .tl-flag.finish { color: var(--brand); padding-left: 5px; }
+  .tl-flag.finish.flip { transform: translateX(-100%); padding-left: 0; padding-right: 5px; }
+  .tl-body { position: relative; }
+  .tl-row { min-height: 46px; border-bottom: 1px solid var(--border); }
+  .tl-label { padding: 6px 12px 6px 0; line-height: 1.25; }
+  .tl-label strong { display: block; font-size: 0.86rem; }
+  .tl-label small { color: var(--text-muted); font-size: 0.74rem; }
+  .tl-track { position: relative; height: 46px; }
+  .tl-bar { position: absolute; top: 50%; height: 6px; margin-top: -3px; border-radius: 3px; opacity: 0.35; }
+  .tl-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; border: 2px solid var(--card-bg); box-sizing: content-box; }
+  .tl-bar.late, .tl-dot.late { background: var(--warn); } .tl-bar.soon, .tl-dot.soon { background: var(--brand); } .tl-bar.ok, .tl-dot.ok { background: var(--v1); }
+  .tl-overlay { position: absolute; top: 0; bottom: 0; left: 34%; right: 0; pointer-events: none; }
+  .tl-grid { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); opacity: 0.8; }
+  .tl-line { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid; }
+  .tl-line.today { border-color: var(--text); opacity: 0.55; } .tl-line.finish { border-color: var(--brand); border-left-style: dashed; }
+  .tl-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.76rem; color: var(--text-muted); margin-top: 12px; }
+  .tl-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+  @media (max-width: 600px) { .tl-axisrow, .tl-row { grid-template-columns: 42% 1fr; } .tl-overlay { left: 42%; } }
   #remaining td { word-wrap: break-word; }
 </style>
 </head>
@@ -282,6 +307,13 @@
     <h2>V1 development work still to do</h2>
     <div class="calc-caveat" style="margin-bottom:10px;" id="remaining-note"></div>
     <div id="remaining"></div>
+  </div>
+
+  <div class="panel full" style="margin-bottom:18px;">
+    <h2>V1 development due dates</h2>
+    <div class="calc-caveat" style="margin-bottom:12px;" id="timeline-note"></div>
+    <div id="timeline"></div>
+    <div class="calc-caveat" style="margin-top:12px;" id="timeline-undated"></div>
   </div>
 
   <div class="panel full" style="margin-bottom:18px;">
@@ -576,6 +608,80 @@ async function main() {
       '<div class="move-section"><h3>Scope changes (' + scopeRows.length + ')</h3><div class="hint">New tasks and re-estimates move the date as much as progress does. This period: ' +
         (scopeUp ? '+' + hrs(scopeUp) + ' added' : 'nothing added') + (scopeDown ? ', ' + hrs(scopeDown) + ' taken off' : '') + '.</div>' +
         (scopeRows.length ? scopeRows.map(r => r.html).join('') : '<div class="move-empty">None in this period.</div>') + '</div>';
+
+    renderTimeline(proj);
+  }
+
+  // ---------- due dates (set in ClickUp) ----------
+  const dueOf = t => { if (t.due_date === null || t.due_date === undefined || t.due_date === '') return null; const n = Number(t.due_date); return Number.isFinite(n) && n > 0 ? n : null; };
+  const dueDay = ms => startOfDay(new Date(ms)).getTime();
+  const daysFromToday = ms => Math.round((dueDay(ms) - startOfDay(NOW).getTime()) / DAY);
+  const relDue = n => n < 0 ? Math.abs(n) + ' day' + (n === -1 ? '' : 's') + ' overdue' : n === 0 ? 'due today' : 'due in ' + n + ' day' + (n === 1 ? '' : 's');
+  const dueCell = t => {
+    const d = dueOf(t);
+    if (d === null) return '<span style="color:var(--text-muted);">—</span>';
+    const n = daysFromToday(d);
+    return fmtDate(new Date(d)) + '<br><small class="' + (n < 0 ? 'overdue-text' : 'due-text') + '">' + relDue(n) + '</small>';
+  };
+
+  // A due-date timeline: one row per task with a due date, sorted by date. Overdue tasks get a red bar back from
+  // their due date to today; upcoming ones a bar from today to the due date (amber if due within 14 days). The
+  // grey line is today; the dashed orange line is the projected finish from the assumptions, so it moves with them.
+  let lastProj = null, lastWidth = 0;
+  function renderTimeline(proj) {
+    lastProj = proj;
+    const el = document.getElementById('timeline'), note = document.getElementById('timeline-note'), und = document.getElementById('timeline-undated');
+    el.innerHTML = ''; und.textContent = '';
+    if (devTasks.length === 0) { note.textContent = 'No V1 build work left.'; return; }
+    const todayMs = startOfDay(NOW).getTime();
+    const dated = devTasks.filter(t => dueOf(t) !== null).map(t => ({ t, day: dueDay(dueOf(t)), n: daysFromToday(dueOf(t)) }))
+      .sort((a, b) => a.day - b.day || (b.t.time_estimate_hours || 0) - (a.t.time_estimate_hours || 0));
+    const undated = devTasks.filter(t => dueOf(t) === null).sort((a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1));
+    const overdue = dated.filter(x => x.n < 0).length, soon = dated.filter(x => x.n >= 0 && x.n <= 14).length, later = dated.length - overdue - soon;
+    const finishMs = proj ? startOfDay(proj.finish).getTime() : null;
+
+    note.textContent = dated.length === 0
+      ? 'None of the ' + nTasks(devTasks.length) + ' has a due date in ClickUp yet.'
+      : dated.length + ' of ' + nTasks(devTasks.length) + ' ' + (dated.length === 1 ? 'has' : 'have') + ' a due date in ClickUp: ' + overdue + ' overdue, ' + soon + ' due within 14 days, ' + later + ' later. ' +
+        (undated.length ? undated.length + ' ' + (undated.length === 1 ? 'has' : 'have') + ' no due date. ' : '') +
+        'The grey line is today' + (finishMs !== null ? ' and the dashed orange line is the projected finish date from the assumptions above' : '') + '. ' +
+        'Overdue means the date set in ClickUp has passed and the task is not built yet; if a date is out of date, change it in ClickUp and this page follows.';
+    if (undated.length) und.textContent = 'No due date in ClickUp (' + nTasks(undated.length) + ', ' + hrs(sum(undated, 'time_estimate_hours')) + '): ' + undated.map(t => t.name + ' (' + hrs(t.time_estimate_hours) + ')').join(', ') + '.';
+    if (!dated.length) return;
+
+    let lo = Math.min(todayMs, ...dated.map(x => x.day)), hi = Math.max(todayMs, ...dated.map(x => x.day), finishMs === null ? todayMs : finishMs);
+    const pad = Math.max((hi - lo) * 0.04, 3 * DAY); lo -= pad; hi += pad;
+    if (hi - lo < 28 * DAY) hi = lo + 28 * DAY;
+    const pct = ms => ((ms - lo) / (hi - lo)) * 100;
+
+    const ticks = [];
+    const d = new Date(lo); d.setDate(1); d.setHours(0, 0, 0, 0); if (d.getTime() < lo) d.setMonth(d.getMonth() + 1);
+    for (; d.getTime() <= hi; d.setMonth(d.getMonth() + 1)) ticks.push(new Date(d));
+    const tickLabel = (t, i) => t.toLocaleDateString('en-GB', { month: 'short' }) + (i === 0 || t.getMonth() === 0 ? ' ' + t.getFullYear() : '');
+    // Layout decisions use the measured width, so a phone gets fewer month labels and no colliding flags.
+    const trackPx = Math.max(120, el.clientWidth * (window.matchMedia('(max-width: 600px)').matches ? 0.58 : 0.66));
+    const showEvery = Math.max(1, Math.ceil(ticks.length / Math.max(1, Math.floor(trackPx / 64))));
+
+    const finishText = finishMs === null ? '' : 'Projected finish ' + fmtDate(new Date(finishMs));
+    const wFinish = finishText.length * 6.6 + 10;
+    const xToday = pct(todayMs) / 100 * trackPx, xFinish = finishMs === null ? 0 : pct(finishMs) / 100 * trackPx;
+    const flipFinish = finishMs !== null && (trackPx - xFinish) < wFinish;      // not enough room to the right of the line
+    const close = flipFinish && (xFinish - xToday) < wFinish + 8;                // a flipped label would run into "Today"
+    let html = '<div class="tl"><div class="tl-axisrow"><div></div><div class="tl-axis">' +
+      ticks.map((t, i) => i % showEvery === 0 ? '<span class="tl-tick" style="left:' + pct(t.getTime()) + '%">' + tickLabel(t, i) + '</span>' : '').join('') +
+      '<span class="tl-flag today" style="left:' + pct(todayMs) + '%;top:2px">Today</span>' +
+      (finishMs !== null ? '<span class="tl-flag finish' + (flipFinish ? ' flip' : '') + '" style="left:' + pct(finishMs) + '%;top:' + (close ? 18 : 2) + 'px">' + finishText + '</span>' : '') +
+      '</div></div><div class="tl-body">';
+    for (const x of dated) {
+      const cls = x.n < 0 ? 'late' : x.n <= 14 ? 'soon' : 'ok', p = pct(x.day), pt = pct(todayMs);
+      html += '<div class="tl-row"><div class="tl-label"><strong>' + esc(x.t.name) + '</strong><small>' + fmtDate(new Date(x.day)) + ' · ' + relDue(x.n) + ' · ' + hrs(x.t.time_estimate_hours) + '</small></div>' +
+        '<div class="tl-track"><span class="tl-bar ' + cls + '" style="left:' + Math.min(p, pt) + '%;width:' + Math.abs(p - pt) + '%"></span>' +
+        '<span class="tl-dot ' + cls + '" style="left:' + p + '%" title="' + esc(x.t.name) + ': due ' + fmtDate(new Date(x.day)) + '"></span></div></div>';
+    }
+    html += '<div class="tl-overlay">' + ticks.map(t => '<span class="tl-grid" style="left:' + pct(t.getTime()) + '%"></span>').join('') +
+      '<span class="tl-line today" style="left:' + pct(todayMs) + '%"></span>' + (finishMs !== null ? '<span class="tl-line finish" style="left:' + pct(finishMs) + '%"></span>' : '') + '</div></div></div>' +
+      '<div class="tl-legend"><span><i style="background:var(--warn)"></i>overdue</span><span><i style="background:var(--brand)"></i>due within 14 days</span><span><i style="background:var(--v1)"></i>due later</span></div>';
+    el.innerHTML = html;
   }
 
   // ---------- remaining work table (static for the data snapshot) ----------
@@ -585,11 +691,16 @@ async function main() {
   document.getElementById('remaining').innerHTML = STATUS_ORDER.filter(s => devTasks.some(t => t.status === s)).map(s => {
     const list = devTasks.filter(t => t.status === s).sort((a, b) => (b.time_estimate_hours ?? -1) - (a.time_estimate_hours ?? -1));
     return '<div class="status-group"><div class="status-group-header"><span class="name">' + s + '</span><span class="meta">' + nTasks(list.length) + ' · ' + hrs(sum(list, 'time_estimate_hours')) + '</span></div>' +
-      '<div class="table-scroll"><table><thead><tr><th>Task</th><th>Project</th><th>Assigned</th><th class="num">Progress</th><th class="num">Hours</th></tr></thead><tbody>' +
-      list.map(t => '<tr><td>' + esc(t.name) + '</td><td>' + esc(t.project) + '</td><td>' + esc((t.assignees || []).join(', ') || '—') + '</td><td class="num">' + (t.progress_pct === null || t.progress_pct === undefined ? '—' : Math.round(t.progress_pct) + '%') + '</td><td class="num">' + hrs(t.time_estimate_hours) + '</td></tr>').join('') +
+      '<div class="table-scroll"><table><thead><tr><th>Task</th><th>Project</th><th>Assigned</th><th class="num">Progress</th><th>Due</th><th class="num">Hours</th></tr></thead><tbody>' +
+      list.map(t => '<tr><td>' + esc(t.name) + '</td><td>' + esc(t.project) + '</td><td>' + esc((t.assignees || []).join(', ') || '—') + '</td><td class="num">' + (t.progress_pct === null || t.progress_pct === undefined ? '—' : Math.round(t.progress_pct) + '%') + '</td><td>' + dueCell(t) + '</td><td class="num">' + hrs(t.time_estimate_hours) + '</td></tr>').join('') +
       '</tbody></table></div></div>';
   }).join('') || '<div class="move-empty">No V1 build work left.</div>';
 
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { const w = document.getElementById('timeline').clientWidth; if (w !== lastWidth) { lastWidth = w; renderTimeline(lastProj); } }, 150);
+  });
   ['dev-devs', 'dev-hrs', 'dev-buffer', 'dev-lost-team', 'dev-lost-person'].forEach(id => document.getElementById(id).addEventListener('change', render));
   sel.addEventListener('change', render);
   render();
