@@ -51,6 +51,8 @@
   h1 { font-size: 1.6rem; margin: 0 0 4px; }
   .subtitle { color: var(--text-muted); font-size: 0.95rem; }
   .updated { color: var(--text-muted); font-size: 0.82rem; margin-top: 6px; }
+  .page-link { display:inline-block; margin-top:8px; font-size:0.82rem; font-weight:600; color: var(--brand); text-decoration:none; }
+  .page-link:hover { text-decoration: underline; }
 
   .grid-cards {
     display: grid;
@@ -232,6 +234,7 @@
       <div class="subtitle">Source: Live ClickUp data via scheduled GitHub Action (refreshes ~every 15 min)</div>
       <div class="updated" id="updated-line"></div>
       <div class="updated" id="data-freshness" style="color: var(--brand); font-weight:600;"></div>
+      <a class="page-link" href="development.html">V1 development timeline &rarr;</a>
     </div>
   </header>
   <div id="loading-overlay" class="loading-overlay"><div class="spinner"></div><div>Loading live data from ClickUp…</div></div>
