@@ -4,7 +4,7 @@
   "hours_per_week_each": 30,
   "buffer_days": 14,
   "prelaunch_alongside_pct": 20,
-  "team_days_lost": 0,
-  "person_days_lost": 0,
+  "team_days_lost": 6,
+  "person_days_lost": 10,
   "days_lost_notes": ""
 }
