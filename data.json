@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T16:59:13.139Z",
+  "generated_at": "2026-11-27T17:14:39.219Z",
   "tasks": [
     {
       "id": "wdy2xh3v9j",
@@ -146,9 +146,9 @@
       "due_date": 1795492800000,
       "date_updated": 1795773121212,
       "assignees": [
-        "Bea Shakjiri",
+        "Davut Bayık",
         "Okkert",
-        "Davut Bayık"
+        "Bea Shakjiri"
       ]
     },
     {
@@ -559,21 +559,6 @@
       ]
     },
     {
-      "id": "wdy2xh16ez",
-      "name": "Tutor Pay Approval Process (Invoice)",
-      "status": "to do",
-      "version": "v1",
-      "project": "Finance",
-      "time_estimate_hours": 10,
-      "has_subtasks": true,
-      "progress_pct": 0,
-      "due_date": 1795741200000,
-      "date_updated": 1795597343172,
-      "assignees": [
-        "Davut Bayık"
-      ]
-    },
-    {
       "id": "wdy2xh16ex",
       "name": "Add Flagging for tutors with 10+ students",
       "status": "complete",
@@ -708,7 +693,7 @@
     },
     {
       "id": "wdy2xh07eh",
-      "name": "Tutor Pay",
+      "name": "Tutor Pay (Including Invoice Task)",
       "status": "to do",
       "version": "v1",
       "project": "Finance",
@@ -716,7 +701,7 @@
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1795741200000,
-      "date_updated": 1795597336057,
+      "date_updated": 1795798559147,
       "assignees": [
         "Davut Bayık"
       ]
