@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-27T08:29:14.956Z",
+  "generated_at": "2026-11-27T08:44:29.669Z",
   "tasks": [
     {
       "id": "wdy2xh3v9j",
       "name": "When collapsing the left hand menu on a browser the text overspills",
-      "status": "ui ux fixes",
+      "status": "complete",
       "version": "v1",
       "project": "Unassigned",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1795709821980,
+      "date_updated": 1795767701188,
       "assignees": []
     },
     {
@@ -252,7 +252,7 @@
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1793152800000,
-      "date_updated": 1795696189755,
+      "date_updated": 1795768027148,
       "assignees": [
         "Okkert"
       ]
