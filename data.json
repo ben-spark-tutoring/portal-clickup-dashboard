@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T15:14:39.380Z",
+  "generated_at": "2026-11-27T15:29:13.475Z",
   "tasks": [
     {
       "id": "wdy2xh3v9j",
@@ -1601,14 +1601,14 @@
     {
       "id": "86b9md1p5",
       "name": "Ops Finance Visibility",
-      "status": "in initial review",
+      "status": "testing live",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 2,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": 1783908000000,
-      "date_updated": 1795776108077,
+      "date_updated": 1795791912099,
       "assignees": [
         "Okkert"
       ]
@@ -1653,7 +1653,7 @@
       "has_subtasks": true,
       "progress_pct": 83.33333333333334,
       "due_date": 1778855400000,
-      "date_updated": 1794483745848,
+      "date_updated": 1795792240825,
       "assignees": [
         "Okkert"
       ]
