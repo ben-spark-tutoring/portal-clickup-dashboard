@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T08:59:11.860Z",
+  "generated_at": "2026-11-27T09:14:37.540Z",
   "tasks": [
     {
       "id": "wdy2xh3v9j",
@@ -184,14 +184,14 @@
     {
       "id": "wdy2xh30n0",
       "name": "Edit Homework Uploads",
-      "status": "testing live",
+      "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 0,
+      "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1795700511290,
+      "date_updated": 1795769511502,
       "assignees": [
         "Bea Shakjiri",
         "Okkert"
@@ -245,14 +245,14 @@
     {
       "id": "wdy2xh2raj",
       "name": "Manual Chat Creations",
-      "status": "testing live",
+      "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1793152800000,
-      "date_updated": 1795768027148,
+      "date_updated": 1795769604423,
       "assignees": [
         "Okkert"
       ]
@@ -290,14 +290,14 @@
     {
       "id": "wdy2xh28ym",
       "name": "Pairings Flow",
-      "status": "testing live",
+      "status": "complete",
       "version": "v1",
       "project": "Ops Updates",
       "time_estimate_hours": 3,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": null,
-      "date_updated": 1795703662963,
+      "date_updated": 1795769521767,
       "assignees": [
         "Okkert"
       ]
@@ -1496,14 +1496,14 @@
     {
       "id": "86b9mdavn",
       "name": "Tutor Build on Resources",
-      "status": "testing live",
+      "status": "complete",
       "version": "v1",
       "project": "Talent Updates",
       "time_estimate_hours": 8,
       "has_subtasks": true,
       "progress_pct": 100,
       "due_date": 1782781200000,
-      "date_updated": 1795707645135,
+      "date_updated": 1795769882584,
       "assignees": [
         "Davut Bayık"
       ]
