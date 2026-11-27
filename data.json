@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T09:14:37.540Z",
+  "generated_at": "2026-11-27T09:29:21.740Z",
   "tasks": [
     {
       "id": "wdy2xh3v9j",
@@ -320,14 +320,14 @@
     {
       "id": "wdy2xh27ux",
       "name": "Sales Performance",
-      "status": "testing live",
+      "status": "in progress",
       "version": "v1",
       "project": "Core",
       "time_estimate_hours": null,
       "has_subtasks": false,
-      "progress_pct": 100,
+      "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1795704039484,
+      "date_updated": 1795770301245,
       "assignees": [
         "Okkert"
       ]
@@ -782,14 +782,14 @@
     {
       "id": "wdy2xgzj87",
       "name": "Commissions",
-      "status": "testing live",
+      "status": "in progress",
       "version": "v1",
       "project": "Finance",
       "time_estimate_hours": 168,
       "has_subtasks": true,
       "progress_pct": 0,
       "due_date": null,
-      "date_updated": 1795706439559,
+      "date_updated": 1795770332444,
       "assignees": [
         "Davut Bayık"
       ]
